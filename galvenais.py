@@ -59,6 +59,10 @@ class DataVisualizationApp:
         results = []
         success = True
         
+        def is_valid_line(line):
+            """Check if line contains at least one non-whitespace character"""
+            return bool(line and not line.isspace())
+
         for i, path in enumerate(self.file_paths):
             if not path:
                 results.append(f"Fails {i+1}: ❌ Nav norādīts")
@@ -66,9 +70,18 @@ class DataVisualizationApp:
                 continue
             
             try:
-                # Automātiska formāta noteikšana
+                valid_lines = 0
+                total_lines = 0
+                
+                # Raw line-by-line validation
+                with open(path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        total_lines += 1
+                        if is_valid_line(line.strip()):
+                            valid_lines += 1
+                
+                # Then parse normally for DataFrame
                 if path.endswith('.json'):
-                    # Mēģinām divus izplatītus JSON formātus
                     try:
                         df = pd.read_json(path)
                     except ValueError:
@@ -77,7 +90,7 @@ class DataVisualizationApp:
                     df = pd.read_csv(path) if path.endswith('.csv') else pd.read_excel(path)
                 
                 self.file_dataframes[i] = df
-                results.append(f"Fails {i+1}: ✅ Nolasīts ({len(df)} ieraksti)")
+                results.append(f"Fails {i+1}: ✅ Nolasītas {valid_lines} rindas (no {total_lines} kopā)")
             except Exception as e:
                 results.append(f"Fails {i+1}: ❌ Kļūda: {type(e).__name__} - {str(e)}")
                 success = False
