@@ -1,61 +1,95 @@
-import tkinter as tk  # Importē Tkinter bibliotēku darbam ar GUI
-from tkinter import ttk  # Importē uzlabotās Tkinter logrīku klases
-from tkinter import filedialog  # Importē failu dialoga funkcionalitāti
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import pandas as pd
 
-class App:
-    def __init__(self):  
-        # Izveido logu
-        self.root = tk.Tk()
-        self.root.geometry('400x250+4000+500')  # Nosaka loga izmērus un atrašanās vietu ekrānā
-        self.root.title("JSON datu vizualizācija")  # Nosaka loga nosaukumu
+class DataVisualizationApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Datu Vizualizācijas Rīks")
         
-        # Izveido galveno ietvaru (frame) logā
-        self.mainframe = tk.Frame(self.root)
-        self.mainframe.pack(fill='both', expand=True, padx=10, pady=10)  # Izkārto ietvaru ar atstarpēm
-
-        # Pievieno tekstu virs faila izvēles lauka
-        ttk.Label(self.mainframe, text="Izvēlieties JSON failu:").pack(pady=5)
-
-        # Izveido ievades lauku, lai parādītu izvēlētā faila ceļu
-        self.file_path_var = tk.StringVar()  # Mainīgais, kurā glabāsies faila ceļš
-        self.file_entry = ttk.Entry(self.mainframe, textvariable=self.file_path_var, width=40)
-        self.file_entry.pack(pady=5, padx=5)
-
-        # Pievieno pogu, lai atvērtu failu pārlūkošanas dialogu
-        self.browse_button = ttk.Button(self.mainframe, text="Pārlūkot...", command=self.browse_file)
-        self.browse_button.pack(pady=5)
-
-        # Pievieno tekstu  virs vizualizācijas izvēles
-        ttk.Label(self.mainframe, text="Izvēlieties vizualizācijas veidu:").pack(pady=5)
-
-        # Izveido saraksta (Listbox) logrīku ar iespējamiem vizualizācijas veidiem
-        self.visualization_options = ["Tabula", "Diagramma", "Kods"]  # Pieejamās opcijas
-        self.listbox = tk.Listbox(self.mainframe, heigt=len(self.visualization_options))  # Izveido sarakstu ar tik daudz rindām, cik opciju
-        for option in self.visualization_options:
-            self.listbox.insert(tk.END, option)  # Pievieno opcijas sarakstam
-        self.listbox.pack(pady=5)
-
-        # Pievieno pogu, lai apstiprinātu izvēli
-        self.confirm_button = ttk.Button(self.mainframe, text="Apstiprināt", command=self.confirm_selection)
-        self.confirm_button.pack(pady=10)
-
-        # Palaiž Tkinter galveno notikumu cilpu (lai logs paliktu atvērts)
-        self.root.mainloop()
-
-    def browse_file(self):
-        """Atver failu pārlūkošanas dialogu un saglabā izvēlētā faila ceļu"""
-        file_path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])  # Tikai JSON faili
+        self.file_paths = [None] * 4
+        self.file_dataframes = [None] * 4
+        
+        self.create_widgets()
+    
+    def create_widgets(self):
+        input_frame = tk.LabelFrame(self.root, text="Ievadiet failus", padx=10, pady=10)
+        input_frame.pack(padx=10, pady=10, fill="x")
+        
+        self.file_entries = []
+        for i in range(4):
+            row_frame = tk.Frame(input_frame)
+            row_frame.pack(fill="x", pady=5)
+            
+            tk.Label(row_frame, text=f"Fails {i+1}:", width=10).pack(side="left")
+            entry = tk.Entry(row_frame, width=50)
+            entry.pack(side="left", padx=5)
+            self.file_entries.append(entry)
+            
+            # Mainīsim lambda uz daļēju funkciju drošībai
+            tk.Button(row_frame, text="Pārlūkot...", 
+                    command=lambda idx=i: self.browse_file(idx)).pack(side="left")
+        
+        tk.Button(self.root, text="Pārbaudīt failus", command=self.check_files).pack(pady=10)
+        
+        self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
+        self.result_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        self.result_label = tk.Label(self.result_frame, text="Ievadiet failus un nospiediet 'Pārbaudīt failus'")
+        self.result_label.pack()
+    
+    def browse_file(self, index):
+        # Vienots filtrs visiem atbalstītajiem formātiem
+        file_path = filedialog.askopenfilename(
+            title="Atlasiet datu failu",
+            filetypes=[
+                ("Visi atbalstītie formāti", "*.csv;*.xlsx;*.json"),
+                ("CSV faili", "*.csv"),
+                ("Excel faili", "*.xlsx"),
+                ("JSON faili", "*.json"),
+                ("Visi faili", "*.*")
+            ]
+        )
+        
         if file_path:
-            self.file_path_var.set(file_path)  # Ievieto izvēlēto faila ceļu ievades laukā
+            self.file_entries[index].delete(0, tk.END)
+            self.file_entries[index].insert(0, file_path)
+            self.file_paths[index] = file_path
+    
+    def check_files(self):
+        results = []
+        success = True
+        
+        for i, path in enumerate(self.file_paths):
+            if not path:
+                results.append(f"Fails {i+1}: ❌ Nav norādīts")
+                success = False
+                continue
+            
+            try:
+                # Automātiska formāta noteikšana
+                if path.endswith('.json'):
+                    # Mēģinām divus izplatītus JSON formātus
+                    try:
+                        df = pd.read_json(path)
+                    except ValueError:
+                        df = pd.read_json(path, lines=True)
+                else:
+                    df = pd.read_csv(path) if path.endswith('.csv') else pd.read_excel(path)
+                
+                self.file_dataframes[i] = df
+                results.append(f"Fails {i+1}: ✅ Nolasīts ({len(df)} ieraksti)")
+            except Exception as e:
+                results.append(f"Fails {i+1}: ❌ Kļūda: {type(e).__name__} - {str(e)}")
+                success = False
+                self.file_dataframes[i] = None
+        
+        self.result_label.config(text="\n".join(results))
+        if success:
+            messagebox.showinfo("Veiksmīgi", "Visi faili nolasīti!")
+        else:
+            messagebox.showwarning("Brīdinājums", "Daži faili nav nolasīti!")
 
-    def confirm_selection(self):
-        """Apstrādā izvēlēto vizualizācijas veidu un failu"""
-        selected_index = self.listbox.curselection()  # Iegūst izvēlēto indeksu no saraksta
-        if selected_index:
-            selected_visualization = self.visualization_options[selected_index[0]]  # Iegūst izvēlēto vizualizācijas veidu
-            print(f"Izvēlētais fails: {self.file_path_var.get()}")  # Izvada izvēlēto failu
-            print(f"Izvēlētā vizualizācija: {selected_visualization}")  # Izvada izvēlēto vizualizācijas veidu
-
-# Ja skripts tiek palaists tieši, izveido un palaiž lietotni
 if __name__ == "__main__":
-    App()
+    root = tk.Tk()
+    app = DataVisualizationApp(root)
+    root.mainloop()
