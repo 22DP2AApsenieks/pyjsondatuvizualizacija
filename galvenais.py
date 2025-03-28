@@ -1,108 +1,108 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import pandas as pd
+import os
+import shutil
 
-class DataVisualizationApp:
+class JSONCopierApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Datu Vizualizācijas Rīks")
+        self.root.title("JSON Kopētājs")
         
-        self.file_paths = [None] * 4
-        self.file_dataframes = [None] * 4
-        
+        self.directories = {1: None, 2: None, 3: None, 4: None}
         self.create_widgets()
     
     def create_widgets(self):
-        input_frame = tk.LabelFrame(self.root, text="Ievadiet failus", padx=10, pady=10)
-        input_frame.pack(padx=10, pady=10, fill="x")
-        
-        self.file_entries = []
-        for i in range(4):
-            row_frame = tk.Frame(input_frame)
-            row_frame.pack(fill="x", pady=5)
+        # Izveidojam 4 ievades rāmjus
+        for i in range(1, 5):
+            frame = tk.LabelFrame(self.root, text=f"Ievadiet mapi ar JSON failiem ({i})", padx=10, pady=5)
+            frame.pack(padx=10, pady=2, fill="x", expand=True)
             
-            tk.Label(row_frame, text=f"Fails {i+1}:", width=10).pack(side="left")
-            entry = tk.Entry(row_frame, width=50)
+            entry = tk.Entry(frame, width=50)
             entry.pack(side="left", padx=5)
-            self.file_entries.append(entry)
             
-            # Mainīsim lambda uz daļēju funkciju drošībai
-            tk.Button(row_frame, text="Pārlūkot...", 
-                    command=lambda idx=i: self.browse_file(idx)).pack(side="left")
-        
-        tk.Button(self.root, text="Pārbaudīt failus", command=self.check_files).pack(pady=10)
-        
-        self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
-        self.result_frame.pack(padx=10, pady=10, fill="both", expand=True)
-        self.result_label = tk.Label(self.result_frame, text="Ievadiet failus un nospiediet 'Pārbaudīt failus'")
-        self.result_label.pack()
-    
-    def browse_file(self, index):
-        # Vienots filtrs visiem atbalstītajiem formātiem
-        file_path = filedialog.askopenfilename(
-            title="Atlasiet datu failu",
-            filetypes=[
-                ("Visi atbalstītie formāti", "*.csv;*.xlsx;*.json"),
-                ("CSV faili", "*.csv"),
-                ("Excel faili", "*.xlsx"),
-                ("JSON faili", "*.json"),
-                ("Visi faili", "*.*")
-            ]
-        )
-        
-        if file_path:
-            self.file_entries[index].delete(0, tk.END)
-            self.file_entries[index].insert(0, file_path)
-            self.file_paths[index] = file_path
-    
-    def check_files(self):
-        results = []
-        success = True
-        
-        def is_valid_line(line):
-            """Check if line contains at least one non-whitespace character"""
-            return bool(line and not line.isspace())
+            btn = tk.Button(frame, text="Pārlūkot...", command=lambda num=i: self.browse_directory(num))
+            btn.pack(side="left")
+            
+            # Saglabājam atsauces uz entry widgetiem
+            setattr(self, f"entry{i}", entry)
 
-        for i, path in enumerate(self.file_paths):
-            if not path:
-                results.append(f"Fails {i+1}: ❌ Nav norādīts")
-                success = False
-                continue
-            
-            try:
-                valid_lines = 0
-                total_lines = 0
-                
-                # Raw line-by-line validation
-                with open(path, 'r', encoding='utf-8') as f:
-                    for line in f:
-                        total_lines += 1
-                        if is_valid_line(line.strip()):
-                            valid_lines += 1
-                
-                # Then parse normally for DataFrame
-                if path.endswith('.json'):
-                    try:
-                        df = pd.read_json(path)
-                    except ValueError:
-                        df = pd.read_json(path, lines=True)
-                else:
-                    df = pd.read_csv(path) if path.endswith('.csv') else pd.read_excel(path)
-                
-                self.file_dataframes[i] = df
-                results.append(f"Fails {i+1}: ✅ Nolasītas {valid_lines} rindas (no {total_lines} kopā)")
-            except Exception as e:
-                results.append(f"Fails {i+1}: ❌ Kļūda: {type(e).__name__} - {str(e)}")
-                success = False
-                self.file_dataframes[i] = None
+        # Kontrolelementi
+        control_frame = tk.Frame(self.root)
+        control_frame.pack(pady=10)
         
-        self.result_label.config(text="\n".join(results))
-        if success:
-            messagebox.showinfo("Veiksmīgi", "Visi faili nolasīti!")
+        tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(side="left", padx=5)
+        tk.Button(control_frame, text="Notīrīt laukus", command=self.clear_fields).pack(side="left")
+
+        # Rezultātu logs
+        self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
+        self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
+        
+        self.result_text = tk.Text(self.result_frame, height=15, width=85)
+        self.result_text.pack(side="left", fill="both", expand=True)
+        
+        scrollbar = tk.Scrollbar(self.result_frame)
+        scrollbar.pack(side="right", fill="y")
+        self.result_text.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.result_text.yview)
+
+    def browse_directory(self, dir_num):
+        directory = filedialog.askdirectory(title=f"Atlasiet mapi {dir_num}")
+        if directory:
+            getattr(self, f"entry{dir_num}").delete(0, tk.END)
+            getattr(self, f"entry{dir_num}").insert(0, directory)
+            self.directories[dir_num] = directory
+
+    def clear_fields(self):
+        for i in range(1, 5):
+            getattr(self, f"entry{i}").delete(0, tk.END)
+            self.directories[i] = None
+        self.result_text.delete(1.0, tk.END)
+
+    def process_files(self):
+        # Pārbauda vai ir vismaz viena mape
+        if not any(self.directories.values()):
+            messagebox.showerror("Kļūda", "Lūdzu, atlasiet vismaz vienu mapi!")
+            return
+
+        self.result_text.delete(1.0, tk.END)
+        total_files = 0
+        success_count = 0
+        
+        # Apstrādājam atlasītās mapes
+        for dir_num, directory in self.directories.items():
+            if not directory:
+                continue  # Izlaižam neizvēlētās mapes
+            
+            for root, _, files in os.walk(directory):
+                for file in files:
+                    if file.lower().endswith('.json'):
+                        total_files += 1
+                        file_path = os.path.join(root, file)
+                        
+                        try:
+                            pd.read_json(file_path)  # JSON validācija
+                            copy_name = f"kopija_{file}"
+                            copy_path = os.path.join(root, copy_name)
+                            
+                            shutil.copy(file_path, copy_path)
+                            self.result_text.insert(tk.END, f"Mape {dir_num}: {file} -> {copy_name} ✅\n")
+                            success_count += 1
+                        except Exception as e:
+                            self.result_text.insert(tk.END, f"Mape {dir_num}: {file} ❌ Kļūda: {str(e)}\n")
+
+        # Kopsavilkums
+        self.result_text.insert(tk.END, "\n=== Kopsavilkums ===\n")
+        self.result_text.insert(tk.END, f"Kopējais failu skaits: {total_files}\n")
+        self.result_text.insert(tk.END, f"Veiksmīgi nokopēti: {success_count}\n")
+        self.result_text.insert(tk.END, f"Neveiksmīgi mēģinājumi: {total_files - success_count}")
+
+        if total_files == success_count:
+            messagebox.showinfo("Pabeigts", "Visas kopēšanas operācijas veiksmīgas!")
         else:
-            messagebox.showwarning("Brīdinājums", "Daži faili nav nolasīti!")
+            messagebox.showwarning("Pabeigts", f"Neizdevās nokopēt {total_files - success_count} failus!")
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = DataVisualizationApp(root)
+    app = JSONCopierApp(root)
     root.mainloop()
