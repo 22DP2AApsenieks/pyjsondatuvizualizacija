@@ -1,0 +1,194 @@
+00001; 2025-03-26; 17:00:37;  evlog;            -;     -;      -;         Event log was Cleared
+00002; 2025-03-26; 17:00:37;  web;              -;     22014;  notice;    admin cleared eventlog
+00003; 2025-03-26; 17:00:38;  configd[rpc];     -;     2017;   info;      Cfg '0' from saved configuration
+00004; 2025-03-26; 17:47:12;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
+00005; 2025-03-26; 16:33:29;  sysd[rpc];        -;     5063;   info;      System time 2025-03-26 16:33:29
+00006; 2025-03-26; 16:33:29;  web;              -;     22016;  notice;    admin executed command
+00007; 2025-03-27; 12:00:53;  radiod[rpc];      -;     30020;  notice;    External system reset radio A mute: 0004
+00008; 2025-03-27; 12:00:53;  radiod[rpc];      -;     30020;  notice;    External system reset radio B mute: 0004
+00009; 2025-03-27; 12:00:53;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Mute to Secondary Active due to rsn_id:(8) in 2 ms
+00010; 2025-03-27; 12:00:53;  radio;            -;     30055;  info;      Radio A Tx mute hw disable
+00011; 2025-03-27; 12:00:53;  radio;            UP;    11011;  notice;    Radio A Mute status [Mute(On)] [0x00000001]
+00012; 2025-03-27; 12:00:53;  radio;            RESET; 11011;  notice;    Radio A Mute status [Mute(Off)] [0x00000000]
+00013; 2025-03-27; 12:03:24;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
+00014; 2025-03-27; 12:38:26;  login;            -;     1011;   info;      factory login success [SSH] [192.168.205.50]
+00015; 2025-03-27; 12:41:04;  login;            -;     22020;  notice;    admin login failure [WEB] [192.168.205.50]
+00016; 2025-03-27; 13:13:41;  evlog;            -;     -;      -;         Last 1 Message(s) repeated 7 time(s)
+00017; 2025-03-27; 13:13:41;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
+00018; 2025-03-27; 14:09:41;  login;            -;     1012;   info;      factory login failure [SSH] [192.168.205.50]
+00019; 2025-03-27; 14:10:05;  login;            -;     1011;   info;      factory login success [SSH] [192.168.205.50]
+00020; 2025-03-27; 16:29:10;  radiod[rpc];      -;     30020;  notice;    External system reset radio A mute: 0004
+00021; 2025-03-27; 16:29:10;  radiod[rpc];      -;     30020;  notice;    External system reset radio B mute: 0004
+00022; 2025-03-27; 16:29:10;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Active to Secondary Protect due to rsn_id:(12) in 66 ms
+00023; 2025-03-27; 16:30:11;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
+00024; 2025-03-27; 16:34:06;  evlog;            -;     -;      -;         System started (bank: fw2 / fw: 3.25.0)
+00025; 2025-03-27; 16:34:08;  config;           -;     2011;   info;      Last reset was due to POR (power on reset)
+00026; 2025-03-27; 16:34:13;  i2c;              -;     60012;  info;      Alarm levels from FRAM: I=100..2900 mA; P=20..110 W
+00027; 2025-03-27; 16:34:17;  iman;             SET;   11011;  alert;     Remote status data [No data] [0x00000001]
+00028; 2025-03-27; 16:34:17;  netsys;           RESET; 11011;  notice;    License expired [No] [0x00000000]
+00029; 2025-03-27; 16:34:17;  netsys;           RESET; 11011;  notice;    Invalid secure chip [Chip(Ok)] [0x00000000]
+00030; 2025-03-27; 16:34:18;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00031; 2025-03-27; 16:34:18;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00032; 2025-03-27; 16:34:19;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0001
+00033; 2025-03-27; 16:34:19;  radiod[rpc];      -;     30020;  notice;    External system set radio A rxmute: 0001
+00034; 2025-03-27; 16:34:19;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0001
+00035; 2025-03-27; 16:34:19;  radiod[rpc];      -;     30020;  notice;    External system set radio B rxmute: 0001
+00036; 2025-03-27; 16:34:19;  i2c;              RESET; 11011;  notice;    Fan errors [0x00000000]
+00037; 2025-03-27; 16:34:22;  radio;            -;     30055;  info;      Radio B Tx mute hw enable
+00038; 2025-03-27; 16:34:22;  radio;            -;     30055;  info;      Radio A Tx mute hw enable
+00039; 2025-03-27; 16:34:22;  modem[rpc];       -;     40010;  info;      name == 25_FP_PER; bin_file_index == 1
+00040; 2025-03-27; 16:34:22;  modem[rpc];       -;     40009;  info;      Load modem A configuration = 25_FP_PER
+00041; 2025-03-27; 16:34:22;  sysd[rpc];        -;     5035;   info;      IP address changed from 192.168.205.10 to 192.168.205.12
+00042; 2025-03-27; 16:34:22;  sysd[rpc];        -;     5041;   info;      Remote IP address set to 192.168.205.13
+00043; 2025-03-27; 16:34:23;  modem[rpc];       -;     40009;  info;      IF frequencies are correct
+00044; 2025-03-27; 16:34:24;  modem[rpc];       -;     40009;  info;      Modem A get txReady in 400 ms
+00045; 2025-03-27; 16:34:24;  modem[rpc];       -;     40010;  info;      name == 25_FP_PER; bin_file_index == 1
+00046; 2025-03-27; 16:34:25;  modem[rpc];       -;     40009;  info;      WbRxAgcSetPointAndPeakSet 1 -110 -140 -5
+00047; 2025-03-27; 16:34:25;  modem[rpc];       -;     40009;  info;      WbRxAgcSetPointAndPeakSet 7 -110 -140 -5
+00048; 2025-03-27; 16:34:25;  radiod[rpc];      -;     30020;  notice;    Modem reset radio A mute: 0001
+00049; 2025-03-27; 16:34:25;  modem;            SET;   11011;  alert;     Modem A Acquire error [0x00000010]
+00050; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem A XPIC slave carrier offset [No Data]
+00051; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00052; 2025-03-27; 16:34:25;  modem;            SET;   11011;  alert;     Modem A FEC unlocked [FEC unlocked] [0x00000000]
+00053; 2025-03-27; 16:34:25;  modem;            SET;   11011;  alert;     Modem A MSE [0.0 dB]
+00054; 2025-03-27; 16:34:25;  modem;            SET;   11011;  alert;     Modem A FEC load [1.00e+00]
+00055; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Temperature [No Data]
+00056; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Rx Modulation [No Data]
+00057; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Tx Modulation [No Data]
+00058; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Rx Capacity [No Data]
+00059; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B Rx level [No Data]
+00060; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Tx Capacity [No Data]
+00061; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B Mute status [No Data]
+00062; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Acquire error [No Data]
+00063; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B MSE [No Data]
+00064; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B Temperature [No Data]
+00065; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B FEC load [No Data]
+00066; 2025-03-27; 16:34:25;  modem[rpc];       -;     40010;  info;      Modem configuration A 25_FP_PER 128QAM 128QAM
+00067; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B XPIC slave carrier offset [No Data]
+00068; 2025-03-27; 16:34:25;  radio;            -;     30055;  info;      Radio B Tx mute hw enable
+00069; 2025-03-27; 16:34:25;  radio;            -;     30055;  info;      Radio A Tx mute hw enable
+00070; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B RX AGC gain [No Data]
+00071; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B PLL status [No Data]
+00072; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B FEC unlocked [No Data]
+00073; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B Alarms [No Data]
+00074; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Modem B Carrier offset [No Data]
+00075; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B IF level [No Data]
+00076; 2025-03-27; 16:34:25;  modem;            IDLE;  11011;  alert;     Protection status [No Data]
+00077; 2025-03-27; 16:34:25;  radio;            IDLE;  11011;  alert;     Radio B TR Temperature [No Data]
+00078; 2025-03-27; 16:34:25;  radio;            RESET; 11011;  notice;    Tx frequency alarm [TX Frequency alarm(Off)] [0x00000000]
+00079; 2025-03-27; 16:34:25;  radio;            RESET; 11011;  notice;    Rx frequency alarm [RX Frequency alarm(Off)] [0x00000000]
+00080; 2025-03-27; 16:34:30;  radio;            -;     30016;  info;      Radio A Tx frequency set: 7012500 kHz
+00081; 2025-03-27; 16:34:30;  radio;            -;     30017;  info;      Radio A Rx frequency set: 6785000 kHz
+00082; 2025-03-27; 16:34:30;  radio;            -;     30015;  info;      Radio A power set: 11 dBm
+00083; 2025-03-27; 16:34:30;  radio;            -;     30055;  info;      Radio A Tx mute hw enable
+00084; 2025-03-27; 16:34:31;  radio;            -;     30047;  unknown;   Radio A cfg is set in: 6 seconds
+00085; 2025-03-27; 16:34:31;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [40.75 dB]
+00086; 2025-03-27; 16:34:31;  radio;            IDLE;  11011;  alert;     Radio A Mute status [No Data]
+00087; 2025-03-27; 16:34:32;  modem;            RESET; 11011;  notice;    Modem A FEC unlocked [0x00000001]
+00088; 2025-03-27; 16:34:33;  modem;            RESET; 11011;  notice;    Modem A Acquire error [0x00000000]
+00089; 2025-03-27; 16:34:33;  modem;            RESET; 11011;  notice;    Modem A MSE [-48.6 dB]
+00090; 2025-03-27; 16:34:43;  modem;            RESET; 11011;  notice;    Modem A FEC load [0.00e+00]
+00091; 2025-03-27; 16:35:05;  netsys;           -;     50081;  info;      Switch FW version: 6.5.20.7
+00092; 2025-03-27; 16:35:07;  netsys;           -;     52010;  info;      SyncE - Disabled
+00093; 2025-03-27; 16:35:07;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00094; 2025-03-27; 16:35:07;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00095; 2025-03-27; 16:35:07;  netsys;           -;     50110;  unknown;   network config set done
+00096; 2025-03-27; 16:35:07;  config;           -;     2019;   info;      Cfg without changes from 'cold-boot'
+00097; 2025-03-27; 16:35:08;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Disabled to Start due to rsn_id:(1) in 0 ms
+00098; 2025-03-27; 16:35:09;  iman;             RESET; 11011;  notice;    Remote status data [Data Ok] [0x00000000]
+00099; 2025-03-27; 16:35:10;  netsys;           SET;   11011;  alert;     State of LAN1 port [No Link] [0x00000001]
+00100; 2025-03-27; 16:35:10;  netsys;           RESET; 11011;  notice;    State of LAN2 port [1000Mbps Fullduplex] [0x00000210]
+00101; 2025-03-27; 16:35:11;  netsys;           RESET; 11011;  notice;    State of LAN3 port [1000Mbps Fullduplex] [0x00000210]
+00102; 2025-03-27; 16:35:11;  netsys;           RESET; 11011;  notice;    State of WAN port [5000Mbps Fullduplex] [0x00000240]
+00103; 2025-03-27; 16:35:11;  netsys;           RESET; 11011;  notice;    NP status [NP(Ok)] [0x00000001]
+00104; 2025-03-27; 16:35:11;  netsys;           IDLE;  11011;  alert;     State of LSP/Backup port [No Data]
+00105; 2025-03-27; 16:35:12;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00106; 2025-03-27; 16:35:12;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00107; 2025-03-27; 16:35:12;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Start to Secondary Mute due to rsn_id:(3) in 2 ms
+00108; 2025-03-27; 16:35:15;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
+00109; 2025-03-27; 16:46:19;  netsys;           SET;   11011;  alert;     State of LAN3 port [No Link] [0x00000001]
+00110; 2025-03-27; 16:46:23;  iman;             SET;   11011;  alert;     Remote status data [No data] [0x00000001]
+00111; 2025-03-27; 16:46:23;  iman;             RESET; 11011;  notice;    Remote status data [Data Ok] [0x00000000]
+00112; 2025-03-27; 16:46:26;  netsys;           RESET; 11011;  notice;    State of LAN3 port [1000Mbps Fullduplex] [0x00000210]
+00113; 2025-03-27; 16:48:06;  modem;            SET;   11011;  alert;     Modem A Acquire error [0x00000010]
+00114; 2025-03-27; 16:48:06;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00115; 2025-03-27; 16:48:06;  modem;            SET;   11011;  alert;     Modem A MSE [0.0 dB]
+00116; 2025-03-27; 16:48:06;  modem;            SET;   11011;  alert;     Modem A FEC load [1.00e+00]
+00117; 2025-03-27; 16:48:06;  radio;            SET;   11011;  alert;     Radio A Rx level [-99 dBm]
+00118; 2025-03-27; 16:48:08;  modem;            SET;   11011;  alert;     Modem A FEC unlocked [FEC unlocked] [0x00000000]
+00119; 2025-03-27; 16:48:54;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.05 dB]
+00120; 2025-03-27; 16:48:54;  radio;            RESET; 11011;  notice;    Radio A Rx level [-53 dBm]
+00121; 2025-03-27; 16:48:56;  modem;            RESET; 11011;  notice;    Modem A FEC unlocked [0x00000001]
+00122; 2025-03-27; 16:48:58;  modem;            RESET; 11011;  notice;    Modem A Acquire error [0x00000000]
+00123; 2025-03-27; 16:48:58;  modem;            RESET; 11011;  notice;    Modem A MSE [-48.3 dB]
+00124; 2025-03-27; 16:48:59;  modem;            SET;   11011;  alert;     Modem A Acquire error [0x00000010]
+00125; 2025-03-27; 16:48:59;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00126; 2025-03-27; 16:48:59;  modem;            SET;   11011;  alert;     Modem A MSE [0.0 dB]
+00127; 2025-03-27; 16:48:59;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.79 dB]
+00128; 2025-03-27; 16:48:59;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00129; 2025-03-27; 16:48:59;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.79 dB]
+00130; 2025-03-27; 16:49:05;  modem;            RESET; 11011;  notice;    Modem A Acquire error [0x00000000]
+00131; 2025-03-27; 16:49:05;  modem;            RESET; 11011;  notice;    Modem A MSE [-48.3 dB]
+00132; 2025-03-27; 16:49:15;  modem;            RESET; 11011;  notice;    Modem A FEC load [0.00e+00]
+00133; 2025-03-27; 16:49:24;  radiod[rpc];      -;     30020;  notice;    External system reset radio A mute: 0004
+00134; 2025-03-27; 16:49:24;  radiod[rpc];      -;     30020;  notice;    External system reset radio B mute: 0004
+00135; 2025-03-27; 16:49:24;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Mute to Secondary Protect due to rsn_id:(4) in 72 ms
+00136; 2025-03-27; 16:49:24;  radio;            -;     30055;  info;      Radio A Tx mute hw disable
+00137; 2025-03-27; 16:49:24;  radio;            UP;    11011;  notice;    Radio A Mute status [Mute(On)] [0x00000001]
+00138; 2025-03-27; 16:49:24;  radio;            RESET; 11011;  notice;    Radio A Mute status [Mute(Off)] [0x00000000]
+00139; 2025-03-27; 16:49:25;  netsys;           SET;   11011;  alert;     State of LAN2 port [No Link] [0x00000001]
+00140; 2025-03-27; 16:51:07;  netsys;           RESET; 11011;  notice;    State of LAN2 port [1000Mbps Fullduplex] [0x00000210]
+00141; 2025-03-27; 16:59:41;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00142; 2025-03-27; 16:59:41;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00143; 2025-03-27; 16:59:41;  radio;            -;     30055;  info;      Radio A Tx mute hw enable
+00144; 2025-03-27; 16:59:41;  radio;            IDLE;  11011;  alert;     Radio A Mute status [No Data]
+00145; 2025-03-27; 16:59:41;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Protect to Secondary Standby due to rsn_id:(17) in 115 ms
+00146; 2025-03-27; 16:59:42;  netsys;           SET;   11011;  alert;     State of LAN3 port [No Link] [0x00000001]
+00147; 2025-03-27; 16:59:46;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00148; 2025-03-27; 16:59:46;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00149; 2025-03-27; 16:59:46;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Standby to Secondary Mute due to rsn_id:(5) in 2 ms
+00150; 2025-03-27; 16:59:46;  iman;             SET;   11011;  alert;     Remote status data [No data] [0x00000001]
+00151; 2025-03-27; 16:59:46;  iman;             RESET; 11011;  notice;    Remote status data [Data Ok] [0x00000000]
+00152; 2025-03-27; 16:59:49;  netsys;           RESET; 11011;  notice;    State of LAN3 port [1000Mbps Fullduplex] [0x00000210]
+00153; 2025-03-27; 17:00:01;  radiod[rpc];      -;     30020;  notice;    External system reset radio A mute: 0004
+00154; 2025-03-27; 17:00:01;  radiod[rpc];      -;     30020;  notice;    External system reset radio B mute: 0004
+00155; 2025-03-27; 17:00:01;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Mute to Secondary Active due to rsn_id:(8) in 2 ms
+00156; 2025-03-27; 17:00:01;  radio;            -;     30055;  info;      Radio A Tx mute hw disable
+00157; 2025-03-27; 17:00:01;  radio;            UP;    11011;  notice;    Radio A Mute status [Mute(On)] [0x00000001]
+00158; 2025-03-27; 17:00:01;  radio;            RESET; 11011;  notice;    Radio A Mute status [Mute(Off)] [0x00000000]
+00159; 2025-03-27; 17:00:23;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00160; 2025-03-27; 17:00:23;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00161; 2025-03-27; 17:00:23;  radio;            -;     30055;  info;      Radio A Tx mute hw enable
+00162; 2025-03-27; 17:00:23;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Active to Secondary Standby due to rsn_id:(14) in 55 ms
+00163; 2025-03-27; 17:00:23;  radio;            IDLE;  11011;  alert;     Radio A Mute status [No Data]
+00164; 2025-03-27; 17:00:28;  radiod[rpc];      -;     30020;  notice;    External system set radio A mute: 0004
+00165; 2025-03-27; 17:00:28;  radiod[rpc];      -;     30020;  notice;    External system set radio B mute: 0004
+00166; 2025-03-27; 17:00:28;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Standby to Secondary Mute due to rsn_id:(5) in 2 ms
+00167; 2025-03-27; 17:00:36;  modem;            SET;   11011;  alert;     Modem A Acquire error [0x00000010]
+00168; 2025-03-27; 17:00:36;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00169; 2025-03-27; 17:00:37;  modem;            SET;   11011;  alert;     Modem A MSE [0.0 dB]
+00170; 2025-03-27; 17:00:37;  modem;            SET;   11011;  alert;     Modem A FEC load [1.00e+00]
+00171; 2025-03-27; 17:00:37;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.09 dB]
+00172; 2025-03-27; 17:00:38;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00173; 2025-03-27; 17:00:38;  radio;            SET;   11011;  alert;     Radio A Rx level [-99 dBm]
+00174; 2025-03-27; 17:00:39;  modem;            SET;   11011;  alert;     Modem A FEC unlocked [FEC unlocked] [0x00000000]
+00175; 2025-03-27; 17:00:46;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [0.74 dB]
+00176; 2025-03-27; 17:00:46;  radio;            RESET; 11011;  notice;    Radio A Rx level [-55 dBm]
+00177; 2025-03-27; 17:00:48;  modem;            RESET; 11011;  notice;    Modem A FEC unlocked [0x00000001]
+00178; 2025-03-27; 17:00:49;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00179; 2025-03-27; 17:00:49;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.04 dB]
+00180; 2025-03-27; 17:00:49;  modem;            IDLE;  11011;  alert;     Modem A RX AGC gain [No Data]
+00181; 2025-03-27; 17:00:49;  modem;            SET;   11011;  alert;     Modem A FEC unlocked [FEC unlocked] [0x00000000]
+00182; 2025-03-27; 17:00:49;  modem;            UP;    11011;  notice;    Modem A RX AGC gain [2.75 dB]
+00183; 2025-03-27; 17:00:51;  modem;            RESET; 11011;  notice;    Modem A FEC unlocked [0x00000001]
+00184; 2025-03-27; 17:00:54;  modem;            RESET; 11011;  notice;    Modem A Acquire error [0x00000000]
+00185; 2025-03-27; 17:00:54;  modem;            RESET; 11011;  notice;    Modem A MSE [-48.8 dB]
+00186; 2025-03-27; 17:00:56;  radiod[rpc];      -;     30020;  notice;    External system reset radio A mute: 0004
+00187; 2025-03-27; 17:00:56;  radiod[rpc];      -;     30020;  notice;    External system reset radio B mute: 0004
+00188; 2025-03-27; 17:00:56;  netsys;           -;     0;      unknown;   Aggregation FSM state changed from Secondary Mute to Secondary Protect due to rsn_id:(9) in 57 ms
+00189; 2025-03-27; 17:00:56;  radio;            -;     30055;  info;      Radio A Tx mute hw disable
+00190; 2025-03-27; 17:00:56;  radio;            UP;    11011;  notice;    Radio A Mute status [Mute(On)] [0x00000001]
+00191; 2025-03-27; 17:00:57;  radio;            RESET; 11011;  notice;    Radio A Mute status [Mute(Off)] [0x00000000]
+00192; 2025-03-27; 17:01:04;  modem;            RESET; 11011;  notice;    Modem A FEC load [0.00e+00]
+00193; 2025-03-27; 17:03:57;  login;            -;     1011;   info;      factory login success [SSH] [192.168.205.50]
+00194; 2025-03-27; 17:19:48;  login;            -;     22019;  notice;    admin login success [WEB] [192.168.205.50]
