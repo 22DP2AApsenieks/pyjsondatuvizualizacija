@@ -1,4 +1,0 @@
-{
-    "time_stamp": "2025-03-27 17:00:22",
-    "error_description": "Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to rsn_id:(8) in 9 ms"
-}
