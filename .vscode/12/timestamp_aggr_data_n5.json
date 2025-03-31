@@ -1,0 +1,4 @@
+{
+    "time_stamp": "2025-03-27 16:59:46",
+    "error_description": "Aggregation FSM state changed from Secondary Standby to Secondary Mute due to rsn_id:(5) in 2 ms"
+}

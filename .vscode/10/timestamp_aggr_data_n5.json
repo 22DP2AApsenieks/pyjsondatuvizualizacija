@@ -1,0 +1,4 @@
+{
+    "time_stamp": "2025-03-27 17:00:05",
+    "error_description": "Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to rsn_id:(5) in 3 ms"
+}
