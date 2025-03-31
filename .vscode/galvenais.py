@@ -4,10 +4,10 @@ import os
 import json
 import glob
 
-class JSONTimeStampSaglabatajs:
+class JSONTimeStampSaglabatajs: #nav timestamp bet man slinkums visu mainit tho
     def __init__(self, root):
         self.root = root
-        self.root.title("JSON TimeStamp Saglabātājs")
+        self.root.title("JSON Datu Saglabātājs un vizualizācijas veidotājs")
         self.directories = {1: None, 2: None, 3: None, 4: None}
         self.create_widgets()
 
@@ -76,7 +76,7 @@ class JSONTimeStampSaglabatajs:
         self.result_text.delete(1.0, tk.END)
         total_files, success_count, skipped_count = 0, 0, 0
         merged_data = []
-        existing_timestamps = set()  # Track already processed timestamps
+        existing_timestamps = set()
 
         for dir_num, directory in self.directories.items():
             if not directory:
@@ -95,22 +95,37 @@ class JSONTimeStampSaglabatajs:
                             if 'time_stamp' not in data:
                                 raise KeyError("Trūkst 'time_stamp' lauka")
                             time_stamp = data["time_stamp"]
-                            # Check if the timestamp already exists
                             if time_stamp in existing_timestamps:
                                 skipped_count += 1
                                 continue
+                            
+                            # Iegūstam papildus laukus no JSON struktūras
+                            local_info = data.get("local", {}).get("info", {})
+                            local_fsm_state = local_info.get("fsm_state", "")
+                            local_traffic_port = local_info.get("traffic_port", "")
+                            local_ports_up = local_info.get("ports_up", [])
+                            
                             date_part, time_part = time_stamp.split(' ')
-                            error_desc = error_mapping.get((date_part, time_part), "N/A")
-                            merged_data.append({"time_stamp": time_stamp, "error_description": error_desc})
-                            existing_timestamps.add(time_stamp)  # Add to set of processed timestamps
+                            error_desc = error_mapping.get((date_part, time_part), "N/A") #parbauda vai erordesc ir error_mapping.
+                            
+                            # Pievienojam visus laukus
+                            merged_data.append({
+                                "time_stamp": time_stamp,
+                                "local_fsm_state": local_fsm_state,
+                                "local_traffic_port": local_traffic_port,
+                                "local_ports_up": local_ports_up,
+                                "error_description": error_desc  # Nemainīta kļūdu apstrāde
+                            })
+                            
+                            existing_timestamps.add(time_stamp)
                             success_count += 1
                         except Exception as e:
                             self.result_text.insert(tk.END, f"[Mape {dir_num}] {file} Kļūda: {str(e)}\n")
-            
+        
         merged_data.sort(key=lambda x: x["time_stamp"])
         merged_file_path = os.path.join(os.getcwd(), "merged_results.json")
         with open(merged_file_path, 'w', encoding='utf-8') as f:
-            json.dump(merged_data, f, indent=4)
+            json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
         summary = f"\n=== REZULTĀTU KOPSUMMA ===\nKopējais JSON failu skaits: {total_files}\nIzdevās saglabāt: {success_count}\nIzlaisti: {skipped_count}\nApvienotais fails saglabāts: {merged_file_path}\n"
         self.result_text.insert(tk.END, summary)
