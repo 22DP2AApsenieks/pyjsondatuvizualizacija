@@ -1,90 +1,7 @@
 [
     {
-        "time_stamp": "2025-03-26 16:53:09",
-        "local_fsm_state": "Start",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [],
-        "error_description": "N/A"
-    },
-    {
-        "time_stamp": "2025-03-26 16:53:13",
-        "local_fsm_state": "Primary Muted",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1"
-        ],
-        "error_description": "N/A"
-    },
-    {
-        "time_stamp": "2025-03-26 16:53:15",
-        "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1"
-        ],
-        "error_description": "N/A"
-    },
-    {
-        "time_stamp": "2025-03-26 18:51:14",
-        "local_fsm_state": "Start",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [],
-        "error_description": "N/A"
-    },
-    {
-        "time_stamp": "2025-03-26 18:51:18",
-        "local_fsm_state": "Secondary Mute",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1",
-            "WAN"
-        ],
-        "error_description": "N/A"
-    },
-    {
-        "time_stamp": "2025-03-27 12:00:52",
-        "local_fsm_state": "Prim.Tx-WAN Rx-ALT",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1",
-            "LAN2"
-        ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to rsn_id:(16) in 13 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:35:08",
-        "local_fsm_state": "Start",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Disabled to Start due to rsn_id:(1) in 0 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:35:12",
-        "local_fsm_state": "Secondary Mute",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Start to Secondary Mute due to rsn_id:(3) in 2 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:49:24",
-        "local_fsm_state": "Secondary Protect",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Mute to Secondary Protect due to rsn_id:(4) in 72 ms"
-    },
-    {
         "time_stamp": "2025-03-27 16:51:05",
+        "device_identifier": "2",
         "local_fsm_state": "Start",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -92,10 +9,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Disabled to Start due to rsn_id:(1) in 0 ms"
+        "error_description": "Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms"
     },
     {
         "time_stamp": "2025-03-27 16:51:09",
+        "device_identifier": "2",
         "local_fsm_state": "Primary Muted",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -103,21 +21,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Start to Primary Muted due to rsn_id:(2) in 15 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:59:36",
-        "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1",
-            "LAN2",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to rsn_id:(11) in 9 ms"
+        "error_description": "Aggregation FSM state changed from Start to Primary Muted due to Configured as Primary (AGGR_FSM_RSN_CFG_IS_PRIMARY) in 15 ms"
     },
     {
         "time_stamp": "2025-03-27 16:59:39",
+        "device_identifier": "2",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -126,31 +34,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Primary Muted to Prim.Tx-WAN Rx-WAN due to rsn_id:(8) in 7 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:59:41",
-        "local_fsm_state": "Secondary Standby",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Protect to Secondary Standby due to rsn_id:(17) in 115 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 16:59:46",
-        "local_fsm_state": "Secondary Mute",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Standby to Secondary Mute due to rsn_id:(5) in 2 ms"
+        "error_description": "Aggregation FSM state changed from Primary Muted to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 7 ms"
     },
     {
         "time_stamp": "2025-03-27 17:00:00",
+        "device_identifier": "2",
         "local_fsm_state": "Primary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -159,21 +47,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to rsn_id:(14) in 58 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:01",
-        "local_fsm_state": "Secondary Active",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Mute to Secondary Active due to rsn_id:(8) in 2 ms"
+        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 58 ms"
     },
     {
         "time_stamp": "2025-03-27 17:00:05",
+        "device_identifier": "2",
         "local_fsm_state": "Prim.Tx-ALT Rx-ALT",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -182,20 +60,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to rsn_id:(5) in 3 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:18",
-        "local_fsm_state": "Prim.Tx-WAN Rx-ALT",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1",
-            "LAN2"
-        ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to rsn_id:(16) in 6 ms"
+        "error_description": "Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms"
     },
     {
         "time_stamp": "2025-03-27 17:00:22",
+        "device_identifier": "2",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -204,43 +73,11 @@
             "LAN3",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to rsn_id:(8) in 9 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:23",
-        "local_fsm_state": "Secondary Standby",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Active to Secondary Standby due to rsn_id:(14) in 55 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:28",
-        "local_fsm_state": "Secondary Mute",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Standby to Secondary Mute due to rsn_id:(5) in 2 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:52",
-        "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
-        "local_traffic_port": "LAN1",
-        "local_ports_up": [
-            "LAN1",
-            "LAN2",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to rsn_id:(11) in 6 ms"
+        "error_description": "Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 9 ms"
     },
     {
         "time_stamp": "2025-03-27 17:00:55",
+        "device_identifier": "2",
         "local_fsm_state": "Primary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -248,21 +85,11 @@
             "LAN2",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to rsn_id:(17) in 67 ms"
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:56",
-        "local_fsm_state": "Secondary Protect",
-        "local_traffic_port": "LAN3",
-        "local_ports_up": [
-            "LAN2",
-            "LAN3",
-            "WAN"
-        ],
-        "error_description": "Aggregation FSM state changed from Secondary Mute to Secondary Protect due to rsn_id:(9) in 57 ms"
+        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC) in 67 ms"
     },
     {
         "time_stamp": "2025-03-27 17:01:00",
+        "device_identifier": "2",
         "local_fsm_state": "Primary Muted",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -270,6 +97,6 @@
             "LAN2",
             "WAN"
         ],
-        "error_description": "Aggregation FSM state changed from Primary Standby to Primary Muted due to rsn_id:(5) in 10 ms"
+        "error_description": "Aggregation FSM state changed from Primary Standby to Primary Muted due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 10 ms"
     }
 ]
