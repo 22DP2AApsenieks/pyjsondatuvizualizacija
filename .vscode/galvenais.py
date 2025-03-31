@@ -70,18 +70,18 @@ class JSONTimeStampSaglabatajs:
         ttk.Radiobutton(mode_frame, text="1+1HSB Protection", variable=self.mode_var,
                        value="1+1HSB Protection").pack(side=tk.LEFT, padx=5)
 
-        # Directory inputs
+        # Mapes ievade
         for i in range(1, 5):
             frame = tk.LabelFrame(self.root, text=f"Ievadiet mapi un identifikatoru ({i})", padx=10, pady=5)
             frame.pack(padx=10, pady=2, fill="x")
             
-            # Directory path
+            # Mapes cels
             dir_entry = tk.Entry(frame, width=40)
             dir_entry.pack(side=tk.LEFT, padx=5)
             tk.Button(frame, text="Pārlūkot...", command=lambda num=i: self.browse_directory(num)
                       ).pack(side=tk.LEFT)
             
-            # Identifier input
+            # ID ievade
             tk.Label(frame, text="ID:").pack(side=tk.LEFT, padx=5)
             id_entry = tk.Entry(frame, width=15)
             id_entry.pack(side=tk.LEFT)
@@ -89,13 +89,13 @@ class JSONTimeStampSaglabatajs:
             setattr(self, f"dir_entry{i}", dir_entry)
             setattr(self, f"id_entry{i}", id_entry)
 
-        # Control buttons
+        # Galvenas pogas
         control_frame = tk.Frame(self.root)
         control_frame.pack(pady=10)
         tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
         tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
 
-        # Results
+        # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
         self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
         self.result_text = tk.Text(self.result_frame, height=15, width=100)
@@ -184,7 +184,7 @@ class JSONTimeStampSaglabatajs:
                                 skipped_count += 1
                                 continue
                             
-                            # Extract fields
+                            # Ievada datus(aizpildit)
                             local_info = data.get("local", {}).get("info", {})
                             local_fsm_state = local_info.get("fsm_state", "")
                             local_traffic_port = local_info.get("traffic_port", "")
@@ -197,7 +197,7 @@ class JSONTimeStampSaglabatajs:
                                 skipped_count += 1
                                 continue
                             
-                            # Process error description
+                            # Darbojas ar error desc
                             error_desc = self.decode_error_description(error_desc, mode)
                             
                             merged_data.append({
