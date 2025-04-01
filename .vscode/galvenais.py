@@ -277,7 +277,7 @@ class JSONTimeStampSaglabatajs:
         # Visi izmeri
         svg_width = 22000
         svg_height = 1800
-        start_x = 50
+        start_x = 150
         start_y = 100
         step_x = 600  #linijas garumam
         current_x = start_x
