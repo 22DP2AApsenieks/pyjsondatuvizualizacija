@@ -4,6 +4,8 @@ import os
 import json
 import glob
 import re
+import webbrowser
+from datetime import datetime
 
 class JSONTimeStampSaglabatajs:
     def __init__(self, root):
@@ -61,7 +63,7 @@ class JSONTimeStampSaglabatajs:
         self.create_widgets()
 
     def create_widgets(self):
-        # Mode selection
+        # Režima izvele
         mode_frame = tk.LabelFrame(self.root, text="Parsing Mode", padx=10, pady=5)
         mode_frame.pack(padx=10, pady=2, fill="x")
         self.mode_var = tk.StringVar(value="2+0 Aggregation")
@@ -243,8 +245,8 @@ class JSONTimeStampSaglabatajs:
             error_desc = re.sub(r'rsn_id:\(\d+\)', reason, error_desc)
         return error_desc
     
-    def vizualize_all(self): #šī būs galvena klase lai visu vizualizetu
-        """Displays merged_results.json contents in the result window"""
+    def vizualize_all(self):
+        """Ģenerē SVG vizualizāciju un atver to pārlūkā"""
         merged_file = os.path.join(os.getcwd(), "merged_results.json")
         
         try:
@@ -255,26 +257,109 @@ class JSONTimeStampSaglabatajs:
             with open(merged_file, 'r', encoding='utf-8') as f:
                 merged_data = json.load(f)
 
-            self.result_text.delete(1.0, tk.END)
-            self.result_text.insert(tk.END, "=== APVIENOTIE REZULTĀTI ===\n\n")
-            
-            for entry in merged_data:
-                self.result_text.insert(tk.END, f"Laika zīmogs: {entry.get('time_stamp', 'N/A')}\n")
-                self.result_text.insert(tk.END, f"Ierīces ID: {entry.get('device_identifier', 'N/A')}\n")
-                self.result_text.insert(tk.END, f"Stāvoklis: {entry.get('local_fsm_state', 'N/A')}\n")
-                self.result_text.insert(tk.END, f"Traffic ports: {entry.get('local_traffic_port', 'N/A')}\n")
-                self.result_text.insert(tk.END, f"Porti aktīvi: {entry.get('local_ports_up', [])}\n")
-                self.result_text.insert(tk.END, f"Kļūdas apraksts: {entry.get('error_description', 'N/A')}\n")
-                self.result_text.insert(tk.END, "-"*50 + "\n\n")
-            
-            messagebox.showinfo("Pabeigts", "Dati veiksmīgi ielādēti rezultātu logā!")
-            
-        except json.JSONDecodeError:
-            messagebox.showerror("Kļūda", "Neizdevās parsēt JSON failu")
-        except Exception as e:
-            messagebox.showerror("Kļūda", f"Negaidīta kļūda: {str(e)}")
+            if not merged_data:
+                messagebox.showinfo("Info", "Nav datu vizualizācijai!")
+                return
 
-        self.result_text.see(tk.END)  # Auto-scroll to bottom
+            # Izveido SVG nosaukumu un saturu
+            svg_file = os.path.join(os.getcwd(), "network_visualization.svg")
+            self.generate_state_diagram(merged_data, svg_file)
+            
+            # Atver SVG failu
+            webbrowser.open(svg_file)
+            messagebox.showinfo("Pabeigts", "Vizualizācija veiksmīgi ģenerēta un atvērta!")
+
+        except Exception as e:
+            messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
+
+    def generate_state_diagram(self, data, output_path):
+        """Ģenerē SVG attēlu ar stāvokļu pārejām un paplašinātu informāciju par ierīces identifikatoru un trafika portu."""
+        # Visi izmeri
+        svg_width = 22000
+        svg_height = 1800
+        start_x = 50
+        start_y = 100
+        step_x = 600  #linijas garumam
+        current_x = start_x
+        current_y = start_y
+
+        #kastes dimensions
+        box_width = 250
+        box_height = 140
+
+        svg_content = [
+            f'<svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">',
+            '<style>',
+            '  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }',
+            '  .label { font: 14px Arial; fill: #333333; }',
+            '  .error { font: 6px Arial; fill: #cc0000; }',
+            '  .arrow { marker-end: url(#arrowhead); stroke: #000000; stroke-width: 2; }',
+            '</style>',
+            '<defs>',
+            '  <marker id="arrowhead" markerWidth="40" markerHeight="7" refX="9" refY="3.5" orient="auto">',
+            '    <polygon points="0 0, 10 3.5, 0 7" fill="#000000"/>',
+            '  </marker>',
+            '</defs>'
+        ]
+
+        previous_state = None
+        for idx, entry in enumerate(data):
+            # savac datus no 
+            state = entry.get('local_fsm_state', 'N/A')
+            device = entry.get('device_identifier', 'N/A')
+            ports = ', '.join(entry.get('local_ports_up', []))
+            traffic = entry.get('local_traffic_port', 'N/A')
+            time = entry.get('time_stamp', 'N/A')
+            error = entry.get('error_description', '')
+
+            # Erors viss kastes(ja ir, bet 100% butu jabut)
+            if error:
+                error_text_x = current_x + box_width / 2
+                error_text_y = current_y - 10  # cik daudz virs kastes
+                svg_content.append(
+                    f'<text class="error" x="{error_text_x}" y="{error_text_y}" text-anchor="middle">{error}</text>'
+                )
+
+            # Izveido taisnsturi ar apaliem sturiem
+            svg_content.append(
+                f'<rect class="node" x="{current_x}" y="{current_y}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
+            )
+            
+            # kalkule pozicijas
+            line_height = 20
+            text_x = current_x + 10
+            text_y = current_y + 20
+            
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">{state}</text>')
+            text_y += line_height
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Device: {device}</text>')
+            text_y += line_height
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Ports: {ports}</text>')
+            text_y += line_height
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Traffic: {traffic}</text>')
+            text_y += line_height
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">{time}</text>')
+
+            # Ja izpildas, pievieno bultu starp kastem
+            if previous_state is not None:
+                arrow_start = previous_state['x'] + box_width
+                arrow_y = previous_state['y'] + box_height / 2
+                arrow_end = current_x
+                svg_content.append(f'<path class="arrow" d="M {arrow_start} {arrow_y} L {arrow_end} {arrow_y}"/>')
+
+            previous_state = {'x': current_x, 'y': current_y}
+            current_x += step_x
+
+            # ja svg grib īsāku un to padara mazāk platu izpildas nosacijums:
+            if current_x + step_x > svg_width:
+                current_x = start_x
+                current_y += box_height + 60  #  papildus vertikala ataluma starp rindam
+
+        svg_content.append('</svg>')
+
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(svg_content))
+
 
 if __name__ == "__main__":
     root = tk.Tk()

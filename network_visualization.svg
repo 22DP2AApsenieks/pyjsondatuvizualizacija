@@ -1,0 +1,180 @@
+<svg width="22000" height="1800" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }
+  .label { font: 14px Arial; fill: #333333; }
+  .error { font: 6px Arial; fill: #cc0000; }
+  .arrow { marker-end: url(#arrowhead); stroke: #000000; stroke-width: 2; }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="40" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#000000"/>
+  </marker>
+</defs>
+<text class="error" x="175.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
+<rect class="node" x="50" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="60" y="120">Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="140">Device: 11</text>
+<text class="label" x="60" y="160">Ports: LAN1, LAN2</text>
+<text class="label" x="60" y="180">Traffic: LAN1</text>
+<text class="label" x="60" y="200">2025-03-27 12:00:52</text>
+<text class="error" x="775.0" y="90" text-anchor="middle">Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms</text>
+<rect class="node" x="650" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="660" y="120">Start</text>
+<text class="label" x="660" y="140">Device: 12</text>
+<text class="label" x="660" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="660" y="180">Traffic: LAN3</text>
+<text class="label" x="660" y="200">2025-03-27 16:35:08</text>
+<path class="arrow" d="M 300 170.0 L 650 170.0"/>
+<text class="error" x="1375.0" y="90" text-anchor="middle">Aggregation FSM state changed from Start to Secondary Mute due to Configured as Secondary (AGGR_FSM_RSN_CFG_IS_SECONDARY) in 2 ms</text>
+<rect class="node" x="1250" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="1260" y="120">Secondary Mute</text>
+<text class="label" x="1260" y="140">Device: 12</text>
+<text class="label" x="1260" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="1260" y="180">Traffic: LAN3</text>
+<text class="label" x="1260" y="200">2025-03-27 16:35:12</text>
+<path class="arrow" d="M 900 170.0 L 1250 170.0"/>
+<text class="error" x="1975.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Mute to Secondary Protect due to Local Traffic Port Down (AGGR_FSM_RSN_LCL_TP_DOWN) in 72 ms</text>
+<rect class="node" x="1850" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="1860" y="120">Secondary Protect</text>
+<text class="label" x="1860" y="140">Device: 12</text>
+<text class="label" x="1860" y="160">Ports: LAN3, WAN</text>
+<text class="label" x="1860" y="180">Traffic: LAN3</text>
+<text class="label" x="1860" y="200">2025-03-27 16:49:24</text>
+<path class="arrow" d="M 1500 170.0 L 1850 170.0"/>
+<text class="error" x="2575.0" y="90" text-anchor="middle">Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms</text>
+<rect class="node" x="2450" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="2460" y="120">Start</text>
+<text class="label" x="2460" y="140">Device: 10</text>
+<text class="label" x="2460" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="2460" y="180">Traffic: LAN3</text>
+<text class="label" x="2460" y="200">2025-03-27 16:51:05</text>
+<path class="arrow" d="M 2100 170.0 L 2450 170.0"/>
+<text class="error" x="3175.0" y="90" text-anchor="middle">Aggregation FSM state changed from Start to Primary Muted due to Configured as Primary (AGGR_FSM_RSN_CFG_IS_PRIMARY) in 15 ms</text>
+<rect class="node" x="3050" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="3060" y="120">Primary Muted</text>
+<text class="label" x="3060" y="140">Device: 10</text>
+<text class="label" x="3060" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="3060" y="180">Traffic: LAN3</text>
+<text class="label" x="3060" y="200">2025-03-27 16:51:09</text>
+<path class="arrow" d="M 2700 170.0 L 3050 170.0"/>
+<text class="error" x="3775.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 9 ms</text>
+<rect class="node" x="3650" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="3660" y="120">Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="3660" y="140">Device: 11</text>
+<text class="label" x="3660" y="160">Ports: LAN1, LAN2, WAN</text>
+<text class="label" x="3660" y="180">Traffic: LAN1</text>
+<text class="label" x="3660" y="200">2025-03-27 16:59:36</text>
+<path class="arrow" d="M 3300 170.0 L 3650 170.0"/>
+<text class="error" x="4375.0" y="90" text-anchor="middle">Aggregation FSM state changed from Primary Muted to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 7 ms</text>
+<rect class="node" x="4250" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="4260" y="120">Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="4260" y="140">Device: 10</text>
+<text class="label" x="4260" y="160">Ports: LAN1, LAN2, LAN3, WAN</text>
+<text class="label" x="4260" y="180">Traffic: LAN3</text>
+<text class="label" x="4260" y="200">2025-03-27 16:59:39</text>
+<path class="arrow" d="M 3900 170.0 L 4250 170.0"/>
+<text class="error" x="4975.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Protect to Secondary Standby due to Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC) in 115 ms</text>
+<rect class="node" x="4850" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="4860" y="120">Secondary Standby</text>
+<text class="label" x="4860" y="140">Device: 12</text>
+<text class="label" x="4860" y="160">Ports: LAN2, WAN</text>
+<text class="label" x="4860" y="180">Traffic: LAN3</text>
+<text class="label" x="4860" y="200">2025-03-27 16:59:41</text>
+<path class="arrow" d="M 4500 170.0 L 4850 170.0"/>
+<text class="error" x="5575.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Standby to Secondary Mute due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 2 ms</text>
+<rect class="node" x="5450" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="5460" y="120">Secondary Mute</text>
+<text class="label" x="5460" y="140">Device: 12</text>
+<text class="label" x="5460" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="5460" y="180">Traffic: LAN3</text>
+<text class="label" x="5460" y="200">2025-03-27 16:59:46</text>
+<path class="arrow" d="M 5100 170.0 L 5450 170.0"/>
+<text class="error" x="6175.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 58 ms</text>
+<rect class="node" x="6050" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="6060" y="120">Primary Standby</text>
+<text class="label" x="6060" y="140">Device: 10</text>
+<text class="label" x="6060" y="160">Ports: LAN1, LAN2, LAN3, WAN</text>
+<text class="label" x="6060" y="180">Traffic: LAN3</text>
+<text class="label" x="6060" y="200">2025-03-27 17:00:00</text>
+<path class="arrow" d="M 5700 170.0 L 6050 170.0"/>
+<text class="error" x="6775.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Mute to Secondary Active due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 2 ms</text>
+<rect class="node" x="6650" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="6660" y="120">Secondary Active</text>
+<text class="label" x="6660" y="140">Device: 12</text>
+<text class="label" x="6660" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="6660" y="180">Traffic: LAN3</text>
+<text class="label" x="6660" y="200">2025-03-27 17:00:01</text>
+<path class="arrow" d="M 6300 170.0 L 6650 170.0"/>
+<text class="error" x="7375.0" y="90" text-anchor="middle">Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms</text>
+<rect class="node" x="7250" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="7260" y="120">Prim.Tx-ALT Rx-ALT</text>
+<text class="label" x="7260" y="140">Device: 10</text>
+<text class="label" x="7260" y="160">Ports: LAN1, LAN2, LAN3, WAN</text>
+<text class="label" x="7260" y="180">Traffic: LAN3</text>
+<text class="label" x="7260" y="200">2025-03-27 17:00:05</text>
+<path class="arrow" d="M 6900 170.0 L 7250 170.0"/>
+<text class="error" x="7975.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 6 ms</text>
+<rect class="node" x="7850" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="7860" y="120">Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="7860" y="140">Device: 11</text>
+<text class="label" x="7860" y="160">Ports: LAN1, LAN2</text>
+<text class="label" x="7860" y="180">Traffic: LAN1</text>
+<text class="label" x="7860" y="200">2025-03-27 17:00:18</text>
+<path class="arrow" d="M 7500 170.0 L 7850 170.0"/>
+<text class="error" x="8575.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 9 ms</text>
+<rect class="node" x="8450" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="8460" y="120">Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="8460" y="140">Device: 10</text>
+<text class="label" x="8460" y="160">Ports: LAN1, LAN2, LAN3, WAN</text>
+<text class="label" x="8460" y="180">Traffic: LAN3</text>
+<text class="label" x="8460" y="200">2025-03-27 17:00:22</text>
+<path class="arrow" d="M 8100 170.0 L 8450 170.0"/>
+<text class="error" x="9175.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Active to Secondary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 55 ms</text>
+<rect class="node" x="9050" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="9060" y="120">Secondary Standby</text>
+<text class="label" x="9060" y="140">Device: 12</text>
+<text class="label" x="9060" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="9060" y="180">Traffic: LAN3</text>
+<text class="label" x="9060" y="200">2025-03-27 17:00:23</text>
+<path class="arrow" d="M 8700 170.0 L 9050 170.0"/>
+<text class="error" x="9775.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Standby to Secondary Mute due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 2 ms</text>
+<rect class="node" x="9650" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="9660" y="120">Secondary Mute</text>
+<text class="label" x="9660" y="140">Device: 12</text>
+<text class="label" x="9660" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="9660" y="180">Traffic: LAN3</text>
+<text class="label" x="9660" y="200">2025-03-27 17:00:28</text>
+<path class="arrow" d="M 9300 170.0 L 9650 170.0"/>
+<text class="error" x="10375.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 6 ms</text>
+<rect class="node" x="10250" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="10260" y="120">Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="10260" y="140">Device: 11</text>
+<text class="label" x="10260" y="160">Ports: LAN1, LAN2, WAN</text>
+<text class="label" x="10260" y="180">Traffic: LAN1</text>
+<text class="label" x="10260" y="200">2025-03-27 17:00:52</text>
+<path class="arrow" d="M 9900 170.0 L 10250 170.0"/>
+<text class="error" x="10975.0" y="90" text-anchor="middle">Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC) in 67 ms</text>
+<rect class="node" x="10850" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="10860" y="120">Primary Standby</text>
+<text class="label" x="10860" y="140">Device: 10</text>
+<text class="label" x="10860" y="160">Ports: LAN1, LAN2, WAN</text>
+<text class="label" x="10860" y="180">Traffic: LAN3</text>
+<text class="label" x="10860" y="200">2025-03-27 17:00:55</text>
+<path class="arrow" d="M 10500 170.0 L 10850 170.0"/>
+<text class="error" x="11575.0" y="90" text-anchor="middle">Aggregation FSM state changed from Secondary Mute to Secondary Protect due to Alternative AirLOS (AGGR_FSM_RSN_ALT_AIRLOS) in 57 ms</text>
+<rect class="node" x="11450" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="11460" y="120">Secondary Protect</text>
+<text class="label" x="11460" y="140">Device: 12</text>
+<text class="label" x="11460" y="160">Ports: LAN2, LAN3, WAN</text>
+<text class="label" x="11460" y="180">Traffic: LAN3</text>
+<text class="label" x="11460" y="200">2025-03-27 17:00:56</text>
+<path class="arrow" d="M 11100 170.0 L 11450 170.0"/>
+<text class="error" x="12175.0" y="90" text-anchor="middle">Aggregation FSM state changed from Primary Standby to Primary Muted due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 10 ms</text>
+<rect class="node" x="12050" y="100" width="250" height="140" rx="5" ry="5"/>
+<text class="label" x="12060" y="120">Primary Muted</text>
+<text class="label" x="12060" y="140">Device: 10</text>
+<text class="label" x="12060" y="160">Ports: LAN1, LAN2, WAN</text>
+<text class="label" x="12060" y="180">Traffic: LAN3</text>
+<text class="label" x="12060" y="200">2025-03-27 17:01:00</text>
+<path class="arrow" d="M 11700 170.0 L 12050 170.0"/>
+</svg>

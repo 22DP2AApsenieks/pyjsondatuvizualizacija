@@ -1,7 +1,7 @@
 [
     {
         "time_stamp": "2025-03-27 12:00:52",
-        "device_identifier": "1",
+        "device_identifier": "11",
         "local_fsm_state": "Prim.Tx-WAN Rx-ALT",
         "local_traffic_port": "LAN1",
         "local_ports_up": [
@@ -12,7 +12,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:35:08",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Start",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -24,7 +24,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:35:12",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Mute",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -36,7 +36,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:49:24",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Protect",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -47,7 +47,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:51:05",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Start",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -59,7 +59,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:51:09",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Primary Muted",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -71,7 +71,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:59:36",
-        "device_identifier": "1",
+        "device_identifier": "11",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN1",
         "local_ports_up": [
@@ -83,7 +83,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:59:39",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -96,7 +96,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:59:41",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -107,7 +107,7 @@
     },
     {
         "time_stamp": "2025-03-27 16:59:46",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Mute",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -119,7 +119,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:00",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Primary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -132,7 +132,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:01",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Active",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -144,7 +144,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:05",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Prim.Tx-ALT Rx-ALT",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -157,7 +157,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:18",
-        "device_identifier": "1",
+        "device_identifier": "11",
         "local_fsm_state": "Prim.Tx-WAN Rx-ALT",
         "local_traffic_port": "LAN1",
         "local_ports_up": [
@@ -168,7 +168,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:22",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -181,7 +181,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:23",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -193,7 +193,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:28",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Mute",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -205,7 +205,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:52",
-        "device_identifier": "1",
+        "device_identifier": "11",
         "local_fsm_state": "Prim.Tx-WAN Rx-WAN",
         "local_traffic_port": "LAN1",
         "local_ports_up": [
@@ -217,7 +217,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:55",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Primary Standby",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -229,7 +229,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:00:56",
-        "device_identifier": "7",
+        "device_identifier": "12",
         "local_fsm_state": "Secondary Protect",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
@@ -241,7 +241,7 @@
     },
     {
         "time_stamp": "2025-03-27 17:01:00",
-        "device_identifier": "4",
+        "device_identifier": "10",
         "local_fsm_state": "Primary Muted",
         "local_traffic_port": "LAN3",
         "local_ports_up": [
