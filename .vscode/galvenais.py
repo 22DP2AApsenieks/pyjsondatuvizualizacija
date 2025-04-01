@@ -89,19 +89,24 @@ class JSONTimeStampSaglabatajs:
             setattr(self, f"dir_entry{i}", dir_entry)
             setattr(self, f"id_entry{i}", id_entry)
 
+        
+
         # Galvenas pogas
         control_frame = tk.Frame(self.root)
         control_frame.pack(pady=10)
         tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
         tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
+        tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2) #pievienoju pogu vizualizacijai
 
         # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
         self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
         self.result_text = tk.Text(self.result_frame, height=15, width=100)
         self.result_text.pack(side=tk.LEFT, fill="both", expand=True)
-        tk.Scrollbar(self.result_frame, command=self.result_text.yview).pack(side=tk.RIGHT, fill="y")
-        self.result_text.config(yscrollcommand=lambda f, l: self.result_text.yview_moveto(0))
+        self.scrollbar = tk.Scrollbar(self.result_frame)
+        self.scrollbar.pack(side=tk.RIGHT, fill="y")
+        self.result_text.config(yscrollcommand=self.scrollbar.set)
+        self.scrollbar.config(command=self.result_text.yview)
 
     def browse_directory(self, dir_num):
         directory = filedialog.askdirectory(title=f"Atlasiet mapi {dir_num}")
@@ -138,7 +143,7 @@ class JSONTimeStampSaglabatajs:
         return error_mapping
 
     def process_files(self):
-        # Apstrada/parbauda ievadi(faailu)
+        # Apstrada/parbauda ievadi(faailu)c
         selected_dirs = [d for d in self.directories.values() if d]
         if not selected_dirs:
             messagebox.showerror("Kļūda", "Lūdzu, atlasiet vismaz vienu mapi!")
@@ -237,6 +242,39 @@ class JSONTimeStampSaglabatajs:
             reason = self.reason_ids.get(mode, {}).get(rsn_id, f"Unknown reason ({rsn_id})")
             error_desc = re.sub(r'rsn_id:\(\d+\)', reason, error_desc)
         return error_desc
+    
+    def vizualize_all(self): #šī būs galvena klase lai visu vizualizetu
+        """Displays merged_results.json contents in the result window"""
+        merged_file = os.path.join(os.getcwd(), "merged_results.json")
+        
+        try:
+            if not os.path.exists(merged_file):
+                messagebox.showerror("Kļūda", "Nav atrasts apvienotais fails (merged_results.json)")
+                return
+
+            with open(merged_file, 'r', encoding='utf-8') as f:
+                merged_data = json.load(f)
+
+            self.result_text.delete(1.0, tk.END)
+            self.result_text.insert(tk.END, "=== APVIENOTIE REZULTĀTI ===\n\n")
+            
+            for entry in merged_data:
+                self.result_text.insert(tk.END, f"Laika zīmogs: {entry.get('time_stamp', 'N/A')}\n")
+                self.result_text.insert(tk.END, f"Ierīces ID: {entry.get('device_identifier', 'N/A')}\n")
+                self.result_text.insert(tk.END, f"Stāvoklis: {entry.get('local_fsm_state', 'N/A')}\n")
+                self.result_text.insert(tk.END, f"Traffic ports: {entry.get('local_traffic_port', 'N/A')}\n")
+                self.result_text.insert(tk.END, f"Porti aktīvi: {entry.get('local_ports_up', [])}\n")
+                self.result_text.insert(tk.END, f"Kļūdas apraksts: {entry.get('error_description', 'N/A')}\n")
+                self.result_text.insert(tk.END, "-"*50 + "\n\n")
+            
+            messagebox.showinfo("Pabeigts", "Dati veiksmīgi ielādēti rezultātu logā!")
+            
+        except json.JSONDecodeError:
+            messagebox.showerror("Kļūda", "Neizdevās parsēt JSON failu")
+        except Exception as e:
+            messagebox.showerror("Kļūda", f"Negaidīta kļūda: {str(e)}")
+
+        self.result_text.see(tk.END)  # Auto-scroll to bottom
 
 if __name__ == "__main__":
     root = tk.Tk()
