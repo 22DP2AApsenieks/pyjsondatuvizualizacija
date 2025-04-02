@@ -408,43 +408,43 @@ class JSONTimeStampSaglabatajs:
             '<style>',
             '  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }',
             '  .label { font: 10px Arial; fill: #333333; }',
-            '  .error { font: 7px Arial; fill: #cc0000; }',
-            '  .timestamp { font: 12px Arial; fill: #0000cc; }',
-            '  .section-label { font: 12px Arial; font-weight: bold; fill: #0000cc; }',
+            '  .error { font: 9px Arial; fill: #cc0000; }',
+            '  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }',
+            '  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }',
             '</style>'
         ]
 
-        # Vispirms sakārtot datus pēc timestamp
+        # Sakarto datus pec timestamp
         sorted_data = sorted(data, key=lambda x: x.get('time_stamp', 'N/A'))
 
         for entry in sorted_data:
             time_stamp = entry.get('time_stamp', 'N/A')
             error_desc = entry.get('error_description', 'N/A')
             
-            # Add timestamp and error
+            # pievienop timestamp un error
             svg_content.append(f'<text class="timestamp" x="{current_x}" y="{current_y - 10}">Timestamp: {time_stamp}</text>')
-            svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Error: {error_desc}</text>')
+            svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Description: {error_desc}</text>')
 
-            # Define the explicit order we want for sections
+            # paskaidro kadu secibu velos
             section_order = ['local', 'remote', 'alternate', 'remote_alternate']
             sections = entry.get('sections', {})
             
-            # Process sections in our desired order
+
             for section_name in section_order:
                 if section_name not in sections:
-                    continue  # Skip if section doesn't exist
+                    continue  
                     
                 section_data = sections[section_name]
                 
-                # Add the section rectangle
+                # Pievieno kasti 
                 svg_content.append(
                     f'<rect class="node" x="{current_x}" y="{current_y + 30}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
                 )
 
-                # Add section title
+                # Pievieno virsrakstu kASTEI
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
                 
-                # Add section info
+                # Pievieno laukus ieksa kvadrata
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">State: {section_data.get("fsm_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
@@ -452,10 +452,10 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # Show port status
+                # porta statusa paradisana
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 for i, port in enumerate(ports):
-                    # First determine if port is up (green) or down (red)
+                    # parbauda vai ports ir up, ja ir tad ir zals
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     
                     # parmaina krasu, tikai ja redz traf port (purple)
@@ -465,7 +465,7 @@ class JSONTimeStampSaglabatajs:
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
-                # Move position after each section
+                # Parvieto poziciju
                 current_x += box_width + 50
                 if current_x + box_width > svg_width:
                     current_x = start_x

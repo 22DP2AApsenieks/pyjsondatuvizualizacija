@@ -2,12 +2,12 @@
 <style>
   .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }
   .label { font: 10px Arial; fill: #333333; }
-  .error { font: 7px Arial; fill: #cc0000; }
-  .timestamp { font: 12px Arial; fill: #0000cc; }
-  .section-label { font: 12px Arial; font-weight: bold; fill: #0000cc; }
+  .error { font: 9px Arial; fill: #cc0000; }
+  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }
+  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }
 </style>
 <text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:52</text>
-<text class="error" x="50" y="50">Error: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
+<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
 <rect class="node" x="50" y="80" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="60" y="110">LOCAL</text>
 <text class="label" x="60" y="140">State: Prim.Tx-WAN Rx-ALT</text>
