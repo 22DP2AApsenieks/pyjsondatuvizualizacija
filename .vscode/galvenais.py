@@ -63,7 +63,7 @@ class JSONTimeStampSaglabatajs:
         self.create_widgets()
 
     def create_widgets(self):
-        # Režima izvele
+        # Režīma izvēle
         mode_frame = tk.LabelFrame(self.root, text="Parsing Mode", padx=10, pady=5)
         mode_frame.pack(padx=10, pady=2, fill="x")
         self.mode_var = tk.StringVar(value="2+0 Aggregation")
@@ -90,8 +90,6 @@ class JSONTimeStampSaglabatajs:
             
             setattr(self, f"dir_entry{i}", dir_entry)
             setattr(self, f"id_entry{i}", id_entry)
-
-        
 
         # Galvenas pogas
         control_frame = tk.Frame(self.root)
@@ -145,19 +143,20 @@ class JSONTimeStampSaglabatajs:
         return error_mapping
 
     def process_files(self):
-        # Apstrada/parbauda ievadi(faailu)c
+        """Process JSON files, extract data including eth_ip, and save merged results."""
+        # Validate directories
         selected_dirs = [d for d in self.directories.values() if d]
         if not selected_dirs:
-            messagebox.showerror("Kļūda", "Lūdzu, atlasiet vismaz vienu mapi!")
+            messagebox.showerror("Error", "Please select at least one directory!")
             return
 
-        # Parbauda id
+        # Validate identifiers
         identifiers = {}
         for dir_num in self.directories:
             if self.directories[dir_num]:
                 identifier = getattr(self, f"id_entry{dir_num}").get().strip()
                 if not identifier:
-                    messagebox.showerror("Kļūda", f"Lūdzu, ievadiet identifikatoru mapei {dir_num}!")
+                    messagebox.showerror("Error", f"Please enter an identifier for directory {dir_num}!")
                     return
                 identifiers[dir_num] = identifier
 
@@ -184,19 +183,22 @@ class JSONTimeStampSaglabatajs:
                                 data = json.load(f)
                             
                             if 'time_stamp' not in data:
-                                raise KeyError("Trūkst 'time_stamp' lauka")
+                                raise KeyError("Missing 'time_stamp' field")
                             
                             time_stamp = data["time_stamp"]
                             if time_stamp in existing_timestamps:
                                 skipped_count += 1
                                 continue
                             
-                            # Ievada datus(aizpildit)
-                            local_info = data.get("local", {}).get("info", {})
-                            local_fsm_state = local_info.get("fsm_state", "")
-                            local_traffic_port = local_info.get("traffic_port", "")
-                            local_ports_up = local_info.get("ports_up", [])
+                            # Extract data from all sections
+                            sections = {
+                                'local': data.get('local', {}).get('info', {}),
+                                'alternate': data.get('alternate', {}).get('info', {}),
+                                'remote': data.get('remote', {}).get('info', {}),
+                                'remote_alternate': data.get('remote.alternate', {}).get('info', {})
+                            }
                             
+                            # parbauda error desc
                             date_part, time_part = time_stamp.split(' ')
                             error_desc = error_mapping.get((date_part, time_part), "N/A")
                             
@@ -204,37 +206,84 @@ class JSONTimeStampSaglabatajs:
                                 skipped_count += 1
                                 continue
                             
-                            # Darbojas ar error desc
                             error_desc = self.decode_error_description(error_desc, mode)
                             
-                            merged_data.append({
+                            # izveido entry
+                            entry = {
                                 "time_stamp": time_stamp,
                                 "device_identifier": current_identifier,
-                                "local_fsm_state": local_fsm_state,
-                                "local_traffic_port": local_traffic_port,
-                                "local_ports_up": local_ports_up,
-                                "error_description": error_desc
-                            })
+                                "error_description": error_desc,
+                                "sections": {}
+                            }
                             
+                            # Add data for each section
+                            for section_name, section_data in sections.items():
+                                if not section_data:
+                                    continue
+                                    
+                                eth_ip = section_data.get("eth_ip", "N/A")
+                                eth_ip_name = self.get_eth_ip_name(eth_ip)
+                                
+                                entry["sections"][section_name] = {  #te var izveletos, ko rakstis iekas
+                                    "fsm_state": section_data.get("fsm_state", "N/A"),
+                                    "role_state": section_data.get("role_state", "N/A"),
+                                    "role_cfg": section_data.get("role_cfg", "N/A"),
+                                    "tx_state": section_data.get("tx_state", "N/A"),
+                                    "rx_state": section_data.get("rx_state", "N/A"),
+                                    "traffic_port": section_data.get("traffic_port", "N/A"),
+                                    "alt_port": section_data.get("alt_port", "N/A"),
+                                    "ports_up": section_data.get("ports_up", []),
+                                    "eth_ip": eth_ip,
+                                    "eth_ip_name": eth_ip_name,
+                                }
+                            
+                            merged_data.append(entry)
                             existing_timestamps.add(time_stamp)
                             success_count += 1
                         except Exception as e:
-                            self.result_text.insert(tk.END, f"[Mape {dir_num}] {file} Kļūda: {str(e)}\n")
+                            self.result_text.insert(tk.END, f"[Directory {dir_num}] {file} Error: {str(e)}\n")
         
+        # Sort and save results
         merged_data.sort(key=lambda x: x["time_stamp"])
         merged_file_path = os.path.join(os.getcwd(), "merged_results.json")
         with open(merged_file_path, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
+        # Display summary
         summary = (
-            f"\n=== REZULTĀTU KOPSUMMA ===\n"
-            f"Kopējais JSON failu skaits: {total_files}\n"
-            f"Izdevās saglabāt: {success_count}\n"
-            f"Izlaisti: {skipped_count}\n"
-            f"Apvienotais fails saglabāts: {merged_file_path}\n"
+            f"\n=== SUMMARY ===\n"
+            f"Total JSON files processed: {total_files}\n"
+            f"Successfully saved: {success_count}\n"
+            f"Skipped: {skipped_count}\n"
+            f"Merged file saved at: {merged_file_path}\n"
         )
         self.result_text.insert(tk.END, summary)
-        messagebox.showinfo("Pabeigts", f"Apstrādāti {total_files} faili")
+        messagebox.showinfo("Complete", f"Processed {total_files} files")
+
+    def get_eth_ip_name(self, eth_ip):
+        """Determine device role based on the last octet of the IP address."""
+        if not eth_ip or eth_ip == "N/A":
+            return "N/A"
+        
+        # Handle cases where eth_ip might be in a dictionary
+        if isinstance(eth_ip, dict):
+            eth_ip = eth_ip.get("ip", "N/A")
+        
+        # Extract last octet
+        try:
+            last_octet = int(eth_ip.split('.')[-1])
+        except (ValueError, AttributeError):
+            return eth_ip  # Return original if not a valid IP
+        
+        # Map last octet to role names
+        role_mapping = {
+            10: "l primary",
+            11: "rem primary",
+            12: "l secondary",
+            13: "rem secondary"
+        }
+        
+        return role_mapping.get(last_octet, eth_ip)  # Return role name or original IP
 
     def decode_error_description(self, error_desc, mode):
         # Aizvieto rsn id ar tā paskaidrojumu
@@ -273,17 +322,17 @@ class JSONTimeStampSaglabatajs:
             messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
 
     def generate_state_diagram(self, data, output_path):
-        """Ģenerē SVG attēlu ar stāvokļu pārejām un paplašinātu informāciju par ierīces identifikatoru un trafika portu."""
+        """Ģenerē SVG attēlu ar stāvokļu pārejām un paplašinātu informāciju."""
         # Visi izmeri
         svg_width = 22000
         svg_height = 1800
         start_x = 150
         start_y = 100
-        step_x = 600  #linijas garumam
+        step_x = 600  # linijas garumam
         current_x = start_x
         current_y = start_y
 
-        #kastes dimensions
+        # kastes dimensions
         box_width = 250
         box_height = 140
 
@@ -292,8 +341,9 @@ class JSONTimeStampSaglabatajs:
             '<style>',
             '  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }',
             '  .label { font: 14px Arial; fill: #333333; }',
-            '  .error { font: 6px Arial; fill: #cc0000; }',
+            '  .error { font: 7px Arial; fill: #cc0000; }',
             '  .arrow { marker-end: url(#arrowhead); stroke: #000000; stroke-width: 2; }',
+            '  .section-label { font: 12px Arial; font-weight: bold; fill: #0000cc; }',
             '</style>',
             '<defs>',
             '  <marker id="arrowhead" markerWidth="40" markerHeight="7" refX="9" refY="3.5" orient="auto">',
@@ -304,43 +354,58 @@ class JSONTimeStampSaglabatajs:
 
         previous_state = None
         for idx, entry in enumerate(data):
-            # savac datus no 
-            state = entry.get('local_fsm_state', 'N/A')
+            # Get basic info
             device = entry.get('device_identifier', 'N/A')
-            ports = ', '.join(entry.get('local_ports_up', []))
-            traffic = entry.get('local_traffic_port', 'N/A')
             time = entry.get('time_stamp', 'N/A')
             error = entry.get('error_description', '')
 
-            # Erors viss kastes(ja ir, bet 100% butu jabut)
+            # Calculate box height based on number of sections
+            num_sections = len(entry.get('sections', {}))
+            box_height = 140 + (num_sections * 100)  # Adjust height based on sections
+
+            # Error text above box
             if error:
                 error_text_x = current_x + box_width / 2
-                error_text_y = current_y - 10  # cik daudz virs kastes
+                error_text_y = current_y - 10
                 svg_content.append(
                     f'<text class="error" x="{error_text_x}" y="{error_text_y}" text-anchor="middle">{error}</text>'
                 )
 
-            # Izveido taisnsturi ar apaliem sturiem
+            # Create rectangle with rounded corners
             svg_content.append(
                 f'<rect class="node" x="{current_x}" y="{current_y}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
             )
             
-            # kalkule pozicijas
+            # Text positions
             line_height = 20
             text_x = current_x + 10
             text_y = current_y + 20
             
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">{state}</text>')
-            text_y += line_height
+            # Add basic info
             svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Device: {device}</text>')
             text_y += line_height
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Ports: {ports}</text>')
-            text_y += line_height
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Traffic: {traffic}</text>')
-            text_y += line_height
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">{time}</text>')
+            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Time: {time}</text>')
+            text_y += line_height * 2  # Extra space before sections
 
-            # Ja izpildas, pievieno bultu starp kastem
+            # Add data for each section
+            for section_name, section_data in entry.get('sections', {}).items():
+                # Section header
+                svg_content.append(f'<text class="section-label" x="{text_x}" y="{text_y}">{section_name.upper()}</text>')
+                text_y += line_height
+                
+                # Section data
+                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">State: {section_data.get("fsm_state", "N/A")}</text>')
+                text_y += line_height
+                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Role: {section_data.get("role_state", "N/A")}</text>')
+                text_y += line_height
+                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Ports: {", ".join(section_data.get("ports_up", []))}</text>')
+                text_y += line_height
+                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Traffic: {section_data.get("traffic_port", "N/A")}</text>')
+                text_y += line_height
+                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">IP: {section_data.get("eth_ip_name", section_data.get("eth_ip", "N/A"))}</text>')
+                text_y += line_height * 2  # Extra space between sections
+
+            # Add arrow between boxes if not first box
             if previous_state is not None:
                 arrow_start = previous_state['x'] + box_width
                 arrow_y = previous_state['y'] + box_height / 2
@@ -350,10 +415,10 @@ class JSONTimeStampSaglabatajs:
             previous_state = {'x': current_x, 'y': current_y}
             current_x += step_x
 
-            # ja svg grib īsāku un to padara mazāk platu izpildas nosacijums:
+            # parie nakamaj linija, ja dati ir par daudz
             if current_x + step_x > svg_width:
                 current_x = start_x
-                current_y += box_height + 60  #  papildus vertikala ataluma starp rindam
+                current_y += box_height + 60  # +atstapr, ja zem
 
         svg_content.append('</svg>')
 
