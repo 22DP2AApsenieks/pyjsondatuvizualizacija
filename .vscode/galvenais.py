@@ -294,33 +294,6 @@ class JSONTimeStampSaglabatajs:
             error_desc = re.sub(r'rsn_id:\(\d+\)', reason, error_desc)
         return error_desc
     
-    def vizualize_all(self):
-        """Ģenerē SVG vizualizāciju un atver to pārlūkā"""
-        merged_file = os.path.join(os.getcwd(), "merged_results.json")
-        
-        try:
-            if not os.path.exists(merged_file):
-                messagebox.showerror("Kļūda", "Nav atrasts apvienotais fails (merged_results.json)")
-                return
-
-            with open(merged_file, 'r', encoding='utf-8') as f:
-                merged_data = json.load(f)
-
-            if not merged_data:
-                messagebox.showinfo("Info", "Nav datu vizualizācijai!")
-                return
-
-            # Izveido SVG nosaukumu un saturu
-            svg_file = os.path.join(os.getcwd(), "network_visualization.svg")
-            self.generate_state_diagram(merged_data, svg_file)
-            
-            # Atver SVG failu
-            webbrowser.open(svg_file)
-            messagebox.showinfo("Pabeigts", "Vizualizācija veiksmīgi ģenerēta un atvērta!")
-
-        except Exception as e:
-            messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
-
 
       
     def vizualize_all(self):
@@ -409,7 +382,7 @@ class JSONTimeStampSaglabatajs:
         else:
             self.next_button.config(state=tk.DISABLED)
 
-    def back_button_state(self):
+    def back_button_state(self): #back visualaiku strada. Man slinkums sobrid to labot tho
         """Update the state of the next button based on remaining data."""
         next_index = self.current_index + self.visualization_limit
         if next_index < len(self.visualization_data):
@@ -485,8 +458,8 @@ class JSONTimeStampSaglabatajs:
                     # First determine if port is up (green) or down (red)
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     
-                    # Override color only if it's the alternate port (purple)
-                    if port == section_data.get("traffic_port", ""):  # Changed to == comparison
+                    # parmaina krasu, tikai ja redz traf port (purple)
+                    if port == section_data.get("traffic_port", ""): 
                         color = "purple"
                     
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
