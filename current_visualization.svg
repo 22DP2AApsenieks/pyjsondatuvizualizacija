@@ -16,7 +16,7 @@
 <text class="label" x="60" y="230">TX: primary</text>
 <text class="label" x="60" y="260">RX: secondary</text>
 <text class="label" x="60" y="290">Eth IP: 192.168.205.11</text>
-<rect x="60" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="60" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="65" y="335">LAN1</text>
 <rect x="160" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="165" y="335">LAN2</text>
@@ -36,7 +36,7 @@
 <text class="label" x="615" y="335">LAN1</text>
 <rect x="710" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="715" y="335">LAN2</text>
-<rect x="810" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="810" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="815" y="335">LAN3</text>
 <rect x="910" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="915" y="335">WAN</text>
@@ -48,7 +48,7 @@
 <text class="label" x="60" y="630">TX: none</text>
 <text class="label" x="60" y="660">RX: radio_port-alt_port</text>
 <text class="label" x="60" y="690">Eth IP: 192.168.205.13</text>
-<rect x="60" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="60" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="65" y="735">LAN1</text>
 <rect x="160" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="165" y="735">LAN2</text>
@@ -68,7 +68,7 @@
 <text class="label" x="615" y="735">LAN1</text>
 <rect x="710" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="715" y="735">LAN2</text>
-<rect x="810" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="810" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="815" y="735">LAN3</text>
 <rect x="910" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="915" y="735">WAN</text>

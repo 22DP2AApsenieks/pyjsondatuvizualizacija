@@ -401,7 +401,7 @@ class JSONTimeStampSaglabatajs:
         self.show_visualizations()
 
 
-    def update_next_button_state(self):
+    def update_next_button_state(self): 
         """Update the state of the next button based on remaining data."""
         next_index = self.current_index + self.visualization_limit
         if next_index < len(self.visualization_data):
@@ -482,7 +482,13 @@ class JSONTimeStampSaglabatajs:
                 # Show port status
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 for i, port in enumerate(ports):
+                    # First determine if port is up (green) or down (red)
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
+                    
+                    # Override color only if it's the alternate port (purple)
+                    if port == section_data.get("traffic_port", ""):  # Changed to == comparison
+                        color = "purple"
+                    
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
