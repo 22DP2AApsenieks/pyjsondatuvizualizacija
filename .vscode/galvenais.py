@@ -448,23 +448,30 @@ class JSONTimeStampSaglabatajs:
             time_stamp = entry.get('time_stamp', 'N/A')
             error_desc = entry.get('error_description', 'N/A')
             
-            # Pievieno timestamp un error tikai vienu reizi katram timestamp
+            # Add timestamp and error
             svg_content.append(f'<text class="timestamp" x="{current_x}" y="{current_y - 10}">Timestamp: {time_stamp}</text>')
             svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Error: {error_desc}</text>')
 
-            # Sakārtot sekcijas pēc to nosaukumiem
+            # Define the explicit order we want for sections
+            section_order = ['local', 'remote', 'alternate', 'remote_alternate']
             sections = entry.get('sections', {})
-            sorted_sections = sorted(sections.items(), key=lambda x: x[0])
-
-            for section_name, section_data in sorted_sections:
+            
+            # Process sections in our desired order
+            for section_name in section_order:
+                if section_name not in sections:
+                    continue  # Skip if section doesn't exist
+                    
+                section_data = sections[section_name]
+                
+                # Add the section rectangle
                 svg_content.append(
                     f'<rect class="node" x="{current_x}" y="{current_y + 30}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
                 )
 
-                # pievieno sekcijas nosaukumu
+                # Add section title
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
                 
-                # pievieno parejo info
+                # Add section info
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">State: {section_data.get("fsm_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
@@ -472,14 +479,14 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # parada portus(kuri ir un nav)
+                # Show port status
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 for i, port in enumerate(ports):
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
-                # Pārvieto pozīciju tikai pēc katras sekcijas
+                # Move position after each section
                 current_x += box_width + 50
                 if current_x + box_width > svg_width:
                     current_x = start_x
