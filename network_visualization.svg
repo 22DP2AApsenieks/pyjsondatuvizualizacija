@@ -1,0 +1,1343 @@
+<svg width="1500" height="1000" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+  </marker>
+</defs>
+<style>
+  .node { fill: #f8f8f8; stroke: #333; stroke-width: 2; rx: 5; ry: 5; }
+  .label { font: 12px Arial; fill: #333; }
+  .error { font: 10px Arial; fill: #d00; }
+  .timestamp { font: 14px Arial; fill: #006; font-weight: bold; }
+  .section-label { font: 14px Arial; fill: #006; font-weight: bold; }
+  .port-up { fill: #8f8; stroke: #080; }
+  .port-down { fill: #f88; stroke: #800; }
+  .traffic-tx { stroke: #00a; stroke-width: 2; marker-end: url(#arrowhead); }
+  .traffic-rx { stroke: #0a0; stroke-width: 2; marker-end: url(#arrowhead); }
+  .traffic-alt { stroke: #a0a; stroke-width: 2; marker-end: url(#arrowhead); }
+</style>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 12:00:52</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="265">Role: primary_wanalt</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: secondary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-down" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Primary Standby</text>
+<text class="label" x="60" y="615">Role: primary_altalt</text>
+<text class="label" x="60" y="635">TX: secondary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.10</text>
+<rect class="port-down" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-up" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Active</text>
+<text class="label" x="410" y="615">Role: secondary</text>
+<text class="label" x="410" y="635">TX: alt_port</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-up" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-tx" x1="350" y1="250" x2="350" y2="600"/>
+<text class="label" x="50.0" y="245">Primary TX</text>
+<line class="traffic-rx" x1="550.0" y1="200" x2="200.0" y2="550"/>
+<text class="label" x="225.0" y="200.0">ALT RX</text>
+<line class="traffic-alt" x1="700" y1="725.0" x2="50" y2="375.0"/>
+<text class="label" x="225.0" y="375.0">Remote ALT</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:35:08</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Start</text>
+<text class="label" x="60" y="265">Role: disabled</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: disable</text>
+<text class="label" x="60" y="325">IP: 0.0.0.0</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="265">Role: primary_wanwan</text>
+<text class="label" x="410" y="285">TX: primary</text>
+<text class="label" x="410" y="305">RX: primary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:35:12</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Start to Secondary Mute due to Configured as Secondary (AGGR_FSM_RSN_CFG_IS_SECONDARY) in 2 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Mute</text>
+<text class="label" x="60" y="265">Role: secondary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 0.0.0.0</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="265">Role: primary_wanwan</text>
+<text class="label" x="410" y="285">TX: primary</text>
+<text class="label" x="410" y="305">RX: primary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:49:24</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Mute to Secondary Protect due to Local Traffic Port Down (AGGR_FSM_RSN_LCL_TP_DOWN) in 72 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Protect</text>
+<text class="label" x="60" y="265">Role: secondary_protect</text>
+<text class="label" x="60" y="285">TX: traffic_port</text>
+<text class="label" x="60" y="305">RX: radio_port-traffic_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-down" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Disabled</text>
+<text class="label" x="410" y="265">Role: down</text>
+<text class="label" x="410" y="285">TX: unknown</text>
+<text class="label" x="410" y="305">RX: unknown</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-down" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-down" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-down" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:51:05</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Start</text>
+<text class="label" x="60" y="265">Role: disabled</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: disable</text>
+<text class="label" x="60" y="325">IP: 0.0.0.0</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Protect</text>
+<text class="label" x="410" y="265">Role: secondary_protect</text>
+<text class="label" x="410" y="285">TX: traffic_port</text>
+<text class="label" x="410" y="305">RX: radio_port-traffic_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_wanalt</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:51:09</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Start to Primary Muted due to Configured as Primary (AGGR_FSM_RSN_CFG_IS_PRIMARY) in 15 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Primary Muted</text>
+<text class="label" x="60" y="265">Role: primary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: disable</text>
+<text class="label" x="60" y="325">IP: 0.0.0.0</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Protect</text>
+<text class="label" x="410" y="265">Role: secondary_protect</text>
+<text class="label" x="410" y="285">TX: traffic_port</text>
+<text class="label" x="410" y="305">RX: radio_port-traffic_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_wanalt</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:59:36</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 9 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="265">Role: primary_wanwan</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: primary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-down" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Primary Muted</text>
+<text class="label" x="60" y="615">Role: primary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: disable</text>
+<text class="label" x="60" y="675">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-up" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Protect</text>
+<text class="label" x="410" y="615">Role: secondary_protect</text>
+<text class="label" x="410" y="635">TX: traffic_port</text>
+<text class="label" x="410" y="655">RX: radio_port-traffic_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:59:39</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Primary Muted to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 7 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="265">Role: primary_wanwan</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: primary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Standby</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_wanalt</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-tx" x1="350" y1="250" x2="350" y2="600"/>
+<text class="label" x="50.0" y="245">Primary TX</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:59:41</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Protect to Secondary Standby due to Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC) in 115 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Standby</text>
+<text class="label" x="60" y="265">Role: secondary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Primary Muted</text>
+<text class="label" x="410" y="265">Role: primary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: disable</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 16:59:46</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Standby to Secondary Mute due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 2 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Mute</text>
+<text class="label" x="60" y="265">Role: secondary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="265">Role: primary_wanwan</text>
+<text class="label" x="410" y="285">TX: primary</text>
+<text class="label" x="410" y="305">RX: primary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="615">Role: primary_wanwan</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: primary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:00</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 58 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Primary Standby</text>
+<text class="label" x="60" y="265">Role: primary_altalt</text>
+<text class="label" x="60" y="285">TX: secondary</text>
+<text class="label" x="60" y="305">RX: secondary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="615">Role: primary_wanwan</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: primary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-down" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-rx" x1="550.0" y1="200" x2="200.0" y2="550"/>
+<text class="label" x="225.0" y="200.0">ALT RX</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:01</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Mute to Secondary Active due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 2 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Active</text>
+<text class="label" x="60" y="265">Role: secondary</text>
+<text class="label" x="60" y="285">TX: alt_port</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Primary Standby</text>
+<text class="label" x="410" y="265">Role: primary_altalt</text>
+<text class="label" x="410" y="285">TX: secondary</text>
+<text class="label" x="410" y="305">RX: secondary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="615">Role: primary_wanwan</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: primary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-down" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:05</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-ALT Rx-ALT</text>
+<text class="label" x="60" y="265">Role: primary_altalt</text>
+<text class="label" x="60" y="285">TX: secondary</text>
+<text class="label" x="60" y="305">RX: secondary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Active</text>
+<text class="label" x="410" y="265">Role: secondary</text>
+<text class="label" x="410" y="285">TX: alt_port</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="615">Role: primary_wanwan</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: primary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-rx" x1="550.0" y1="200" x2="200.0" y2="550"/>
+<text class="label" x="225.0" y="200.0">ALT RX</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:18</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 6 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="265">Role: primary_wanalt</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: secondary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-down" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-ALT Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_altalt</text>
+<text class="label" x="60" y="635">TX: secondary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-up" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Active</text>
+<text class="label" x="410" y="615">Role: secondary</text>
+<text class="label" x="410" y="635">TX: alt_port</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-up" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-tx" x1="350" y1="250" x2="350" y2="600"/>
+<text class="label" x="50.0" y="245">Primary TX</text>
+<line class="traffic-rx" x1="550.0" y1="200" x2="200.0" y2="550"/>
+<text class="label" x="225.0" y="200.0">ALT RX</text>
+<line class="traffic-alt" x1="700" y1="725.0" x2="50" y2="375.0"/>
+<text class="label" x="225.0" y="375.0">Remote ALT</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:22</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 9 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="265">Role: primary_wanwan</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: primary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Standby</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_wanalt</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-down" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-tx" x1="350" y1="250" x2="350" y2="600"/>
+<text class="label" x="50.0" y="245">Primary TX</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:23</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Active to Secondary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 55 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Standby</text>
+<text class="label" x="60" y="265">Role: secondary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Prim.Tx-ALT Rx-ALT</text>
+<text class="label" x="410" y="265">Role: primary_altalt</text>
+<text class="label" x="410" y="285">TX: secondary</text>
+<text class="label" x="410" y="305">RX: secondary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-down" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:28</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Standby to Secondary Mute due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 2 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Mute</text>
+<text class="label" x="60" y="265">Role: secondary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="265">Role: primary_wanwan</text>
+<text class="label" x="410" y="285">TX: primary</text>
+<text class="label" x="410" y="305">RX: primary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="410" y="615">Role: primary_wanalt</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: secondary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:52</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 6 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="265">Role: primary_wanwan</text>
+<text class="label" x="60" y="285">TX: primary</text>
+<text class="label" x="60" y="305">RX: primary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-down" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="615">Role: primary_wanwan</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: primary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-up" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:55</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC) in 67 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Primary Standby</text>
+<text class="label" x="60" y="265">Role: primary_altalt</text>
+<text class="label" x="60" y="285">TX: secondary</text>
+<text class="label" x="60" y="305">RX: secondary</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Mute</text>
+<text class="label" x="410" y="265">Role: secondary_mute</text>
+<text class="label" x="410" y="285">TX: none</text>
+<text class="label" x="410" y="305">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="615">Role: primary_wanalt</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: secondary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<line class="traffic-rx" x1="550.0" y1="200" x2="200.0" y2="550"/>
+<text class="label" x="225.0" y="200.0">ALT RX</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:00:56</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Secondary Mute to Secondary Protect due to Alternative AirLOS (AGGR_FSM_RSN_ALT_AIRLOS) in 57 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Secondary Protect</text>
+<text class="label" x="60" y="265">Role: secondary_protect</text>
+<text class="label" x="60" y="285">TX: traffic_port</text>
+<text class="label" x="60" y="305">RX: radio_port-traffic_port</text>
+<text class="label" x="60" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-up" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Primary Standby</text>
+<text class="label" x="410" y="265">Role: primary_altalt</text>
+<text class="label" x="410" y="285">TX: secondary</text>
+<text class="label" x="410" y="305">RX: secondary</text>
+<text class="label" x="410" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-down" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Secondary Mute</text>
+<text class="label" x="60" y="615">Role: secondary_mute</text>
+<text class="label" x="60" y="635">TX: none</text>
+<text class="label" x="60" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="60" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-down" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="410" y="615">Role: primary_wanwan</text>
+<text class="label" x="410" y="635">TX: primary</text>
+<text class="label" x="410" y="655">RX: primary</text>
+<text class="label" x="410" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+<text class="timestamp" x="50" y="50">Timestamp: 2025-03-27 17:01:00</text>
+<text class="error" x="50" y="70">State Change: Aggregation FSM state changed from Primary Standby to Primary Muted due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 10 ms</text>
+<rect class="node" x="50" y="200" width="300" height="350"/>
+<text class="section-label" x="60" y="225">LOCAL</text>
+<text class="label" x="60" y="245">State: Primary Muted</text>
+<text class="label" x="60" y="265">Role: primary_mute</text>
+<text class="label" x="60" y="285">TX: none</text>
+<text class="label" x="60" y="305">RX: disable</text>
+<text class="label" x="60" y="325">IP: 192.168.205.10</text>
+<rect class="port-up" x="60" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="360">LAN1</text>
+<rect class="port-up" x="130" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="360">LAN2</text>
+<rect class="port-down" x="200" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="360">LAN3</text>
+<rect class="port-up" x="270" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="360">WAN</text>
+<rect class="node" x="400" y="200" width="300" height="350"/>
+<text class="section-label" x="410" y="225">ALTERNATE</text>
+<text class="label" x="410" y="245">State: Secondary Protect</text>
+<text class="label" x="410" y="265">Role: secondary_protect</text>
+<text class="label" x="410" y="285">TX: traffic_port</text>
+<text class="label" x="410" y="305">RX: radio_port-traffic_port</text>
+<text class="label" x="410" y="325">IP: 192.168.205.12</text>
+<rect class="port-down" x="410" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="360">LAN1</text>
+<rect class="port-up" x="480" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="360">LAN2</text>
+<rect class="port-up" x="550" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="360">LAN3</text>
+<rect class="port-up" x="620" y="345" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="360">WAN</text>
+<rect class="node" x="50" y="550" width="300" height="350"/>
+<text class="section-label" x="60" y="575">REMOTE</text>
+<text class="label" x="60" y="595">State: Prim.Tx-WAN Rx-WAN</text>
+<text class="label" x="60" y="615">Role: primary_wanwan</text>
+<text class="label" x="60" y="635">TX: primary</text>
+<text class="label" x="60" y="655">RX: primary</text>
+<text class="label" x="60" y="675">IP: 192.168.205.11</text>
+<rect class="port-up" x="60" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="65" y="710">LAN1</text>
+<rect class="port-up" x="130" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="135" y="710">LAN2</text>
+<rect class="port-down" x="200" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="205" y="710">LAN3</text>
+<rect class="port-up" x="270" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="275" y="710">WAN</text>
+<rect class="node" x="400" y="550" width="300" height="350"/>
+<text class="section-label" x="410" y="575">REMOTE_ALTERNATE</text>
+<text class="label" x="410" y="595">State: Secondary Mute</text>
+<text class="label" x="410" y="615">Role: secondary_mute</text>
+<text class="label" x="410" y="635">TX: none</text>
+<text class="label" x="410" y="655">RX: radio_port-alt_port</text>
+<text class="label" x="410" y="675">IP: 192.168.205.13</text>
+<rect class="port-up" x="410" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="415" y="710">LAN1</text>
+<rect class="port-up" x="480" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="485" y="710">LAN2</text>
+<rect class="port-down" x="550" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="555" y="710">LAN3</text>
+<rect class="port-up" x="620" y="695" width="65" height="20" rx="3"/>
+<text class="label" x="625" y="710">WAN</text>
+</svg>

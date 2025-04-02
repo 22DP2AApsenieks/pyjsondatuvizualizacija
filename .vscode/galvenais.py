@@ -348,13 +348,19 @@ class JSONTimeStampSaglabatajs:
             self.visualization_data = merged_data
 
             # POGA, kas ļaus apskatit nakamos 4
-            self.next_button = tk.Button(self.visualization_window, text="Next 4", command=self.next_visualizations)
+            self.next_button = tk.Button(self.visualization_window, text="Next ", command=self.next_visualizations)
             self.next_button.pack(pady=10)
+
+            #poga iešanai atpaskaļ
+            self.iepriekseja_button = tk.Button(self.visualization_window, text="Back ", command=self.previous_visualizations)
+            self.iepriekseja_button.pack(pady=10)
 
             self.show_visualizations()
 
         except Exception as e:
             messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
+
+    
 
     def show_visualizations(self):
         """Display the current set of visualizations."""
@@ -376,12 +382,24 @@ class JSONTimeStampSaglabatajs:
         if hasattr(self, 'next_button'):
             self.update_next_button_state()
 
+        if hasattr(self, 'iepriekseja_button'):
+            self.back_button_state()
+
+
     def next_visualizations(self):
         """Navigate to the next set of visualizations."""
         self.current_index += self.visualization_limit
         if self.current_index >= len(self.visualization_data):
             self.current_index = 0  
         self.show_visualizations()
+
+    def previous_visualizations(self):
+        """Navigate to the previous set of visualizations."""
+        self.current_index -= self.visualization_limit
+        if self.current_index < 0:
+            self.current_index = max(0, len(self.visualization_data) - self.visualization_limit)
+        self.show_visualizations()
+
 
     def update_next_button_state(self):
         """Update the state of the next button based on remaining data."""
@@ -390,6 +408,15 @@ class JSONTimeStampSaglabatajs:
             self.next_button.config(state=tk.NORMAL)
         else:
             self.next_button.config(state=tk.DISABLED)
+
+    def back_button_state(self):
+        """Update the state of the next button based on remaining data."""
+        next_index = self.current_index + self.visualization_limit
+        if next_index < len(self.visualization_data):
+            self.next_button.config(state=tk.NORMAL)
+        else:
+            self.next_button.config(state=tk.DISABLED)
+
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
