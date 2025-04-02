@@ -393,7 +393,7 @@ class JSONTimeStampSaglabatajs:
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
-        svg_width = 1200  # pašam jāpielāgo lai dabuju 2 x 2
+        svg_width = 1200
         svg_height = 800
         start_x = 50
         start_y = 50
@@ -414,16 +414,22 @@ class JSONTimeStampSaglabatajs:
             '</style>'
         ]
 
-        for entry in data:
-            # Pievieno timestamp on eror desc virs kastem
+        # Vispirms sakārtot datus pēc timestamp
+        sorted_data = sorted(data, key=lambda x: x.get('time_stamp', 'N/A'))
+
+        for entry in sorted_data:
             time_stamp = entry.get('time_stamp', 'N/A')
             error_desc = entry.get('error_description', 'N/A')
+            
+            # Pievieno timestamp un error tikai vienu reizi katram timestamp
             svg_content.append(f'<text class="timestamp" x="{current_x}" y="{current_y - 10}">Timestamp: {time_stamp}</text>')
             svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Error: {error_desc}</text>')
 
-            # atrod section(nosaukumu) pec kura veido kastes
+            # Sakārtot sekcijas pēc to nosaukumiem
             sections = entry.get('sections', {})
-            for section_name, section_data in sections.items(): #šis algoritms japarbauda, jo iespejams, ka rada tieši tikai vienu sekc
+            sorted_sections = sorted(sections.items(), key=lambda x: x[0])
+
+            for section_name, section_data in sorted_sections:
                 svg_content.append(
                     f'<rect class="node" x="{current_x}" y="{current_y + 30}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
                 )
@@ -440,17 +446,17 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
                 # parada portus(kuri ir un nav)
-                ports = ["LAN1", "LAN2", "LAN3", "WAN"]  # 4 porti
+                ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 for i, port in enumerate(ports):
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
-            # Kustas uz nakamo
-            current_x += box_width + 50
-            if current_x + box_width > svg_width:
-                current_x = start_x
-                current_y += box_height + 100
+                # Pārvieto pozīciju tikai pēc katras sekcijas
+                current_x += box_width + 50
+                if current_x + box_width > svg_width:
+                    current_x = start_x
+                    current_y += box_height + 100
 
         svg_content.append('</svg>')
 
