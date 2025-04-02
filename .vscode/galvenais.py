@@ -344,7 +344,7 @@ class JSONTimeStampSaglabatajs:
             self.visualization_window.title("Visualization")
             
             self.current_index = 0
-            self.visualization_limit = 4  # cik vizualizacijas radis
+            self.visualization_limit = 1  # cik vizualizacijas radis
             self.visualization_data = merged_data
 
             # POGA, kas ļaus apskatit nakamos 4
