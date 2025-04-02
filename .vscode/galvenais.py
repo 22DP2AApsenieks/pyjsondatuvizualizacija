@@ -321,110 +321,141 @@ class JSONTimeStampSaglabatajs:
         except Exception as e:
             messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
 
+
+      
+    def vizualize_all(self):
+        """Generate SVG visualization and open it in a browser."""
+        merged_file = os.path.join(os.getcwd(), "merged_results.json")
+        
+        try:
+            if not os.path.exists(merged_file):
+                messagebox.showerror("Kļūda", "Nav atrasts apvienotais fails (merged_results.json)")
+                return
+
+            with open(merged_file, 'r', encoding='utf-8') as f:
+                merged_data = json.load(f)
+
+            if not merged_data:
+                messagebox.showinfo("Info", "Nav datu vizualizācijai!")
+                return
+
+            # uztaisa jaunu logu vizualizacijam
+            self.visualization_window = tk.Toplevel(self.root)
+            self.visualization_window.title("Visualization")
+            
+            self.current_index = 0
+            self.visualization_limit = 4  # cik vizualizacijas radis
+            self.visualization_data = merged_data
+
+            # POGA, kas ļaus apskatit nakamos 4
+            self.next_button = tk.Button(self.visualization_window, text="Next 4", command=self.next_visualizations)
+            self.next_button.pack(pady=10)
+
+            self.show_visualizations()
+
+        except Exception as e:
+            messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
+
+    def show_visualizations(self):
+        """Display the current set of visualizations."""
+        # dabuj datus
+        current_data = self.visualization_data[self.current_index:self.current_index + self.visualization_limit]
+        
+        print(f"Current data to visualize: {current_data}")  # erroriem
+
+        if not current_data:
+            messagebox.showinfo("Info", "Nav vairāk datu!")
+            return
+
+        # genere svg
+        output_path = os.path.join(os.getcwd(), "current_visualization.svg")
+        self.generate_state_diagram(current_data, output_path)
+
+        webbrowser.open(output_path)#atver
+
+        if hasattr(self, 'next_button'):
+            self.update_next_button_state()
+
+    def next_visualizations(self):
+        """Navigate to the next set of visualizations."""
+        self.current_index += self.visualization_limit
+        if self.current_index >= len(self.visualization_data):
+            self.current_index = 0  
+        self.show_visualizations()
+
+    def update_next_button_state(self):
+        """Update the state of the next button based on remaining data."""
+        next_index = self.current_index + self.visualization_limit
+        if next_index < len(self.visualization_data):
+            self.next_button.config(state=tk.NORMAL)
+        else:
+            self.next_button.config(state=tk.DISABLED)
+
     def generate_state_diagram(self, data, output_path):
-        """Ģenerē SVG attēlu ar stāvokļu pārejām un paplašinātu informāciju."""
-        # Visi izmeri
-        svg_width = 22000
-        svg_height = 1800
-        start_x = 150
-        start_y = 100
-        step_x = 600  # linijas garumam
+        """Generate SVG image with state transitions and detailed information."""
+        svg_width = 1200  # pašam jāpielāgo lai dabuju 2 x 2
+        svg_height = 800
+        start_x = 50
+        start_y = 50
+        box_width = 500
+        box_height = 300
         current_x = start_x
         current_y = start_y
 
-        # kastes dimensions
-        box_width = 250
-        box_height = 140
-
+        # SVG content izskatam
         svg_content = [
             f'<svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">',
             '<style>',
             '  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }',
-            '  .label { font: 14px Arial; fill: #333333; }',
+            '  .label { font: 10px Arial; fill: #333333; }',
             '  .error { font: 7px Arial; fill: #cc0000; }',
-            '  .arrow { marker-end: url(#arrowhead); stroke: #000000; stroke-width: 2; }',
+            '  .timestamp { font: 12px Arial; fill: #0000cc; }',
             '  .section-label { font: 12px Arial; font-weight: bold; fill: #0000cc; }',
-            '</style>',
-            '<defs>',
-            '  <marker id="arrowhead" markerWidth="40" markerHeight="7" refX="9" refY="3.5" orient="auto">',
-            '    <polygon points="0 0, 10 3.5, 0 7" fill="#000000"/>',
-            '  </marker>',
-            '</defs>'
+            '</style>'
         ]
 
-        previous_state = None
-        for idx, entry in enumerate(data):
-            # Get basic info
-            device = entry.get('device_identifier', 'N/A')
-            time = entry.get('time_stamp', 'N/A')
-            error = entry.get('error_description', '')
+        for entry in data:
+            # Pievieno timestamp on eror desc virs kastem
+            time_stamp = entry.get('time_stamp', 'N/A')
+            error_desc = entry.get('error_description', 'N/A')
+            svg_content.append(f'<text class="timestamp" x="{current_x}" y="{current_y - 10}">Timestamp: {time_stamp}</text>')
+            svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Error: {error_desc}</text>')
 
-            # Calculate box height based on number of sections
-            num_sections = len(entry.get('sections', {}))
-            box_height = 140 + (num_sections * 100)  # Adjust height based on sections
-
-            # Error text above box
-            if error:
-                error_text_x = current_x + box_width / 2
-                error_text_y = current_y - 10
+            # atrod section(nosaukumu) pec kura veido kastes
+            sections = entry.get('sections', {})
+            for section_name, section_data in sections.items(): #šis algoritms japarbauda, jo iespejams, ka rada tieši tikai vienu sekc
                 svg_content.append(
-                    f'<text class="error" x="{error_text_x}" y="{error_text_y}" text-anchor="middle">{error}</text>'
+                    f'<rect class="node" x="{current_x}" y="{current_y + 30}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
                 )
 
-            # Create rectangle with rounded corners
-            svg_content.append(
-                f'<rect class="node" x="{current_x}" y="{current_y}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
-            )
-            
-            # Text positions
-            line_height = 20
-            text_x = current_x + 10
-            text_y = current_y + 20
-            
-            # Add basic info
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Device: {device}</text>')
-            text_y += line_height
-            svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Time: {time}</text>')
-            text_y += line_height * 2  # Extra space before sections
-
-            # Add data for each section
-            for section_name, section_data in entry.get('sections', {}).items():
-                # Section header
-                svg_content.append(f'<text class="section-label" x="{text_x}" y="{text_y}">{section_name.upper()}</text>')
-                text_y += line_height
+                # pievieno sekcijas nosaukumu
+                svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
                 
-                # Section data
-                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">State: {section_data.get("fsm_state", "N/A")}</text>')
-                text_y += line_height
-                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Role: {section_data.get("role_state", "N/A")}</text>')
-                text_y += line_height
-                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Ports: {", ".join(section_data.get("ports_up", []))}</text>')
-                text_y += line_height
-                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">Traffic: {section_data.get("traffic_port", "N/A")}</text>')
-                text_y += line_height
-                svg_content.append(f'<text class="label" x="{text_x}" y="{text_y}">IP: {section_data.get("eth_ip_name", section_data.get("eth_ip", "N/A"))}</text>')
-                text_y += line_height * 2  # Extra space between sections
+                # pievieno parejo info
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">State: {section_data.get("fsm_state", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">TX: {section_data.get("tx_state", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-            # Add arrow between boxes if not first box
-            if previous_state is not None:
-                arrow_start = previous_state['x'] + box_width
-                arrow_y = previous_state['y'] + box_height / 2
-                arrow_end = current_x
-                svg_content.append(f'<path class="arrow" d="M {arrow_start} {arrow_y} L {arrow_end} {arrow_y}"/>')
+                # parada portus(kuri ir un nav)
+                ports = ["LAN1", "LAN2", "LAN3", "WAN"]  # 4 porti
+                for i, port in enumerate(ports):
+                    color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
+                    svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
+                    svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
-            previous_state = {'x': current_x, 'y': current_y}
-            current_x += step_x
-
-            # parie nakamaj linija, ja dati ir par daudz
-            if current_x + step_x > svg_width:
+            # Kustas uz nakamo
+            current_x += box_width + 50
+            if current_x + box_width > svg_width:
                 current_x = start_x
-                current_y += box_height + 60  # +atstapr, ja zem
+                current_y += box_height + 100
 
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
-
 
 if __name__ == "__main__":
     root = tk.Tk()
