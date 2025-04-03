@@ -12,7 +12,7 @@ class JSONTimeStampSaglabatajs:
         self.root = root
         self.root.title("JSON Datu Saglabātājs un vizualizācijas veidotājs")
         self.directories = {1: None, 2: None, 3: None, 4: None}
-        self.reason_ids = { #šie uzreiz(orģināli error id cipari) nomaina uz eror nosaukumu
+        self.reason_ids = {
             "2+0 Aggregation": {
                 0: "Configuration Commit (AGGR_FSM_RSN_CFG_COMMIT)",
                 1: "Enable (AGGR_FSM_RSN_ENABLE)",
@@ -60,7 +60,7 @@ class JSONTimeStampSaglabatajs:
                 18: "Local Alternative Link Down (PROT_FSM_RSN_LCL_ALTLINK_DOWN)"
             }
         }
-        self.box_indexes = []  # Store box positions and indexes
+        self.box_indexes = []
         self.create_widgets()
 
     def create_widgets(self):
@@ -78,13 +78,11 @@ class JSONTimeStampSaglabatajs:
             frame = tk.LabelFrame(self.root, text=f"Ievadiet mapi un identifikatoru ({i})", padx=10, pady=5)
             frame.pack(padx=10, pady=2, fill="x")
             
-            # Mapes cels
             dir_entry = tk.Entry(frame, width=40)
             dir_entry.pack(side=tk.LEFT, padx=5)
             tk.Button(frame, text="Pārlūkot...", command=lambda num=i: self.browse_directory(num)
                       ).pack(side=tk.LEFT)
             
-            # ID ievade
             tk.Label(frame, text="ID:").pack(side=tk.LEFT, padx=5)
             id_entry = tk.Entry(frame, width=15)
             id_entry.pack(side=tk.LEFT)
@@ -97,7 +95,7 @@ class JSONTimeStampSaglabatajs:
         control_frame.pack(pady=10)
         tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
         tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
-        tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2) #pievienoju pogu vizualizacijai
+        tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2)
 
         # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
@@ -136,7 +134,7 @@ class JSONTimeStampSaglabatajs:
                     parts = line.split(';')
                     if len(parts) < 4:
                         continue
-                    date_field, time_field, error_desc = parts[1].strip(), parts[2].strip(), parts[-1].strip() #sadal datus(laiks, datums, error(pedejais rinda))
+                    date_field, time_field, error_desc = parts[1].strip(), parts[2].strip(), parts[-1].strip()
                     if "Aggregation FSM state changed" in error_desc:
                         error_mapping[(date_field, time_field)] = error_desc
             except Exception as e:
@@ -144,14 +142,11 @@ class JSONTimeStampSaglabatajs:
         return error_mapping
 
     def process_files(self):
-        """Process JSON files, extract data including eth_ip, and save merged results."""
-        # Validate directories
         selected_dirs = [d for d in self.directories.values() if d]
         if not selected_dirs:
             messagebox.showerror("Error", "Please select at least one directory!")
             return
 
-        # Validate identifiers
         identifiers = {}
         for dir_num in self.directories:
             if self.directories[dir_num]:
@@ -191,7 +186,6 @@ class JSONTimeStampSaglabatajs:
                                 skipped_count += 1
                                 continue
                             
-                            # Extract data from all sections
                             sections = {
                                 'local': data.get('local', {}).get('info', {}),
                                 'alternate': data.get('alternate', {}).get('info', {}),
@@ -199,7 +193,6 @@ class JSONTimeStampSaglabatajs:
                                 'remote_alternate': data.get('remote.alternate', {}).get('info', {})
                             }
                             
-                            # parbauda error desc
                             date_part, time_part = time_stamp.split(' ')
                             error_desc = error_mapping.get((date_part, time_part), "N/A")
                             
@@ -209,7 +202,6 @@ class JSONTimeStampSaglabatajs:
                             
                             error_desc = self.decode_error_description(error_desc, mode)
                             
-                            # izveido entry
                             entry = {
                                 "time_stamp": time_stamp,
                                 "device_identifier": current_identifier,
@@ -217,7 +209,6 @@ class JSONTimeStampSaglabatajs:
                                 "sections": {}
                             }
                             
-                            # Add data for each section
                             for section_name, section_data in sections.items():
                                 if not section_data:
                                     continue
@@ -225,7 +216,7 @@ class JSONTimeStampSaglabatajs:
                                 eth_ip = section_data.get("eth_ip", "N/A")
                                 eth_ip_name = self.get_eth_ip_name(eth_ip)
                                 
-                                entry["sections"][section_name] = {  #te var izveletos, ko rakstis iekas
+                                entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
                                     "role_cfg": section_data.get("role_cfg", "N/A"),
@@ -244,13 +235,11 @@ class JSONTimeStampSaglabatajs:
                         except Exception as e:
                             self.result_text.insert(tk.END, f"[Directory {dir_num}] {file} Error: {str(e)}\n")
         
-        # Sort and save results
         merged_data.sort(key=lambda x: x["time_stamp"])
         merged_file_path = os.path.join(os.getcwd(), "merged_results.json")
         with open(merged_file_path, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
-        # Display summary
         summary = (
             f"\n=== SUMMARY ===\n"
             f"Total JSON files processed: {total_files}\n"
@@ -262,21 +251,17 @@ class JSONTimeStampSaglabatajs:
         messagebox.showinfo("Complete", f"Processed {total_files} files")
 
     def get_eth_ip_name(self, eth_ip):
-        """Determine device role based on the last octet of the IP address."""
         if not eth_ip or eth_ip == "N/A":
             return "N/A"
         
-        # Handle cases where eth_ip might be in a dictionary
         if isinstance(eth_ip, dict):
             eth_ip = eth_ip.get("ip", "N/A")
         
-        # Extract last octet
         try:
             last_octet = int(eth_ip.split('.')[-1])
         except (ValueError, AttributeError):
-            return eth_ip  # Return original if not a valid IP
+            return eth_ip
         
-        # Map last octet to role names
         role_mapping = {
             10: "l primary",
             11: "rem primary",
@@ -284,10 +269,9 @@ class JSONTimeStampSaglabatajs:
             13: "rem secondary"
         }
         
-        return role_mapping.get(last_octet, eth_ip)  # Return role name or original IP
+        return role_mapping.get(last_octet, eth_ip)
 
     def decode_error_description(self, error_desc, mode):
-        # Aizvieto rsn id ar tā paskaidrojumu
         match = re.search(r'rsn_id:\((\d+)\)', error_desc)
         if match:
             rsn_id = int(match.group(1))
@@ -296,7 +280,6 @@ class JSONTimeStampSaglabatajs:
         return error_desc
 
     def vizualize_all(self):
-        """Generate SVG visualization and open it in a browser."""
         merged_file = os.path.join(os.getcwd(), "merged_results.json")
         
         try:
@@ -311,19 +294,16 @@ class JSONTimeStampSaglabatajs:
                 messagebox.showinfo("Info", "Nav datu vizualizācijai!")
                 return
 
-            # uztaisa jaunu logu vizualizacijam
             self.visualization_window = tk.Toplevel(self.root)
             self.visualization_window.title("Visualization")
             
             self.current_index = 0
-            self.visualization_limit = 1  # cik vizualizacijas radis
+            self.visualization_limit = 1
             self.visualization_data = merged_data
 
-            # POGA, kas ļaus apskatit nakamos 4
             self.next_button = tk.Button(self.visualization_window, text="Next ", command=self.next_visualizations)
             self.next_button.pack(pady=10)
 
-            #poga iešanai atpaskaļ
             self.iepriekseja_button = tk.Button(self.visualization_window, text="Back ", command=self.previous_visualizations)
             self.iepriekseja_button.pack(pady=10)
 
@@ -333,23 +313,20 @@ class JSONTimeStampSaglabatajs:
             messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
 
     def show_visualizations(self):
-        """Display the current set of visualizations."""
-        # dabuj datus
         start = self.current_index
         end = min(self.current_index + self.visualization_limit, len(self.visualization_data))
         current_data = self.visualization_data[start:end]
         
-        print(f"Current data to visualize: {current_data}")  # erroriem
+        print(f"Current data to visualize: {current_data}")
 
         if not current_data:
             messagebox.showinfo("Info", "Nav vairāk datu!")
             return
 
-        # genere svg
         output_path = os.path.join(os.getcwd(), "current_visualization.svg")
         self.generate_state_diagram(current_data, output_path)
 
-        webbrowser.open(output_path)#atver
+        webbrowser.open(output_path)
 
         if hasattr(self, 'next_button'):
             self.update_next_button_state()
@@ -358,34 +335,91 @@ class JSONTimeStampSaglabatajs:
             self.back_button_state()
 
     def next_visualizations(self):
-        """Navigate to the next set of visualizations."""
         self.current_index += self.visualization_limit
         if self.current_index >= len(self.visualization_data):
             self.current_index = 0  
         self.show_visualizations()
 
     def previous_visualizations(self):
-        """Navigate to the previous set of visualizations."""
         self.current_index -= self.visualization_limit
         if self.current_index < 0:
             self.current_index = max(0, len(self.visualization_data) - self.visualization_limit)
         self.show_visualizations()
 
     def update_next_button_state(self): 
-        """Update the state of the next button based on remaining data."""
         next_index = self.current_index + self.visualization_limit
         if next_index < len(self.visualization_data):
             self.next_button.config(state=tk.NORMAL)
         else:
             self.next_button.config(state=tk.DISABLED)
 
-    def back_button_state(self): #back visualaiku strada. Man slinkums sobrid to labot tho
-        """Update the state of the next button based on remaining data."""
+    def back_button_state(self):
         next_index = self.current_index + self.visualization_limit
         if next_index < len(self.visualization_data):
             self.next_button.config(state=tk.NORMAL)
         else:
             self.next_button.config(state=tk.DISABLED)
+
+    def atelocelu(self):
+        """Draw connections based on device states"""
+        connections = []
+        box_positions = {}
+        
+        # Noteikumi
+        state_outgoing = {
+            1: [1, 2],    # Can send to remote(1) and get from alternative(2)
+            2: [0, 1, 2, 3],  # Can send to all
+            3: [2],       # Can only send to alternate(2)
+            4: [],        # No outgoing connections
+            5: [1, 2, 3], # Can send to remote(1), alternate(2), remote_alternate(3)
+            7: [2],       # can recive and send to alternate(2)
+            8: [2],       # Only through alternate(2)
+            11: [2]       # Only through alternate(2)
+        }
+
+        # Collect box positions and states
+        for box in self.box_indexes:
+            timestamp = box['timestamp']
+            if timestamp not in box_positions:
+                box_positions[timestamp] = {}
+            center_x = box['x'] + box['width']/2
+            center_y = box['y'] + box['height']/2
+            box_positions[timestamp][box['section']] = {
+                'x': center_x,
+                'y': center_y,
+                'state': box['state']
+            }
+
+        line_elements = []
+        
+        for timestamp, boxes in box_positions.items():
+            sections = list(boxes.items())
+            
+            for src_idx, src_data in sections:
+                src_state = src_data['state']
+                
+                # salidzinas satet lai iegutu uz kurieni javelk linijas
+                allowed_targets = state_outgoing.get(src_state, [])
+                
+                for dst_idx, dst_data in sections:
+                    if src_idx == dst_idx:
+                        continue
+                    
+                    # Check if destination is in allowed targets
+                    if dst_idx in allowed_targets:
+                        x1, y1 = src_data['x'], src_data['y']
+                        x2, y2 = dst_data['x'], dst_data['y']
+                        
+                        # Determine line type
+                        is_diagonal = abs(src_idx - dst_idx) == 2 or (src_idx + dst_idx == 3)
+                        line_class = "diagonal-line" if is_diagonal else "connection-line"
+                        
+                        line_elements.append(
+                            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
+                            f'class="{line_class}" marker-end="url(#arrowhead)"/>'
+                        )
+
+        return line_elements
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
@@ -398,7 +432,7 @@ class JSONTimeStampSaglabatajs:
         current_x = start_x
         current_y = start_y
 
-        # SVG content izskatam
+        # SVG content with line styles
         svg_content = [
             f'<svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">',
             '<style>',
@@ -409,7 +443,14 @@ class JSONTimeStampSaglabatajs:
             '  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }',
             '  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }',
             '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
-            '</style>'
+            '  .connection-line { stroke: #888888; stroke-width: 2; stroke-dasharray: 5,5; }',
+            '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
+            '</style>',
+            '<defs>',
+            '  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">',
+            '    <polygon points="0 0, 10 3.5, 0 7" fill="#888888"/>',
+            '  </marker>',
+            '</defs>'
         ]
 
         # Clear previous box indexes
@@ -448,36 +489,10 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
                 svg_content.append(f'<text class="box-index" x="{current_x + box_width - 30}" y="{current_y + 60}">[{section_idx}]</text>')
 
-                # Saglabā indeksus
-                self.box_indexes.append({
-                    'entry': entry_idx,
-                    'section': section_idx,
-                    'name': section_name,
-                    'x': current_x,
-                    'y': current_y + 30,
-                    'width': box_width,
-                    'height': box_height,
-                    'timestamp': time_stamp
-                })
-
                 text_statement = f'State: {section_data.get("fsm_state", "N/A")}' 
                 
-                state_descriptions = {
-                    1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
-                    2: "device active. Var visu.",
-                    3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
-                    4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
-                    5: "device active. Nevar uzņemt no remote ",
-                    6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
-                    7: "device not active. dati tiek nosūtīti un saņemti caur secundaro",
-                    8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
-                    9: "lkm sāk(nebija minets dokomenta)",
-                    10:"Nekonedara?",
-                    11:"Viss trafiks iet caur sekundaro",
-                    12: "Nekonedara?",
-                }
-
-                # Indeksi bus nepieciesami atelosanai
+                # Determine state index
+                state_index = None
                 if "Prim.Tx-WAN Rx-ALT" in text_statement:
                     state_index = 1
                 elif "Prim.Tx-WAN Rx-WAN" in text_statement:
@@ -501,17 +516,40 @@ class JSONTimeStampSaglabatajs:
                 elif "Secondary Protect" in text_statement:
                     state_index = 11
                 elif "Secondary Standby" in text_statement:
-                    state_value = 12
-                else:
-                    state_index = None
+                    state_index = 12
 
-                # lai izvaditu description
+                # Saglabā indeksus
+                self.box_indexes.append({
+                    'entry': entry_idx,
+                    'section': section_idx,
+                    'name': section_name,
+                    'x': current_x,
+                    'y': current_y + 30,
+                    'width': box_width,
+                    'height': box_height,
+                    'timestamp': time_stamp,
+                    'state': state_index  # Store the state index
+                })
+
+                state_descriptions = {
+                    1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
+                    2: "device active. Var visu.",
+                    3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
+                    4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
+                    5: "device active. Nevar uzņemt no remote ",
+                    6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
+                    7: "device not active. dati tiek nosūtīti un saņemti caur outru",
+                    8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
+                    9: "lkm sāk(nebija minets dokomenta)",
+                    10:"Nekonedara?",
+                    11:"Viss trafiks iet caur sekundaro",
+                    12: "Nekonedara?",
+                }
+
                 if state_index is not None:
                     state_value = state_descriptions[state_index]
                 else:
                     state_value = text_statement
-
-                print("Extracted State Value:", state_value)
 
                 svg_content.append(f'<text class="labela" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
@@ -520,33 +558,25 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # porta statusa paradisana
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 for i, port in enumerate(ports):
-                    # parbauda vai ports ir up, ja ir tad ir zals
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
-                    
-                    # parmaina krasu, tikai ja redz traf port (purple)
                     if port == section_data.get("traffic_port", ""): 
                         color = "purple"
                     
                     svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
 
-                # Parvieto poziciju
                 current_x += box_width + 50
                 if current_x + box_width > svg_width:
                     current_x = start_x
                     current_y += box_height + 100
 
+        svg_content.extend(self.atelocelu())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
-
-        # Save box indexes to JSON for debugging
-        with open('box_indexes.json', 'w') as f:
-            json.dump(self.box_indexes, f, indent=2)
 
 if __name__ == "__main__":
     root = tk.Tk()
