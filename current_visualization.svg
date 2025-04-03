@@ -2,74 +2,75 @@
 <style>
   .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }
   .label { font: 10px Arial; fill: #333333; }
+  .labela { font: 6px Arial; fill: #333333; font-weight: bold;}
   .error { font: 9px Arial; fill: #cc0000; }
   .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }
   .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }
 </style>
-<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:52</text>
-<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
+<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 16:49:24</text>
+<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Secondary Mute to Secondary Protect due to Local Traffic Port Down (AGGR_FSM_RSN_LCL_TP_DOWN) in 72 ms</text>
 <rect class="node" x="50" y="80" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="60" y="110">LOCAL</text>
-<text class="label" x="60" y="140">device active. Traffic is transmitted over Primary path and received from Secondary path. Secondary device passes Rx traffic to Primary.</text>
-<text class="label" x="60" y="170">Role: primary_wanalt</text>
-<text class="label" x="60" y="200">Config: primary</text>
-<text class="label" x="60" y="230">TX: primary</text>
-<text class="label" x="60" y="260">RX: secondary</text>
-<text class="label" x="60" y="290">Eth IP: 192.168.205.11</text>
-<rect x="60" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
+<text class="labela" x="60" y="140">device active. Dati tike saņemt un parsutiti tikai caur sekundaro</text>
+<text class="label" x="60" y="170">Role: secondary_protect</text>
+<text class="label" x="60" y="200">Config: secondary</text>
+<text class="label" x="60" y="230">TX: traffic_port</text>
+<text class="label" x="60" y="260">RX: radio_port-traffic_port</text>
+<text class="label" x="60" y="290">Eth IP: 192.168.205.12</text>
+<rect x="60" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="65" y="335">LAN1</text>
-<rect x="160" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="160" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="165" y="335">LAN2</text>
-<rect x="260" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<rect x="260" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="265" y="335">LAN3</text>
-<rect x="360" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<rect x="360" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="365" y="335">WAN</text>
 <rect class="node" x="600" y="80" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="610" y="110">REMOTE</text>
-<text class="label" x="610" y="140">State: Primary Standby</text>
-<text class="label" x="610" y="170">Role: primary_altalt</text>
-<text class="label" x="610" y="200">Config: primary</text>
-<text class="label" x="610" y="230">TX: secondary</text>
-<text class="label" x="610" y="260">RX: secondary</text>
-<text class="label" x="610" y="290">Eth IP: 192.168.205.10</text>
-<rect x="610" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<text class="labela" x="610" y="140">device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē</text>
+<text class="label" x="610" y="170">Role: secondary_mute</text>
+<text class="label" x="610" y="200">Config: secondary</text>
+<text class="label" x="610" y="230">TX: none</text>
+<text class="label" x="610" y="260">RX: radio_port-alt_port</text>
+<text class="label" x="610" y="290">Eth IP: 192.168.205.13</text>
+<rect x="610" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="615" y="335">LAN1</text>
 <rect x="710" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="715" y="335">LAN2</text>
-<rect x="810" y="320" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
+<rect x="810" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="815" y="335">LAN3</text>
-<rect x="910" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="910" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="915" y="335">WAN</text>
 <rect class="node" x="50" y="480" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="60" y="510">ALTERNATE</text>
-<text class="label" x="60" y="540">device not active and muted. Aggregated domain: LAN2, WAN. MNG domain: LAN1, LAN3, MNG. Traffic is not transmitted, however received traffic is passed to Primary. Primary decides whether to forward or discard Rx user traffic from Secondary.</text>
-<text class="label" x="60" y="570">Role: secondary_mute</text>
-<text class="label" x="60" y="600">Config: secondary</text>
-<text class="label" x="60" y="630">TX: none</text>
-<text class="label" x="60" y="660">RX: radio_port-alt_port</text>
-<text class="label" x="60" y="690">Eth IP: 192.168.205.13</text>
-<rect x="60" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
+<text class="labela" x="60" y="540">State: Disabled</text>
+<text class="label" x="60" y="570">Role: down</text>
+<text class="label" x="60" y="600">Config: primary</text>
+<text class="label" x="60" y="630">TX: unknown</text>
+<text class="label" x="60" y="660">RX: unknown</text>
+<text class="label" x="60" y="690">Eth IP: 192.168.205.10</text>
+<rect x="60" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="65" y="735">LAN1</text>
-<rect x="160" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="160" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="165" y="735">LAN2</text>
-<rect x="260" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<rect x="260" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="265" y="735">LAN3</text>
-<rect x="360" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="360" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="365" y="735">WAN</text>
 <rect class="node" x="600" y="480" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="610" y="510">REMOTE_ALTERNATE</text>
-<text class="label" x="610" y="540">State: Secondary Active</text>
-<text class="label" x="610" y="570">Role: secondary</text>
-<text class="label" x="610" y="600">Config: secondary</text>
-<text class="label" x="610" y="630">TX: alt_port</text>
-<text class="label" x="610" y="660">RX: radio_port-alt_port</text>
-<text class="label" x="610" y="690">Eth IP: 192.168.205.12</text>
-<rect x="610" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<text class="labela" x="610" y="540">device active. Var sūtīt, bet uzņem tikai caur sekundāro.</text>
+<text class="label" x="610" y="570">Role: primary_wanalt</text>
+<text class="label" x="610" y="600">Config: primary</text>
+<text class="label" x="610" y="630">TX: primary</text>
+<text class="label" x="610" y="660">RX: secondary</text>
+<text class="label" x="610" y="690">Eth IP: 192.168.205.11</text>
+<rect x="610" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
 <text class="label" x="615" y="735">LAN1</text>
 <rect x="710" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="715" y="735">LAN2</text>
-<rect x="810" y="720" width="90" height="20" fill="purple" stroke="black" stroke-width="0.5"/>
+<rect x="810" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="815" y="735">LAN3</text>
-<rect x="910" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
+<rect x="910" y="720" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
 <text class="label" x="915" y="735">WAN</text>
 </svg>
