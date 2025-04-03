@@ -443,9 +443,56 @@ class JSONTimeStampSaglabatajs:
 
                 # Pievieno virsrakstu kASTEI
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
+
+                
                 
                 # Pievieno laukus ieksa kvadrata
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">State: {section_data.get("fsm_state", "N/A")}</text>')
+                text_statement = f'State: {section_data.get("fsm_state", "N/A")}'  
+
+                if "Prim.Tx-WAN Rx-ALT" in text_statement:
+                    state_value = re.sub(r"State:\s*Prim.Tx-WAN Rx-ALT\s*", 
+                                        "device active. Traffic is transmitted over Primary path and received from Secondary path. Secondary device passes Rx traffic to Primary.", 
+                                        text_statement)
+                elif "Prim.Tx-WAN Rx-WAN" in text_statement:
+                    state_value = re.sub(r"State:\s*Prim.Tx-WAN Rx-WAN\s*", 
+                                        "device active. Traffic is transmitted and received over Primary path. Secondary device is not active and doesn't forward traffic.", 
+                                        text_statement)
+                elif "primary_tx-alt_rx-wan" in text_statement:
+                    state_value = re.sub(r"State:\s*Primary_tx-alt_rx-wan\s*", 
+                                        "device active, but muted. Traffic is transmitted over Secondary path and received over Primary path. Secondary is transmitting traffic passed from Primary.", 
+                                        text_statement)
+                elif "primary_mute" in text_statement:
+                    state_value = re.sub(r"State:\s*Primary_mute\s*", 
+                                        "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.", 
+                                        text_statement)
+                elif "primary_tx-alt_rx-alt" in text_statement:
+                    state_value = re.sub(r"State:\s*Primary_tx-alt_rx-alt\s*", 
+                                        "device active, but muted. Traffic is transmitted and received over Secondary path. Secondary is transmitting traffic passed from Primary and passes back to primary Rx traffic.", 
+                                        text_statement)
+                elif "Secondary Mute" in text_statement:
+                    state_value = re.sub(r"State:\s*Secondary Mute\s*", 
+                                        "device not active and muted. Aggregated domain: LAN2, WAN. MNG domain: LAN1, LAN3, MNG. Traffic is not transmitted, however received traffic is passed to Primary. Primary decides whether to forward or discard Rx user traffic from Secondary.", 
+                                        text_statement)
+                elif "secoundary_active" in text_statement:  # (Typo? Should this be "secondary_active" instead?)
+                    state_value = re.sub(r"State:\s*Secoundary_active\s*", 
+                                        "device not active. Aggregated domain: LAN2, WAN. MNG domain: LAN1, LAN3, MNG. Traffic is transmitted and received by Secondary. Primary decides whether to forward or discard Rx user traffic from Secondary.", 
+                                        text_statement)
+                elif "secondary_protect" in text_statement:
+                    state_value = re.sub(r"State:\s*Secondary_protect\s*", 
+                                        "device active. Aggregated domain: LAN2. MNG-traffic domain: WAN, LAN1, LAN3, MNG. Traffic is transmitted and received only over Secondary. In this scenario, Primary stays muted.", 
+                                        text_statement)
+                elif "Start" in text_statement:
+                    state_value = re.sub(r"State:\s*Start\s*", "Started working ig(wasn't mentioned on doc)", text_statement)
+                else:
+                    state_value = text_statement
+
+                print("Extracted State Value:", state_value)
+
+
+            
+
+
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">TX: {section_data.get("tx_state", "N/A")}</text>')

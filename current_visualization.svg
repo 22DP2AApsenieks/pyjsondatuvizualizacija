@@ -10,7 +10,7 @@
 <text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
 <rect class="node" x="50" y="80" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="60" y="110">LOCAL</text>
-<text class="label" x="60" y="140">State: Prim.Tx-WAN Rx-ALT</text>
+<text class="label" x="60" y="140">device active. Traffic is transmitted over Primary path and received from Secondary path. Secondary device passes Rx traffic to Primary.</text>
 <text class="label" x="60" y="170">Role: primary_wanalt</text>
 <text class="label" x="60" y="200">Config: primary</text>
 <text class="label" x="60" y="230">TX: primary</text>
@@ -42,7 +42,7 @@
 <text class="label" x="915" y="335">WAN</text>
 <rect class="node" x="50" y="480" width="500" height="300" rx="5" ry="5"/>
 <text class="section-label" x="60" y="510">ALTERNATE</text>
-<text class="label" x="60" y="540">State: Secondary Mute</text>
+<text class="label" x="60" y="540">device not active and muted. Aggregated domain: LAN2, WAN. MNG domain: LAN1, LAN3, MNG. Traffic is not transmitted, however received traffic is passed to Primary. Primary decides whether to forward or discard Rx user traffic from Secondary.</text>
 <text class="label" x="60" y="570">Role: secondary_mute</text>
 <text class="label" x="60" y="600">Config: secondary</text>
 <text class="label" x="60" y="630">TX: none</text>
