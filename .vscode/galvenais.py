@@ -60,6 +60,7 @@ class JSONTimeStampSaglabatajs:
                 18: "Local Alternative Link Down (PROT_FSM_RSN_LCL_ALTLINK_DOWN)"
             }
         }
+        self.box_indexes = []  # Store box positions and indexes
         self.create_widgets()
 
     def create_widgets(self):
@@ -293,9 +294,7 @@ class JSONTimeStampSaglabatajs:
             reason = self.reason_ids.get(mode, {}).get(rsn_id, f"Unknown reason ({rsn_id})")
             error_desc = re.sub(r'rsn_id:\(\d+\)', reason, error_desc)
         return error_desc
-    
 
-      
     def vizualize_all(self):
         """Generate SVG visualization and open it in a browser."""
         merged_file = os.path.join(os.getcwd(), "merged_results.json")
@@ -333,12 +332,12 @@ class JSONTimeStampSaglabatajs:
         except Exception as e:
             messagebox.showerror("Kļūda", f"Vizualizācijas kļūda: {str(e)}")
 
-    
-
     def show_visualizations(self):
         """Display the current set of visualizations."""
         # dabuj datus
-        current_data = self.visualization_data[self.current_index:self.current_index + self.visualization_limit]
+        start = self.current_index
+        end = min(self.current_index + self.visualization_limit, len(self.visualization_data))
+        current_data = self.visualization_data[start:end]
         
         print(f"Current data to visualize: {current_data}")  # erroriem
 
@@ -358,7 +357,6 @@ class JSONTimeStampSaglabatajs:
         if hasattr(self, 'iepriekseja_button'):
             self.back_button_state()
 
-
     def next_visualizations(self):
         """Navigate to the next set of visualizations."""
         self.current_index += self.visualization_limit
@@ -372,7 +370,6 @@ class JSONTimeStampSaglabatajs:
         if self.current_index < 0:
             self.current_index = max(0, len(self.visualization_data) - self.visualization_limit)
         self.show_visualizations()
-
 
     def update_next_button_state(self): 
         """Update the state of the next button based on remaining data."""
@@ -389,7 +386,6 @@ class JSONTimeStampSaglabatajs:
             self.next_button.config(state=tk.NORMAL)
         else:
             self.next_button.config(state=tk.DISABLED)
-
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
@@ -412,13 +408,17 @@ class JSONTimeStampSaglabatajs:
             '  .error { font: 9px Arial; fill: #cc0000; }',
             '  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }',
             '  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }',
+            '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
             '</style>'
         ]
+
+        # Clear previous box indexes
+        self.box_indexes = []
 
         # Sakarto datus pec timestamp
         sorted_data = sorted(data, key=lambda x: x.get('time_stamp', 'N/A'))
 
-        for entry in sorted_data:
+        for entry_idx, entry in enumerate(sorted_data):
             time_stamp = entry.get('time_stamp', 'N/A')
             error_desc = entry.get('error_description', 'N/A')
             
@@ -429,24 +429,38 @@ class JSONTimeStampSaglabatajs:
             # paskaidro kadu secibu velos
             section_order = ['local', 'remote', 'alternate', 'remote_alternate']
             sections = entry.get('sections', {})
-            
 
-            for section_name in section_order:
+            for section_idx, section_name in enumerate(section_order):
                 if section_name not in sections:
                     continue  
                     
                 section_data = sections[section_name]
                 
-                # Pievieno kasti 
+                # Pievieno kasti ar indeksu
                 svg_content.append(
-                    f'<rect class="node" x="{current_x}" y="{current_y + 30}" width="{box_width}" height="{box_height}" rx="5" ry="5"/>'
+                    f'<rect class="node" x="{current_x}" y="{current_y + 30}" '
+                    f'width="{box_width}" height="{box_height}" rx="5" ry="5" '
+                    f'data-entry="{entry_idx}" data-section="{section_idx}">'
+                    f'<title>Entry {entry_idx} - Box {section_idx} ({section_name})</title></rect>'
                 )
 
-                # Pievieno virsrakstu kASTEI
+                # Pievieno virsrakstu kASTEI ar indeksu
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
+                svg_content.append(f'<text class="box-index" x="{current_x + box_width - 30}" y="{current_y + 60}">[{section_idx}]</text>')
+
+                # Saglabā indeksus
+                self.box_indexes.append({
+                    'entry': entry_idx,
+                    'section': section_idx,
+                    'name': section_name,
+                    'x': current_x,
+                    'y': current_y + 30,
+                    'width': box_width,
+                    'height': box_height,
+                    'timestamp': time_stamp
+                })
 
                 text_statement = f'State: {section_data.get("fsm_state", "N/A")}' 
-                
                 
                 state_descriptions = {
                     1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
@@ -499,13 +513,6 @@ class JSONTimeStampSaglabatajs:
 
                 print("Extracted State Value:", state_value)
 
-
-
-
-
-            
-
-
                 svg_content.append(f'<text class="labela" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
@@ -536,6 +543,10 @@ class JSONTimeStampSaglabatajs:
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
+
+        # Save box indexes to JSON for debugging
+        with open('box_indexes.json', 'w') as f:
+            json.dump(self.box_indexes, f, indent=2)
 
 if __name__ == "__main__":
     root = tk.Tk()
