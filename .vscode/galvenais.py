@@ -379,7 +379,7 @@ class JSONTimeStampSaglabatajs:
             7: "device not active. dati tiek nosūtīti un saņemti caur outru",
             8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
             9: "lkm sāk(nebija minets dokomenta)",
-            10: "Nekonedara?",
+            10: "Daravisu?",
             11: "Viss trafiks iet caur sekundaro",
             12: "Vissu?",
         }
@@ -438,6 +438,87 @@ class JSONTimeStampSaglabatajs:
                             )
         
         return line_elements
+    def determine_recivers_and_senders(self):
+        """
+        Determine which boxes can send data and which 'r' sections can receive.
+        Returns two lists: senders and receivers with their box indexes.
+        If both local sections can send, prefer the main local (0) over alternative (2).
+        """
+        senders1 = []
+        receivers1 = []
+        
+        state_descriptions = {
+            1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
+            2: "device active. Var visu.",
+            3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
+            4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
+            5: "device active. Nevar uzņemt no remote, var sanemt no cocal",
+            6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
+            7: "device not active. dati tiek nosūtīti un saņemti caur outru",
+            8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
+            9: "lkm sāk(nebija minets dokomenta)",
+            10: "Daravisu?",
+            11: "Viss trafiks iet caur sekundaro",
+            12: "Vissu?",
+        }
+        
+        # States that can send or receive data
+        can_recive1_states = {2, 3, 5, 6, 8, 10, 12}
+        can_send1_states = {1, 2, 10, 12}
+        
+        for box in self.box_indexes:
+            state_index = box['state']
+            section_name = box['name']
+            section_index = box['section']
+            
+            # Senders: only if name doesn't start with 'r'
+            if not section_name.startswith('r') and state_index in can_send1_states:
+                senders1.append(section_index)
+            
+            # Receivers: only if name starts with 'r'
+            if section_name.startswith('r') and state_index in can_recive1_states:
+                receivers1.append(section_index)
+
+        
+
+        # Apply rule: prefer local (0) over alternative (2)
+        if 0 in senders1 and 2 in senders1:
+            senders1.remove(2)
+
+        return receivers1, senders1
+    
+    def draw_recive_sender_lines(self):
+        """Draw lines from reci to loc based on state rules"""
+        line_elements1 = []
+        
+        # Get senders and receivers
+        recivers1, senders1 = self.determine_recivers_and_senders()
+        
+        # Get positions of all boxes
+        box_positions = {}
+        for box in self.box_indexes:
+            if box['timestamp'] not in box_positions:
+                box_positions[box['timestamp']] = {}
+            center_x = box['x'] + box['width'] / 2
+            center_y = box['y'] + box['height'] / 2
+            box_positions[box['timestamp']][box['section']] = (center_x, center_y)
+        
+        # Draw lines from receiver (remote) to sender (local)
+        for timestamp, sections in box_positions.items():
+            for sender_idx in senders1:
+                if sender_idx in sections:
+                    sender_x, sender_y = sections[sender_idx]
+                    for receiver_idx in recivers1:
+                        if receiver_idx in sections and receiver_idx != sender_idx:
+                            receiver_x, receiver_y = sections[receiver_idx]
+                            #  Reversed direction: from receiver → sender
+                            line_elements1.append(
+                                f'<line x1="{receiver_x}" y1="{receiver_y}" x2="{sender_x}" y2="{sender_y}" '
+                                f'class="recive-sender-line" marker-end="url(#arrowhead)"/>'
+                            )
+        
+        return line_elements1
+
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
@@ -464,6 +545,7 @@ class JSONTimeStampSaglabatajs:
             '  .connection-line { stroke: #888888; stroke-width: 2; }',
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
             '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; stroke-dasharray: 5,5; }'
+            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }'   # Purple for receiver→sender
             '</style>',
             '<defs>',
             '  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">',
@@ -593,10 +675,12 @@ class JSONTimeStampSaglabatajs:
 
         # Add the sender-receiver lines after all boxes are created
         svg_content.extend(self.draw_sender_receiver_lines())
+        svg_content.extend(self.draw_recive_sender_lines())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
