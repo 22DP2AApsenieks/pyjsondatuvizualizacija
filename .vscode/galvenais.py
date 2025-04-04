@@ -369,20 +369,6 @@ class JSONTimeStampSaglabatajs:
         senders = []
         receivers = []
         
-        state_descriptions = {
-            1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
-            2: "device active. Var visu.",
-            3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
-            4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
-            5: "device active. Nevar uzņemt no remote, var sanemt no cocal",
-            6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
-            7: "device not active. dati tiek nosūtīti un saņemti caur outru",
-            8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
-            9: "lkm sāk(nebija minets dokomenta)",
-            10: "Daravisu?",
-            11: "Viss trafiks iet caur sekundaro",
-            12: "Vissu?",
-        }
         
         # States that can send or receive data
         can_send_states = {1, 2, 3, 5, 7, 8, 10, 11, 12}
@@ -447,21 +433,7 @@ class JSONTimeStampSaglabatajs:
         senders1 = []
         receivers1 = []
         
-        state_descriptions = {
-            1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
-            2: "device active. Var visu.",
-            3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
-            4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
-            5: "device active. Nevar uzņemt no remote, var sanemt no cocal",
-            6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
-            7: "device not active. dati tiek nosūtīti un saņemti caur outru",
-            8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
-            9: "lkm sāk(nebija minets dokomenta)",
-            10: "Daravisu?",
-            11: "Viss trafiks iet caur sekundaro",
-            12: "Vissu?",
-        }
-        
+
         # States that can send or receive data
         can_recive1_states = {2, 3, 5, 6, 8, 10, 12}
         can_send1_states = {1, 2, 10, 12}
@@ -482,6 +454,9 @@ class JSONTimeStampSaglabatajs:
         
 
         # Apply rule: prefer local (0) over alternative (2)
+        if 1 in receivers1 and 3 in receivers1:
+            receivers1.remove(3)
+
         if 0 in senders1 and 2 in senders1:
             senders1.remove(2)
 
@@ -642,9 +617,9 @@ class JSONTimeStampSaglabatajs:
                     7: "device not active. dati tiek nosūtīti un saņemti caur outru",
                     8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
                     9: "lkm sāk(nebija minets dokomenta)",
-                    10:"Nekonedara?",
+                    10:"Visuvar?",
                     11:"Viss trafiks iet caur sekundaro",
-                    12: "Nekonedara?",
+                    12: "Visuvar?",
                 }
 
                 if state_index is not None:
