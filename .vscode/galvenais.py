@@ -360,65 +360,78 @@ class JSONTimeStampSaglabatajs:
         else:
             self.next_button.config(state=tk.DISABLED)
 
-    def atelocelu(self):
-        """Draw connections based on device states"""
-        connections = []
-        box_positions = {}
+    def determine_senders_and_receivers(self):
+        """
+        Determine which boxes can send data and which 'r' sections can receive.
+        Returns two lists: senders and receivers with their box indexes.
+        """
+        senders = []
+        receivers = []
         
-        # Noteikumi
-        state_outgoing = {
-            1: [1, 2],    # Can send to remote(1) and get from alternative(2)
-            2: [0, 1, 2, 3],  # Can send to all
-            3: [2],       # Can only send to alternate(2)
-            4: [],        # No outgoing connections
-            5: [1, 2, 3], # Can send to remote(1), alternate(2), remote_alternate(3)
-            7: [2],       # can recive and send to alternate(2)
-            8: [2],       # Only through alternate(2)
-            11: [2]       # Only through alternate(2)
+        state_descriptions = {
+            1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
+            2: "device active. Var visu.",
+            3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
+            4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
+            5: "device active. Nevar uzņemt no remote",
+            6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
+            7: "device not active. dati tiek nosūtīti un saņemti caur outru",
+            8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
+            9: "lkm sāk(nebija minets dokomenta)",
+            10: "Nekonedara?",
+            11: "Viss trafiks iet caur sekundaro",
+            12: "Nekonedara?",
         }
-
-        # Collect box positions and states
+        
+        # States that can send data (based on state_descriptions)
+        can_send_states = {1, 2, 3, 5, 7, 8, 11}
+        
+        # States that can receive data (for 'r' sections)
+        can_receive_states = {1, 2, 3, 5, 8, 11}
+        
         for box in self.box_indexes:
-            timestamp = box['timestamp']
-            if timestamp not in box_positions:
-                box_positions[timestamp] = {}
-            center_x = box['x'] + box['width']/2
-            center_y = box['y'] + box['height']/2
-            box_positions[timestamp][box['section']] = {
-                'x': center_x,
-                'y': center_y,
-                'state': box['state']
-            }
-
+            state_index = box['state']
+            section_name = box['name']
+            
+            # Check if box can send (not starting with 'r' and in can_send_states)
+            if not section_name.startswith('r') and state_index in can_send_states:
+                senders.append(box['section'])
+                
+            # Check if box can receive (starts with 'r' and in can_receive_states)
+            if section_name.startswith('r') and state_index in can_receive_states:
+                receivers.append(box['section'])
+        
+        return senders, receivers
+    
+    def draw_sender_receiver_lines(self):
+        """Draw lines from senders to receivers based on state rules"""
         line_elements = []
         
-        for timestamp, boxes in box_positions.items():
-            sections = list(boxes.items())
-            
-            for src_idx, src_data in sections:
-                src_state = src_data['state']
-                
-                # salidzinas satet lai iegutu uz kurieni javelk linijas
-                allowed_targets = state_outgoing.get(src_state, [])
-                
-                for dst_idx, dst_data in sections:
-                    if src_idx == dst_idx:
-                        continue
-                    
-                    # Check if destination is in allowed targets
-                    if dst_idx in allowed_targets:
-                        x1, y1 = src_data['x'], src_data['y']
-                        x2, y2 = dst_data['x'], dst_data['y']
-                        
-                        # Determine line type
-                        is_diagonal = abs(src_idx - dst_idx) == 2 or (src_idx + dst_idx == 3)
-                        line_class = "diagonal-line" if is_diagonal else "connection-line"
-                        
-                        line_elements.append(
-                            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
-                            f'class="{line_class}" marker-end="url(#arrowhead)"/>'
-                        )
-
+        # Get senders and receivers
+        senders, receivers = self.determine_senders_and_receivers()
+        
+        # Get positions of all boxes
+        box_positions = {}
+        for box in self.box_indexes:
+            if box['timestamp'] not in box_positions:
+                box_positions[box['timestamp']] = {}
+            center_x = box['x'] + box['width'] / 2
+            center_y = box['y'] + box['height'] / 2
+            box_positions[box['timestamp']][box['section']] = (center_x, center_y)
+        
+        # Draw lines from each sender to each receiver
+        for timestamp, sections in box_positions.items():
+            for sender_idx in senders:
+                if sender_idx in sections:
+                    sender_x, sender_y = sections[sender_idx]
+                    for receiver_idx in receivers:
+                        if receiver_idx in sections and receiver_idx != sender_idx:
+                            receiver_x, receiver_y = sections[receiver_idx]
+                            line_elements.append(
+                                f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
+                                f'class="sender-receiver-line" marker-end="url(#arrowhead)"/>'
+                            )
+        
         return line_elements
 
     def generate_state_diagram(self, data, output_path):
@@ -443,8 +456,9 @@ class JSONTimeStampSaglabatajs:
             '  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }',
             '  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }',
             '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
-            '  .connection-line { stroke: #888888; stroke-width: 2; stroke-dasharray: 5,5; }',
+            '  .connection-line { stroke: #888888; stroke-width: 2; }',
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
+            '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; stroke-dasharray: 5,5; }'
             '</style>',
             '<defs>',
             '  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">',
@@ -572,7 +586,8 @@ class JSONTimeStampSaglabatajs:
                     current_x = start_x
                     current_y += box_height + 100
 
-        svg_content.extend(self.atelocelu())
+        # Add the sender-receiver lines after all boxes are created
+        svg_content.extend(self.draw_sender_receiver_lines())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:

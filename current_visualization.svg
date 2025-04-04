@@ -7,16 +7,16 @@
   .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }
   .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }
   .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }
-  .connection-line { stroke: #888888; stroke-width: 2; stroke-dasharray: 5,5; }
+  .connection-line { stroke: #888888; stroke-width: 2; }
   .diagonal-line { stroke: #aa0000; stroke-width: 3; }
-</style>
+  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; stroke-dasharray: 5,5; }</style>
 <defs>
   <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
     <polygon points="0 0, 10 3.5, 0 7" fill="#888888"/>
   </marker>
 </defs>
-<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:52</text>
-<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms</text>
+<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 17:00:18</text>
+<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 6 ms</text>
 <rect class="node" x="50" y="80" width="500" height="300" rx="5" ry="5" data-entry="0" data-section="0"><title>Entry 0 - Box 0 (local)</title></rect>
 <text class="section-label" x="60" y="110">LOCAL</text>
 <text class="box-index" x="520" y="110">[0]</text>
@@ -37,13 +37,13 @@
 <rect class="node" x="600" y="80" width="500" height="300" rx="5" ry="5" data-entry="0" data-section="1"><title>Entry 0 - Box 1 (remote)</title></rect>
 <text class="section-label" x="610" y="110">REMOTE</text>
 <text class="box-index" x="1070" y="110">[1]</text>
-<text class="labela" x="610" y="140">Nekonedara?</text>
+<text class="labela" x="610" y="140">State: Prim.Tx-ALT Rx-ALT</text>
 <text class="label" x="610" y="170">Role: primary_altalt</text>
 <text class="label" x="610" y="200">Config: primary</text>
 <text class="label" x="610" y="230">TX: secondary</text>
 <text class="label" x="610" y="260">RX: secondary</text>
 <text class="label" x="610" y="290">Eth IP: 192.168.205.10</text>
-<rect x="610" y="320" width="90" height="20" fill="#ff7070" stroke="black" stroke-width="0.5"/>
+<rect x="610" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="615" y="335">LAN1</text>
 <rect x="710" y="320" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="715" y="335">LAN2</text>
@@ -85,7 +85,4 @@
 <text class="label" x="815" y="735">LAN3</text>
 <rect x="910" y="720" width="90" height="20" fill="#70ff70" stroke="black" stroke-width="0.5"/>
 <text class="label" x="915" y="735">WAN</text>
-<line x1="300.0" y1="230.0" x2="850.0" y2="230.0" class="connection-line" marker-end="url(#arrowhead)"/>
-<line x1="300.0" y1="230.0" x2="300.0" y2="630.0" class="diagonal-line" marker-end="url(#arrowhead)"/>
-<line x1="850.0" y1="630.0" x2="300.0" y2="630.0" class="connection-line" marker-end="url(#arrowhead)"/>
 </svg>
