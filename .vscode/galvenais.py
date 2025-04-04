@@ -364,6 +364,7 @@ class JSONTimeStampSaglabatajs:
         """
         Determine which boxes can send data and which 'r' sections can receive.
         Returns two lists: senders and receivers with their box indexes.
+        If both local sections can send, prefer the main local (0) over alternative (2).
         """
         senders = []
         receivers = []
@@ -373,35 +374,39 @@ class JSONTimeStampSaglabatajs:
             2: "device active. Var visu.",
             3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
             4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
-            5: "device active. Nevar uzņemt no remote",
+            5: "device active. Nevar uzņemt no remote, var sanemt no cocal",
             6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
             7: "device not active. dati tiek nosūtīti un saņemti caur outru",
             8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
             9: "lkm sāk(nebija minets dokomenta)",
             10: "Nekonedara?",
             11: "Viss trafiks iet caur sekundaro",
-            12: "Nekonedara?",
+            12: "Vissu?",
         }
         
-        # States that can send data (based on state_descriptions)
-        can_send_states = {1, 2, 3, 5, 7, 8, 11}
-        
-        # States that can receive data (for 'r' sections)
-        can_receive_states = {1, 2, 3, 5, 8, 11}
+        # States that can send or receive data
+        can_send_states = {1, 2, 3, 5, 7, 8, 10, 11, 12}
+        can_receive_states = {1, 2, 3, 5, 8, 11, 10, 12}
         
         for box in self.box_indexes:
             state_index = box['state']
             section_name = box['name']
+            section_index = box['section']
             
-            # Check if box can send (not starting with 'r' and in can_send_states)
+            # Senders: only if name doesn't start with 'r'
             if not section_name.startswith('r') and state_index in can_send_states:
-                senders.append(box['section'])
-                
-            # Check if box can receive (starts with 'r' and in can_receive_states)
+                senders.append(section_index)
+            
+            # Receivers: only if name starts with 'r'
             if section_name.startswith('r') and state_index in can_receive_states:
-                receivers.append(box['section'])
-        
+                receivers.append(section_index)
+
+        # Apply rule: prefer local (0) over alternative (2)
+        if 0 in senders and 2 in senders:
+            senders.remove(2)
+
         return senders, receivers
+
     
     def draw_sender_receiver_lines(self):
         """Draw lines from senders to receivers based on state rules"""
@@ -515,7 +520,7 @@ class JSONTimeStampSaglabatajs:
                     state_index = 3
                 elif "Primary Mute" in text_statement:
                     state_index = 4
-                elif "primary_tx-alt_rx-alt" in text_statement:
+                elif "Prim.Tx-ALT Rx-ALT" in text_statement:
                     state_index = 5
                 elif "Secondary Mute" in text_statement:
                     state_index = 6
