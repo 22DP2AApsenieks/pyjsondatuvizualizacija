@@ -438,49 +438,54 @@ class JSONTimeStampSaglabatajs:
         return line_elements
     def determine_recivers_and_senders(self):
         """
-        Determine which boxes can send data and which 'r' sections can receive.
-        Returns two lists: senders and receivers with their box indexes.
-        If both local sections can send, prefer the main local (0) over alternative (2).
+        Determine which boxes can receive data (local sections) and which 'r' sections can send.
+        Returns two lists: local_receivers and remote_senders with their box indexes.
+        Prefer the main local (0) over alternative (2).
         """
-        senders1 = []
-        receivers1 = []
-        
+        local_receivers = []
+        remote_senders = []
 
-        # States that can send or receive data
-        can_send1_states = {2, 3, 5, 6, 8, 10, 12} #patiesībā parāda to, kurš no remote puses sūtīt datus var
-        can_recive1_states = {1, 2, 10, 12} #šis parada no local puses, kurš recivos no remote
-        
+        # Define valid states for each category
+        local_receive_states = {1, 2, 3, 6, 10, 12}
+        local_alt_receive_states = {1, 2, 3, 6, 7, 8, 10, 11, 12}
+        remote_send_states = {2, 3, 7, 8, 10, 12}
+        remote_alt_send_states = {1, 2, 6, 7, 8, 10, 12}
+
         for box in self.box_indexes:
-            state_index = box['state']
-            section_name = box['name']
-            section_index = box['section']
-            
-            # Senders: only if name doesn't start with 'r'
-            if not section_name.startswith('r') and state_index in can_send1_states:
-                senders1.append(section_index)
-            
-            # Receivers: only if name starts with 'r'
-            if section_name.startswith('r') and state_index in can_recive1_states:
-                receivers1.append(section_index)
+            state = box['state']
+            name = box['name']
+            section = box['section']
 
-        
+            if not name.startswith('r'):
+                # Local receiver
+                if section == 0 and state in local_receive_states:
+                    local_receivers.append(section)
+                elif section == 2 and state in local_alt_receive_states:
+                    local_receivers.append(section)
+            else:
+                # Remote sender
+                if section == 1 and state in remote_send_states:
+                    remote_senders.append(section)
+                elif section == 3 and state in remote_alt_send_states:
+                    remote_senders.append(section)
 
-        # Apply rule: prefer remote (1) over alternative (3)
-        if 1 in receivers1 and 3 in receivers1:
-            receivers1.remove(3)
+        # Prefer section 0 over 2
+        if 0 in local_receivers and 2 in local_receivers:
+            local_receivers.remove(2)
 
-        if 0 in senders1 and 2 in senders1:
-            senders1.remove(2)
+        if 1 in remote_senders and 3 in remote_senders:
+            remote_senders.remove(3)
 
-        return receivers1, senders1
+        return local_receivers, remote_senders
+
+
     
     def draw_recive_sender_lines(self):
-        """Draw lines from reci to loc based on state rules"""
-        line_elements1 = []
-        
-        # Get senders and receivers
-        recivers1, senders1 = self.determine_recivers_and_senders()
-        
+        """Draw lines from remote senders to local receivers"""
+        line_elements = []
+
+        receivers, senders = self.determine_recivers_and_senders()
+
         # Get positions of all boxes
         box_positions = {}
         for box in self.box_indexes:
@@ -489,22 +494,21 @@ class JSONTimeStampSaglabatajs:
             center_x = box['x'] + box['width'] / 2
             center_y = box['y'] + box['height'] / 2
             box_positions[box['timestamp']][box['section']] = (center_x, center_y)
-        
-        # Draw lines from receiver (remote) to sender (local)
+
+        # Draw lines from sender (remote) → receiver (local)
         for timestamp, sections in box_positions.items():
-            for sender_idx in senders1:
+            for sender_idx in senders:
                 if sender_idx in sections:
                     sender_x, sender_y = sections[sender_idx]
-                    for receiver_idx in recivers1:
+                    for receiver_idx in receivers:
                         if receiver_idx in sections and receiver_idx != sender_idx:
                             receiver_x, receiver_y = sections[receiver_idx]
-                            #  Reversed direction: from receiver → sender
-                            line_elements1.append(
-                                f'<line x1="{receiver_x}" y1="{receiver_y}" x2="{sender_x}" y2="{sender_y}" '
+                            line_elements.append(
+                                f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
                                 f'class="recive-sender-line" marker-end="url(#arrowhead)"/>'
                             )
-        
-        return line_elements1
+
+        return line_elements
 
 
     def generate_state_diagram(self, data, output_path):
@@ -532,7 +536,7 @@ class JSONTimeStampSaglabatajs:
             '  .connection-line { stroke: #888888; stroke-width: 2; }',
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
             '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; stroke-dasharray: 5,5; }'
-            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }'   # Purple for receiver→sender
+            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }'   # Purple for receiver to sender
             '</style>',
             '<defs>',
             '  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">',
