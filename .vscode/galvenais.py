@@ -663,7 +663,7 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # Draw ports with WAN in correct position
+                # Draw wan with WAN in correct position
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 port_order = ports.copy()
                 
@@ -677,9 +677,10 @@ class JSONTimeStampSaglabatajs:
                     if port == section_data.get("traffic_port", ""): 
                         color = "yellow"
                     
-                    x_pos = current_x + 10 + (i * 100)
+
                     
-                    svg_content.append(f'<rect x="{x_pos}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
+                    x_pos = current_x + 30 + (i * 120)  # 120px between port centers
+                    svg_content.append(f'<rect x="{x_pos}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="1.5"/>')
                     svg_content.append(f'<text class="label" x="{x_pos + 5}" y="{current_y + 285}">{port}</text>')
 
                 current_x += box_width + 50
