@@ -360,6 +360,26 @@ class JSONTimeStampSaglabatajs:
         else:
             self.next_button.config(state=tk.DISABLED)
 
+    def get_wan_positions(self):
+        """Returns a dictionary mapping timestamps and sections to their WAN port center positions"""
+        wan_positions = {}
+        
+        for box in self.box_indexes:
+            if box['timestamp'] not in wan_positions:
+                wan_positions[box['timestamp']] = {}
+            
+            # Calculate WAN position based on whether it's local or remote
+            if not box['name'].startswith('r'):  # Local - WAN is last (right side)
+                wan_x = box['x'] + box['width'] - 50  # Right side minus half of port width
+            else:  # Remote - WAN is first (left side)
+                wan_x = box['x'] + 50  # Left side plus half of port width
+                
+            wan_y = box['y'] + box['height'] - 40  # Y position of ports area
+            
+            wan_positions[box['timestamp']][box['section']] = (wan_x, wan_y)
+        
+        return wan_positions
+
     def determine_senders_and_receivers(self):
         """
         Determine which boxes can send data and which 'r' sections can receive.
@@ -394,8 +414,6 @@ class JSONTimeStampSaglabatajs:
                 elif section == 3 and state in remote_alt_recv_states:
                     receivers.append(section)
 
-            
-
         # Prefer section 0 over 2
         if 0 in senders and 2 in senders:
             senders.remove(2)
@@ -405,37 +423,6 @@ class JSONTimeStampSaglabatajs:
 
         return senders, receivers
 
-    
-    def draw_sender_receiver_lines(self):
-        """Draw lines from senders to receivers based on state rules"""
-        line_elements = []
-        
-        # Get senders and receivers
-        senders, receivers = self.determine_senders_and_receivers()
-        
-        # Get positions of all boxes
-        box_positions = {}
-        for box in self.box_indexes:
-            if box['timestamp'] not in box_positions:
-                box_positions[box['timestamp']] = {}
-            center_x = box['x'] + box['width'] / 2
-            center_y = box['y'] + box['height'] / 2
-            box_positions[box['timestamp']][box['section']] = (center_x, center_y)
-        
-        # Draw lines from each sender to each receiver
-        for timestamp, sections in box_positions.items():
-            for sender_idx in senders:
-                if sender_idx in sections:
-                    sender_x, sender_y = sections[sender_idx]
-                    for receiver_idx in receivers:
-                        if receiver_idx in sections and receiver_idx != sender_idx:
-                            receiver_x, receiver_y = sections[receiver_idx]
-                            line_elements.append(
-                                f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
-                                f'class="sender-receiver-line" marker-end="url(#arrowhead)"/>'
-                            )
-        
-        return line_elements
     def determine_recivers_and_senders(self):
         """
         Determine which boxes can receive data (local sections) and which 'r' sections can send.
@@ -478,25 +465,18 @@ class JSONTimeStampSaglabatajs:
 
         return local_receivers, remote_senders
 
-
-    
-    def draw_recive_sender_lines(self):
-        """Draw lines from remote senders to local receivers"""
+    def draw_sender_receiver_lines(self):
+        """Draw lines from senders to receivers based on state rules, connecting WAN ports"""
         line_elements = []
-
-        receivers, senders = self.determine_recivers_and_senders()
-
-        # Get positions of all boxes
-        box_positions = {}
-        for box in self.box_indexes:
-            if box['timestamp'] not in box_positions:
-                box_positions[box['timestamp']] = {}
-            center_x = box['x'] + box['width'] / 2
-            center_y = box['y'] + box['height'] / 2
-            box_positions[box['timestamp']][box['section']] = (center_x, center_y)
-
-        # Draw lines from sender (remote) → receiver (local)
-        for timestamp, sections in box_positions.items():
+        
+        # Get senders and receivers
+        senders, receivers = self.determine_senders_and_receivers()
+        
+        # Get WAN positions of all boxes
+        wan_positions = self.get_wan_positions()
+        
+        # Draw lines from each sender to each receiver
+        for timestamp, sections in wan_positions.items():
             for sender_idx in senders:
                 if sender_idx in sections:
                     sender_x, sender_y = sections[sender_idx]
@@ -505,11 +485,38 @@ class JSONTimeStampSaglabatajs:
                             receiver_x, receiver_y = sections[receiver_idx]
                             line_elements.append(
                                 f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
-                                f'class="recive-sender-line" marker-end="url(#arrowhead)"/>'
+                                f'class="sender-receiver-line" marker-end="url(#arrowhead)">'
+                               # '<animate attributeName="stroke-opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>'
+                                #'<animate attributeName="stroke-width" values="1;3;1" dur="2s" repeatCount="indefinite"/>'
+                                '</line>'
+                            )
+        
+        return line_elements
+
+    def draw_recive_sender_lines(self):
+        """Draw lines from remote senders to local receivers, connecting WAN ports"""
+        line_elements = []
+
+        receivers, senders = self.determine_recivers_and_senders()
+
+        # Get WAN positions of all boxes
+        wan_positions = self.get_wan_positions()
+
+        # Draw lines from sender (remote) → receiver (local)
+        for timestamp, sections in wan_positions.items():
+            for sender_idx in senders:
+                if sender_idx in sections:
+                    sender_x, sender_y = sections[sender_idx]
+                    for receiver_idx in receivers:
+                        if receiver_idx in sections and receiver_idx != sender_idx:
+                            receiver_x, receiver_y = sections[receiver_idx]
+                            line_elements.append(
+                                f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
+                                f'class="recive-sender-line" marker-end="url(#arrowhead)">'
+                                '</line>'
                             )
 
         return line_elements
-
 
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
@@ -535,8 +542,14 @@ class JSONTimeStampSaglabatajs:
             '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
             '  .connection-line { stroke: #888888; stroke-width: 2; }',
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
-            '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; stroke-dasharray: 5,5; }'
-            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }'   # Purple for receiver to sender
+            '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; }',
+            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }',
+            '  .traffic-flow { animation: pulse 2s infinite; }',
+            '  @keyframes pulse {',
+            '    0% { stroke-opacity: 0.3; stroke-width: 1; }',
+            '    50% { stroke-opacity: 1; stroke-width: 3; }',
+            '    100% { stroke-opacity: 0.3; stroke-width: 1; }',
+            '  }',
             '</style>',
             '<defs>',
             '  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">',
@@ -650,32 +663,25 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # In the generate_state_diagram method, replace the ports section with:
-
+                # Draw ports with WAN in correct position
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
-                port_positions = {
-                    "LAN1": 0,
-                    "LAN2": 1,
-                    "LAN3": 2,
-                    "WAN": 3
-                }
-
-                # For local sections, WAN is on the right
-                if not section_name.startswith('r'):
-                    port_order = ["LAN1", "LAN2", "LAN3", "WAN"]
-                else:  # For remote sections (starting with 'r'), WAN is on the left
-                    port_order = ["WAN", "LAN1", "LAN2", "LAN3"]
+                port_order = ports.copy()
+                
+                # For remote sections, move WAN to first position
+                if section_name.startswith('r'):
+                    port_order.remove("WAN")
+                    port_order.insert(0, "WAN")
 
                 for i, port in enumerate(port_order):
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     if port == section_data.get("traffic_port", ""): 
                         color = "yellow"
                     
-                    # Adjust x position based on the port order
                     x_pos = current_x + 10 + (i * 100)
                     
                     svg_content.append(f'<rect x="{x_pos}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
                     svg_content.append(f'<text class="label" x="{x_pos + 5}" y="{current_y + 285}">{port}</text>')
+
                 current_x += box_width + 50
                 if current_x + box_width > svg_width:
                     current_x = start_x
@@ -688,7 +694,6 @@ class JSONTimeStampSaglabatajs:
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
-        
 
 if __name__ == "__main__":
     root = tk.Tk()
