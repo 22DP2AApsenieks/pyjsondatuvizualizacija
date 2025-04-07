@@ -366,28 +366,35 @@ class JSONTimeStampSaglabatajs:
         Returns two lists: senders and receivers with their box indexes.
         If both local sections can send, prefer the main local (0) over alternative (2).
         """
+
         senders = []
         receivers = []
-        
-        
-        # States that can send or receive data
-        can_send_states = {1, 2, 3, 5, 7, 8, 10, 11, 12}
-        can_receive_states = {1, 2, 3, 5, 8, 11, 10, 12}
-        
-        for box in self.box_indexes:
-            state_index = box['state']
-            section_name = box['name']
-            section_index = box['section']
-            
-            # Senders: only if name doesn't start with 'r'
-            if not section_name.startswith('r') and state_index in can_send_states:
-                senders.append(section_index)
-            
-            # Receivers: only if name starts with 'r'
-            if section_name.startswith('r') and state_index in can_receive_states:
-                receivers.append(section_index)
 
-        # Apply rule: prefer local (0) over alternative (2)
+        # Define valid states for each category
+        local_send_states = {1, 2, 3, 5, 10, 12}
+        local_alt_send_states = {1, 2, 3, 7, 8, 10, 11, 12}
+        remote_recv_states = {2, 3, 10, 12}
+        remote_alt_recv_states = {1, 2, 8, 10, 11, 12}  
+
+        for box in self.box_indexes:
+            state = box['state']
+            name = box['name']
+            section = box['section']
+
+            if not name.startswith('r'):
+                # Local sender
+                if section == 0 and state in local_send_states:
+                    senders.append(section)
+                elif section == 2 and state in local_alt_send_states:
+                    senders.append(section)
+            else:
+                # Remote receiver
+                if section == 1 and state in remote_recv_states:
+                    receivers.append(section)
+                elif section == 3 and state in remote_alt_recv_states:
+                    receivers.append(section)
+
+        # Prefer section 0 over 2
         if 0 in senders and 2 in senders:
             senders.remove(2)
 
@@ -435,8 +442,8 @@ class JSONTimeStampSaglabatajs:
         
 
         # States that can send or receive data
-        can_recive1_states = {2, 3, 5, 6, 8, 10, 12}
-        can_send1_states = {1, 2, 10, 12}
+        can_send1_states = {2, 3, 5, 6, 8, 10, 12} #patiesībā parāda to, kurš no remote puses sūtīt datus var
+        can_recive1_states = {1, 2, 10, 12} #šis parada no local puses, kurš recivos no remote
         
         for box in self.box_indexes:
             state_index = box['state']
@@ -453,7 +460,7 @@ class JSONTimeStampSaglabatajs:
 
         
 
-        # Apply rule: prefer local (0) over alternative (2)
+        # Apply rule: prefer remote (1) over alternative (3)
         if 1 in receivers1 and 3 in receivers1:
             receivers1.remove(3)
 
@@ -573,7 +580,7 @@ class JSONTimeStampSaglabatajs:
                     state_index = 1
                 elif "Prim.Tx-WAN Rx-WAN" in text_statement:
                     state_index = 2
-                elif "primary_tx-alt_rx-wan" in text_statement:
+                elif "Prim.Tx-ALT Rx-WAN" in text_statement:
                     state_index = 3
                 elif "Primary Mute" in text_statement:
                     state_index = 4
@@ -607,7 +614,7 @@ class JSONTimeStampSaglabatajs:
                     'state': state_index  # Store the state index
                 })
 
-                state_descriptions = {
+                state_descriptions = { 
                     1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
                     2: "device active. Var visu.",
                     3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
@@ -617,9 +624,9 @@ class JSONTimeStampSaglabatajs:
                     7: "device not active. dati tiek nosūtīti un saņemti caur outru",
                     8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
                     9: "lkm sāk(nebija minets dokomenta)",
-                    10:"Visuvar?",
+                    10:"Visuvar?1",
                     11:"Viss trafiks iet caur sekundaro",
-                    12: "Visuvar?",
+                    12: "Visuvar?2",
                 }
 
                 if state_index is not None:
