@@ -373,8 +373,8 @@ class JSONTimeStampSaglabatajs:
         # Define valid states for each category
         local_send_states = {1, 2, 3, 5, 10, 12}
         local_alt_send_states = {1, 2, 3, 7, 8, 10, 11, 12}
-        remote_recv_states = {2, 3, 10, 12}
-        remote_alt_recv_states = {1, 2, 8, 10, 11, 12}  
+        remote_recv_states = {2, 3, 10, 5, 12}
+        remote_alt_recv_states = {1, 2, 6, 8, 10, 11, 12}  
 
         for box in self.box_indexes:
             state = box['state']
@@ -394,9 +394,14 @@ class JSONTimeStampSaglabatajs:
                 elif section == 3 and state in remote_alt_recv_states:
                     receivers.append(section)
 
+            
+
         # Prefer section 0 over 2
         if 0 in senders and 2 in senders:
             senders.remove(2)
+
+        if 1 in receivers and 3 in receivers:
+            receivers.remove(3)
 
         return senders, receivers
 
