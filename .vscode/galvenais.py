@@ -448,7 +448,7 @@ class JSONTimeStampSaglabatajs:
         # Define valid states for each category
         local_receive_states = {1, 2, 3, 6, 10, 12}
         local_alt_receive_states = {1, 2, 3, 6, 7, 8, 10, 11, 12}
-        remote_send_states = {2, 3, 7, 8, 10, 12}
+        remote_send_states = {1, 2, 3, 7, 8, 10, 12}
         remote_alt_send_states = {1, 2, 6, 7, 8, 10, 12}
 
         for box in self.box_indexes:
@@ -650,15 +650,32 @@ class JSONTimeStampSaglabatajs:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
+                # In the generate_state_diagram method, replace the ports section with:
+
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
-                for i, port in enumerate(ports):
+                port_positions = {
+                    "LAN1": 0,
+                    "LAN2": 1,
+                    "LAN3": 2,
+                    "WAN": 3
+                }
+
+                # For local sections, WAN is on the right
+                if not section_name.startswith('r'):
+                    port_order = ["LAN1", "LAN2", "LAN3", "WAN"]
+                else:  # For remote sections (starting with 'r'), WAN is on the left
+                    port_order = ["WAN", "LAN1", "LAN2", "LAN3"]
+
+                for i, port in enumerate(port_order):
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
                     if port == section_data.get("traffic_port", ""): 
-                        color = "purple"
+                        color = "yellow"
                     
-                    svg_content.append(f'<rect x="{current_x + 10 + (i * 100)}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
-                    svg_content.append(f'<text class="label" x="{current_x + 15 + (i * 100)}" y="{current_y + 285}">{port}</text>')
-
+                    # Adjust x position based on the port order
+                    x_pos = current_x + 10 + (i * 100)
+                    
+                    svg_content.append(f'<rect x="{x_pos}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="0.5"/>')
+                    svg_content.append(f'<text class="label" x="{x_pos + 5}" y="{current_y + 285}">{port}</text>')
                 current_x += box_width + 50
                 if current_x + box_width > svg_width:
                     current_x = start_x
