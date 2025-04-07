@@ -558,31 +558,25 @@ class JSONTimeStampSaglabatajs:
             '</defs>'
         ]
 
-        # Clear previous box indexes
         self.box_indexes = []
-
-        # Sakarto datus pec timestamp
         sorted_data = sorted(data, key=lambda x: x.get('time_stamp', 'N/A'))
 
         for entry_idx, entry in enumerate(sorted_data):
             time_stamp = entry.get('time_stamp', 'N/A')
             error_desc = entry.get('error_description', 'N/A')
-            
-            # pievienop timestamp un error
+
             svg_content.append(f'<text class="timestamp" x="{current_x}" y="{current_y - 10}">Timestamp: {time_stamp}</text>')
             svg_content.append(f'<text class="error" x="{current_x}" y="{current_y}">Description: {error_desc}</text>')
 
-            # paskaidro kadu secibu velos
             section_order = ['local', 'remote', 'alternate', 'remote_alternate']
             sections = entry.get('sections', {})
 
             for section_idx, section_name in enumerate(section_order):
                 if section_name not in sections:
-                    continue  
-                    
+                    continue
+
                 section_data = sections[section_name]
-                
-                # Pievieno kasti ar indeksu
+
                 svg_content.append(
                     f'<rect class="node" x="{current_x}" y="{current_y + 30}" '
                     f'width="{box_width}" height="{box_height}" rx="5" ry="5" '
@@ -590,13 +584,10 @@ class JSONTimeStampSaglabatajs:
                     f'<title>Entry {entry_idx} - Box {section_idx} ({section_name})</title></rect>'
                 )
 
-                # Pievieno virsrakstu kASTEI ar indeksu
                 svg_content.append(f'<text class="section-label" x="{current_x + 10}" y="{current_y + 60}">{section_name.upper()}</text>')
                 svg_content.append(f'<text class="box-index" x="{current_x + box_width - 30}" y="{current_y + 60}">[{section_idx}]</text>')
 
-                text_statement = f'State: {section_data.get("fsm_state", "N/A")}' 
-                
-                # Determine state index
+                text_statement = f'State: {section_data.get("fsm_state", "N/A")}'
                 state_index = None
                 if "Prim.Tx-WAN Rx-ALT" in text_statement:
                     state_index = 1
@@ -610,7 +601,7 @@ class JSONTimeStampSaglabatajs:
                     state_index = 5
                 elif "Secondary Mute" in text_statement:
                     state_index = 6
-                elif "Secondary Active" in text_statement:  
+                elif "Secondary Active" in text_statement:
                     state_index = 7
                 elif "Secondary Protect" in text_statement:
                     state_index = 8
@@ -618,12 +609,9 @@ class JSONTimeStampSaglabatajs:
                     state_index = 9
                 elif "Primary Standby" in text_statement:
                     state_index = 10
-                elif "Secondary Protect" in text_statement:
-                    state_index = 11
                 elif "Secondary Standby" in text_statement:
                     state_index = 12
 
-                # Saglabā indeksus
                 self.box_indexes.append({
                     'entry': entry_idx,
                     'section': section_idx,
@@ -633,10 +621,10 @@ class JSONTimeStampSaglabatajs:
                     'width': box_width,
                     'height': box_height,
                     'timestamp': time_stamp,
-                    'state': state_index  # Store the state index
+                    'state': state_index
                 })
 
-                state_descriptions = { 
+                state_descriptions = {
                     1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
                     2: "device active. Var visu.",
                     3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
@@ -646,40 +634,33 @@ class JSONTimeStampSaglabatajs:
                     7: "device not active. dati tiek nosūtīti un saņemti caur outru",
                     8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
                     9: "lkm sāk(nebija minets dokomenta)",
-                    10:"Visuvar?1",
-                    11:"Viss trafiks iet caur sekundaro",
+                    10: "Visuvar?1",
                     12: "Visuvar?2",
                 }
 
-                if state_index is not None:
-                    state_value = state_descriptions[state_index]
-                else:
-                    state_value = text_statement
-
+                state_value = state_descriptions.get(state_index, text_statement)
                 svg_content.append(f'<text class="labela" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">TX: {section_data.get("tx_state", "N/A")}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {section_data.get("rx_state", "N/A")}</text>')
+
+              
+                tx_ui, rx_ui = self.TXunRXmainitajs(section_data)
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">TX: {tx_ui}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {rx_ui}</text>')
+
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
 
-                # Draw wan with WAN in correct position
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 port_order = ports.copy()
-                
-                # For remote sections, move WAN to first position
                 if section_name.startswith('r'):
                     port_order.remove("WAN")
                     port_order.insert(0, "WAN")
 
                 for i, port in enumerate(port_order):
                     color = "#70ff70" if port in section_data.get("ports_up", []) else "#ff7070"
-                    if port == section_data.get("traffic_port", ""): 
+                    if port == section_data.get("traffic_port", ""):
                         color = "yellow"
-                    
-
-                    
-                    x_pos = current_x + 30 + (i * 120)  # 120px between port centers
+                    x_pos = current_x + 30 + (i * 120)
                     svg_content.append(f'<rect x="{x_pos}" y="{current_y + 270}" width="90" height="20" fill="{color}" stroke="black" stroke-width="1.5"/>')
                     svg_content.append(f'<text class="label" x="{x_pos + 5}" y="{current_y + 285}">{port}</text>')
 
@@ -688,13 +669,33 @@ class JSONTimeStampSaglabatajs:
                     current_x = start_x
                     current_y += box_height + 100
 
-        # Add the sender-receiver lines after all boxes are created
         svg_content.extend(self.draw_sender_receiver_lines())
         svg_content.extend(self.draw_recive_sender_lines())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(svg_content))
+
+    def TXunRXmainitajs(self, section_data):
+        ui_translations = {
+            "trunk": "Balanced between Primary link [WAN] and Secondary link [via LAN2]",
+            "primary": "Over Primary link [WAN]",
+            "secondary": "Over Secondary link [via LAN2]",
+            "none": "Tx traffic discarded [Tx Mute]",
+            "disable": "Rx traffic discarded",
+            "alt_port": "From Primary unit [via LAN2] to Radio [WAN]",
+            "traffic_port": "From Traffic [LAN] port to Radio [WAN]",
+            "both": "Over Primary link [WAN] and Secondary link [via LAN2]",
+            "radio_port-alt_port": "From Radio [WAN] to Primary unit [via LAN2]",
+            "radio_port-traffic_port": "From Radio [WAN] to Traffic [LAN] port",
+            "unknown": "None"
+        }
+
+        tx_state = section_data.get("tx_state", "unknown")
+        rx_state = section_data.get("rx_state", "unknown")
+        return ui_translations.get(tx_state, "None"), ui_translations.get(rx_state, "None")
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
