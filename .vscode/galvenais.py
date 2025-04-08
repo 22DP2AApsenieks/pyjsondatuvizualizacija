@@ -583,8 +583,7 @@ class JSONTimeStampSaglabatajs:
             else:
                 raise ValueError(f"Entry '{entry}' must have one primary and one secondary. Got roles: local={local_role}, alternate={alternate_role}")
 
-            # Display which box is primary and which is secondary
-            print(f"Entry '{entry}' - Primary: {primary_box['name']}, Secondary: {secondary_box['name']}")
+           
 
             # At this point, primary_box and secondary_box are correctly set
             # You can now proceed with whatever logic you need for them
