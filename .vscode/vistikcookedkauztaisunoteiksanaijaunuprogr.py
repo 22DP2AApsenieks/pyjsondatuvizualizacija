@@ -11,7 +11,7 @@ def get_role_status(role_cfg):
 
 # Function to analyze JSON data
 def analyze_json_files(json_data):
-    result = []
+    line_elements = []
 
     # Loop through each JSON object (based on timestamp)
     for entry in json_data:
@@ -33,13 +33,13 @@ def analyze_json_files(json_data):
             primary = "unknown"
             secondary = "unknown"
         
-        result.append({
+        line_elements.append({
             "time_stamp": time_stamp,
             "primary": primary,
             "secondary": secondary
         })
     
-    return result
+    return line_elements
 
 # Read the JSON file
 with open("merged_results.json", "r") as file:

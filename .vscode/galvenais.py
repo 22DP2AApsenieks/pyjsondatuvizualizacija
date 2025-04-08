@@ -542,15 +542,18 @@ class JSONTimeStampSaglabatajs:
 
         return (x, y)
     
+
+
     def socondarytoprimarry(self):
-        """Draw lines from secondary to primary, connecting Traffic ports"""
-        line_elements = []
-        
-        # Find all secondary configured local sections
+        """Draw lines from secondary to primary, connecting Traffic ports."""
+        line_elements = []  # Initialize the list to collect all line elements
+
+        # Loop through each unique 'entry' in self.box_indexes (set to eliminate duplicates)
         for entry in set(box['entry'] for box in self.box_indexes):
             local_box = None
             alternate_box = None
 
+            # Find 'local' and 'alternate' boxes for the current entry
             for box in self.box_indexes:
                 if box['entry'] == entry:
                     if box['name'] == 'local':
@@ -558,17 +561,15 @@ class JSONTimeStampSaglabatajs:
                     elif box['name'] == 'alternate':
                         alternate_box = box
 
-            # Get role configs
+            # Get the role configs for 'local' and 'alternate'
             local_role = self.visualization_data[entry]['sections'].get('local', {}).get("role_cfg", "N/A").lower()
             alternate_role = self.visualization_data[entry]['sections'].get('alternate', {}).get("role_cfg", "N/A").lower()
 
-            #nočekoju visu-dati tiek saglabati pareizi!
-
+            # Role resolution to determine primary and secondary boxes
             primary_box = None
             secondary_box = None
 
-            # Role resolution logic
-            if local_role == 'primary' and alternate_role == 'secondary': #šis izpildas visualiku /pilnigi vienlag vinam visi stavaokli zb ienistu šo fr fr. 
+            if local_role == 'primary' and alternate_role == 'secondary':
                 primary_box = local_box
                 secondary_box = alternate_box
             elif local_role == 'secondary' and alternate_role == 'primary':
@@ -583,25 +584,83 @@ class JSONTimeStampSaglabatajs:
             else:
                 raise ValueError(f"Entry '{entry}' must have one primary and one secondary. Got roles: local={local_role}, alternate={alternate_role}")
 
-           
-
-            # At this point, primary_box and secondary_box are correctly set
-            # You can now proceed with whatever logic you need for them
-            
-            if not primary_box:
-                continue
-
-            # Getting positions
+            # Get positions for the primary and secondary boxes
             secondary_pos = self.get_traffic_port_position(secondary_box)
             primary_pos = self.get_traffic_port_position(primary_box)
 
+            # Ensure both positions are valid and then create the line element as a string
             if secondary_pos and primary_pos:
                 line_elements.append(
                     f'<line x1="{secondary_pos[0]}" y1="{secondary_pos[1]}" x2="{primary_pos[0]}" y2="{primary_pos[1]}" '
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
 
-            return line_elements
+        # Ensure all lines are processed
+        print(f"Total lines generated: {len(line_elements)}")  # Debugging the number of lines
+        print(line_elements)  # Print all generated lines for verification
+
+        # Write the generated lines to a JSON file after the loop completes
+        with open("line_elements_output.json", "w") as json_file:
+            json.dump(line_elements, json_file, indent=4)
+
+        return line_elements
+
+
+
+    # Example function to analyze JSON data and print primary and secondary info
+    def analyze_json_files(json_data):
+        result = []
+
+        # Function to get the role status based on role_cfg
+        def get_role_status(role_cfg):
+            if role_cfg == "primary":
+                return "primary"
+            elif role_cfg == "secondary":
+                return "secondary"
+            else:
+                return "unknown"
+
+        # Process each JSON entry based on timestamps
+        for entry in json_data:
+            time_stamp = entry.get("time_stamp")
+            sections = entry.get("sections", {})
+
+            # Get the role_cfg for 'local' and 'alternate'
+            local_role = get_role_status(sections.get("local", {}).get("role_cfg"))
+            alternate_role = get_role_status(sections.get("alternate", {}).get("role_cfg"))
+
+            # Determine primary and secondary roles
+            if local_role == "primary" and alternate_role == "secondary":
+                primary = "local"
+                secondary = "alternate"
+            elif local_role == "secondary" and alternate_role == "primary":
+                primary = "alternate"
+                secondary = "local"
+            else:
+                primary = "unknown"
+                secondary = "unknown"
+
+            # Store result with timestamp and roles
+            result.append({
+                "time_stamp": time_stamp,
+                "primary": primary,
+                "secondary": secondary
+            })
+
+            # Display primary and secondary names (if available)
+            print(f"Entry '{entry}' - Primary: {primary}, Secondary: {secondary}")
+
+        return result
+
+
+    # Example: Reading and processing JSON
+    with open("merged_results.json", "r") as file:
+        json_data = json.load(file)
+
+    # Analyze and print the results
+    output = analyze_json_files(json_data)
+    for item in output:
+        print(f"Timestamp: {item['time_stamp']} - Primary: {item['primary']} - Secondary: {item['secondary']}")
         
         
     def remote_to_remote_alternate(self):
