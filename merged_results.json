@@ -7,7 +7,7 @@
             "local": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
                 "role_state": "primary_wanalt",
-                "role_cfg": "primary",
+                "role_cfg": "secondary",
                 "tx_state": "primary",
                 "rx_state": "secondary",
                 "traffic_port": "LAN1",
@@ -22,7 +22,7 @@
             "alternate": {
                 "fsm_state": "Secondary Mute",
                 "role_state": "secondary_mute",
-                "role_cfg": "secondary",
+                "role_cfg": "primary",
                 "tx_state": "none",
                 "rx_state": "radio_port-alt_port",
                 "traffic_port": "LAN1",

@@ -537,7 +537,7 @@ class JSONTimeStampSaglabatajs:
             return None
 
         # Calculate port center coordinates
-        x = box['x'] + 160 + (port_index * 120) + 45
+        x = box['x'] + 160 + (port_index * 35) + 45
         y = box['y'] + 240 + 10  # 240 from box top, 10 from port top
 
         return (x, y)
@@ -562,11 +562,13 @@ class JSONTimeStampSaglabatajs:
             local_role = self.visualization_data[entry]['sections'].get('local', {}).get("role_cfg", "N/A").lower()
             alternate_role = self.visualization_data[entry]['sections'].get('alternate', {}).get("role_cfg", "N/A").lower()
 
+            #nočekoju visu-dati tiek saglabati pareizi!
+
             primary_box = None
             secondary_box = None
 
             # Role resolution logic
-            if local_role == 'primary' and alternate_role == 'secondary':
+            if local_role == 'primary' and alternate_role == 'secondary': #šis izpildas visualiku /pilnigi vienlag vinam visi stavaokli zb ienistu šo fr fr. 
                 primary_box = local_box
                 secondary_box = alternate_box
             elif local_role == 'secondary' and alternate_role == 'primary':
@@ -600,7 +602,60 @@ class JSONTimeStampSaglabatajs:
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
 
+            return line_elements
+        
+        
+    def remote_to_remote_alternate(self):
+        """Draw lines from remote to remote_alternate, connecting Traffic ports"""
+        line_elements = []
+        # Find all remote and remote_alternate sections
+        for entry in set(box['entry'] for box in self.box_indexes):
+            remote_box = None
+            remote_alternate_box = None
+            for box in self.box_indexes:
+                if box['entry'] == entry:
+                    if box['name'] == 'remote':
+                        remote_box = box
+                    elif box['name'] == 'remote_alternate':
+                        remote_alternate_box = box
+            # Get role configurations for remote and remote_alternate
+            remote_role = self.visualization_data[entry]['sections'].get('remote', {}).get("role_cfg", "N/A").lower()
+            remote_alternate_role = self.visualization_data[entry]['sections'].get('remote_alternate', {}).get("role_cfg", "N/A").lower()
+            # Debugging print statements
+            print(f"Entry '{entry}' - Remote Role: {remote_role}, Remote Alternate Role: {remote_alternate_role}")
+            # Resolve primary and secondary roles for remote and remote_alternate
+            remote_primary_box, remote_secondary_box = None, None
+            if remote_role == 'primary' and remote_alternate_role == 'secondary':
+                remote_primary_box = remote_box
+                remote_secondary_box = remote_alternate_box
+            elif remote_role == 'secondary' and remote_alternate_role == 'primary':
+                remote_primary_box = remote_alternate_box
+                remote_secondary_box = remote_box
+            elif remote_role == 'secondary' and remote_alternate_role != 'primary':
+                remote_secondary_box = remote_box
+                raise ValueError(f"Entry '{entry}' has a secondary remote box but no valid primary.")
+            elif remote_alternate_role == 'secondary' and remote_role != 'primary':
+                remote_secondary_box = remote_alternate_box
+                raise ValueError(f"Entry '{entry}' has a secondary remote_alternate box but no valid primary.")
+            else:
+                raise ValueError(f"Entry '{entry}' must have one remote primary and one remote secondary. Got roles: remote={remote_role}, remote_alternate={remote_alternate_role}")
+            # Display which box is primary and which is secondary
+            print(f"Entry '{entry}' - Remote Primary: {remote_primary_box['name']}, Remote Secondary: {remote_secondary_box['name']}")
+            # At this point, all roles are resolved, and boxes are correctly set
+            # Get traffic port positions
+            if remote_primary_box and remote_secondary_box:
+                remote_secondary_pos = self.get_traffic_port_position(remote_secondary_box)
+                remote_primary_pos = self.get_traffic_port_position(remote_primary_box)
+                # Debugging positions
+                print(f"Remote Secondary Position: {remote_secondary_pos}")
+                print(f"Remote Primary Position: {remote_primary_pos}")
+                if remote_secondary_pos and remote_primary_pos:
+                    line_elements.append(
+                        f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
+                        'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' 
+                    )
         return line_elements
+
 
 
                 
@@ -632,6 +687,7 @@ class JSONTimeStampSaglabatajs:
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
             '  .sender-receiver-line { stroke: #aa00aa; stroke-width: 2; }',
             '  .secondary-primary-line { stroke: #aa0000; stroke-width: 2; }',
+            '  .remote-secondary-primary-line { stroke: #aa0000; stroke-width: 2; }',
             '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }',
             '  .traffic-flow { animation: pulse 2s infinite; }',
             '  @keyframes pulse {',
@@ -761,6 +817,7 @@ class JSONTimeStampSaglabatajs:
         svg_content.extend(self.draw_sender_receiver_lines())
         svg_content.extend(self.draw_recive_sender_lines())
         svg_content.extend(self.socondarytoprimarry())
+        svg_content.extend(self.remote_to_remote_alternate())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
