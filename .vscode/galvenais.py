@@ -517,7 +517,95 @@ class JSONTimeStampSaglabatajs:
                             )
 
         return line_elements
+    
+    def get_traffic_port_position(self, box):
+        """Get center coordinates of traffic port for given box"""
+        entry_idx = box['entry']
+        section_name = box['name']
+        section_data = self.visualization_data[entry_idx]['sections'].get(section_name, {})
+        traffic_port = section_data.get('traffic_port', 'N/A')
 
+        # Determine port order based on section type
+        if section_name.startswith('remote'):
+            port_order = ["WAN", "LAN1", "LAN2", "LAN3"]
+        else:
+            port_order = ["LAN1", "LAN2", "LAN3", "WAN"]
+
+        try:
+            port_index = port_order.index(traffic_port)
+        except ValueError:
+            return None
+
+        # Calculate port center coordinates
+        x = box['x'] + 160 + (port_index * 120) + 45
+        y = box['y'] + 240 + 10  # 240 from box top, 10 from port top
+
+        return (x, y)
+    
+    def socondarytoprimarry(self):
+        """Draw lines from secondary to primary, connecting Traffic ports"""
+        line_elements = []
+        
+        # Find all secondary configured local sections
+        for entry in set(box['entry'] for box in self.box_indexes):
+            local_box = None
+            alternate_box = None
+
+            for box in self.box_indexes:
+                if box['entry'] == entry:
+                    if box['name'] == 'local':
+                        local_box = box
+                    elif box['name'] == 'alternate':
+                        alternate_box = box
+
+            # Get role configs
+            local_role = self.visualization_data[entry]['sections'].get('local', {}).get("role_cfg", "N/A").lower()
+            alternate_role = self.visualization_data[entry]['sections'].get('alternate', {}).get("role_cfg", "N/A").lower()
+
+            primary_box = None
+            secondary_box = None
+
+            # Role resolution logic
+            if local_role == 'primary' and alternate_role == 'secondary':
+                primary_box = local_box
+                secondary_box = alternate_box
+            elif local_role == 'secondary' and alternate_role == 'primary':
+                primary_box = alternate_box
+                secondary_box = local_box
+            elif local_role == 'secondary' and alternate_role != 'primary':
+                secondary_box = local_box
+                raise ValueError(f"Entry '{entry}' has a secondary box but no valid primary.")
+            elif alternate_role == 'secondary' and local_role != 'primary':
+                secondary_box = alternate_box
+                raise ValueError(f"Entry '{entry}' has a secondary box but no valid primary.")
+            else:
+                raise ValueError(f"Entry '{entry}' must have one primary and one secondary. Got roles: local={local_role}, alternate={alternate_role}")
+
+            # Display which box is primary and which is secondary
+            print(f"Entry '{entry}' - Primary: {primary_box['name']}, Secondary: {secondary_box['name']}")
+
+            # At this point, primary_box and secondary_box are correctly set
+            # You can now proceed with whatever logic you need for them
+            
+            if not primary_box:
+                continue
+
+            # Getting positions
+            secondary_pos = self.get_traffic_port_position(secondary_box)
+            primary_pos = self.get_traffic_port_position(primary_box)
+
+            if secondary_pos and primary_pos:
+                line_elements.append(
+                    f'<line x1="{secondary_pos[0]}" y1="{secondary_pos[1]}" x2="{primary_pos[0]}" y2="{primary_pos[1]}" '
+                    'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
+                )
+
+        return line_elements
+
+
+                
+        
+        
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
         svg_width = 1200
@@ -542,7 +630,8 @@ class JSONTimeStampSaglabatajs:
             '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
             '  .connection-line { stroke: #888888; stroke-width: 2; }',
             '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
-            '  .sender-receiver-line { stroke: #00aa00; stroke-width: 2; }',
+            '  .sender-receiver-line { stroke: #aa00aa; stroke-width: 2; }',
+            '  .secondary-primary-line { stroke: #aa0000; stroke-width: 2; }',
             '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }',
             '  .traffic-flow { animation: pulse 2s infinite; }',
             '  @keyframes pulse {',
@@ -671,6 +760,7 @@ class JSONTimeStampSaglabatajs:
 
         svg_content.extend(self.draw_sender_receiver_lines())
         svg_content.extend(self.draw_recive_sender_lines())
+        svg_content.extend(self.socondarytoprimarry())
         svg_content.append('</svg>')
 
         with open(output_path, 'w', encoding='utf-8') as f:
