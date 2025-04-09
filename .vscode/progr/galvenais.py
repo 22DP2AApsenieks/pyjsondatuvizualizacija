@@ -7,6 +7,8 @@ import re
 import webbrowser
 from datetime import datetime
 from vizualization import JSONTimeStampVizualizetjas
+import subprocess #lai atvertu vizualizac
+
 
 class JSONTimeStampSaglabatajs:
     def __init__(self, root):
@@ -91,13 +93,21 @@ class JSONTimeStampSaglabatajs:
             setattr(self, f"dir_entry{i}", dir_entry)
             setattr(self, f"id_entry{i}", id_entry)
 
+
+
+        def open_vizualizacija():
+            # Use the full path to the file
+            script_path = r"C:\Users\adams.apsenieks\OneDrive - SAF Tehnika AS\pyjsondatuvizualizacija\.vscode\progr\vizualization.py"
+            subprocess.Popen(["python", script_path])
+
         # Galvenās pogas
         control_frame = tk.Frame(self.root)
         control_frame.pack(pady=10)
         tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
         tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
+        tk.Button(control_frame, text="Parādīt vizualizāciju", command=open_vizualizacija).pack(pady=2) #atvers vizualizacijas failu
         """tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2)"""
- #bez šita viss (sākuma stadija) smuki strada, šis visu boja
+            #bez šita viss (sākuma stadija) smuki strada, šis visu boja
         # Rezultāti
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
         self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
