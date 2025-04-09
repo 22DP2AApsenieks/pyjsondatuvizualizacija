@@ -1,11 +1,17 @@
+import tkinter as tk
+from tkinter import filedialog, messagebox, ttk
 import os
 import json
-import tkinter as tk
-from tkinter import messagebox
+import glob
+import re
 import webbrowser
-import matplotlib.pyplot as plt 
+from datetime import datetime
+
 
 class JSONTimeStampVizualizetjas:
+    def __init__(self, root):
+        self.root = root
+
     def vizualize_all(self):
         merged_file = os.path.join(os.getcwd(), "merged_results.json")
         
@@ -41,36 +47,33 @@ class JSONTimeStampVizualizetjas:
         if not current_data:
             messagebox.showinfo("Info", "Nav vairāk datu!")
             return
-        output_path = os.path.join(os.getcwd(), "current_visualization.svg")
+        # Generate unique filename to force browser reload
+        output_path = os.path.join(os.getcwd(), f"current_visualization_{self.current_index}.svg")
         self.generate_state_diagram(current_data, output_path)
         webbrowser.open(output_path)
-        if hasattr(self, 'next_button'):
-            self.update_next_button_state()
-        if hasattr(self, 'iepriekseja_button'):
-            self.back_button_state()
+        self.update_next_button_state()
+        self.back_button_state()
 
     def next_visualizations(self):
         self.current_index += self.visualization_limit
         if self.current_index >= len(self.visualization_data):
             self.current_index = 0  
         self.show_visualizations()
+
     def previous_visualizations(self):
         self.current_index -= self.visualization_limit
         if self.current_index < 0:
             self.current_index = max(0, len(self.visualization_data) - self.visualization_limit)
         self.show_visualizations()
+
     def update_next_button_state(self): 
         next_index = self.current_index + self.visualization_limit
-        if next_index < len(self.visualization_data):
-            self.next_button.config(state=tk.NORMAL)
-        else:
-            self.next_button.config(state=tk.DISABLED)
+        self.next_button.config(state=tk.NORMAL if next_index < len(self.visualization_data) else tk.DISABLED)
+
     def back_button_state(self):
-        next_index = self.current_index + self.visualization_limit
-        if next_index < len(self.visualization_data):
-            self.next_button.config(state=tk.NORMAL)
-        else:
-            self.next_button.config(state=tk.DISABLED)
+        prev_index = self.current_index - self.visualization_limit
+        self.iepriekseja_button.config(state=tk.NORMAL if prev_index >= 0 else tk.DISABLED)
+
     def get_wan_positions(self):
         """Returns a dictionary mapping timestamps and sections to their WAN port center positions"""
         wan_positions = {}
@@ -538,8 +541,10 @@ class JSONTimeStampVizualizetjas:
 
 
 
-if __name__ == "__main__": #this will hapen if in those other programm it find name = main
+if __name__ == "__main__":
     root = tk.Tk()
-    """ app = JSONTimeStampSaglabatajs(root) 
-    app = JSONTimeStampVizualizetjas(root)"""
+    app = JSONTimeStampVizualizetjas(root)
+    # Add a button to the main window to trigger visualization
+    viz_button = tk.Button(root, text="Visualize", command=app.vizualize_all)
+    viz_button.pack()
     root.mainloop()
