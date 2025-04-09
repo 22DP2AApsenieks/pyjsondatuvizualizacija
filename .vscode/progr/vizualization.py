@@ -48,7 +48,7 @@ class JSONTimeStampVizualizetjas:
             messagebox.showinfo("Info", "Nav vairāk datu!")
             return
         # Generate unique filename to force browser reload
-        output_path = os.path.join(os.getcwd(), f"current_visualization_{self.current_index}.svg")
+        output_path = os.path.join(os.getcwd(), f"current_visualization.svg")
         self.generate_state_diagram(current_data, output_path)
         webbrowser.open(output_path)
         self.update_next_button_state()
