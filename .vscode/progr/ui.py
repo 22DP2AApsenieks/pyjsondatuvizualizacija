@@ -1,14 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from galvenais import JSONTimeStampSaglabatajs
-from vizualization import JSONTimeStampVizualizetjas
+from vizualization import Visualization
 
 class JSONTimeStampSaglabatajsUI:
     def __init__(self, root):
         self.root = root
         self.root.title("JSON Datu Saglabātājs un vizualizācijas veidotājs")
         self.logic = JSONTimeStampSaglabatajs()
-        self.visualization = JSONTimeStampVizualizetjas(self.logic)
+        self.visualization = Visualization(self.logic)
         self.create_widgets()
 
     def create_widgets(self):
