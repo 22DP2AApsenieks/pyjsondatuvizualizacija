@@ -43,7 +43,7 @@ class JSONTimeStampVizualizetjas:
         end = min(self.current_index + self.visualization_limit, len(self.visualization_data))
         current_data = self.visualization_data[start:end]
         
-        print(f"Current data to visualize: {current_data}")
+        #print(f"Current data to visualize: {current_data}")
         if not current_data:
             messagebox.showinfo("Info", "Nav vairāk datu!")
             return
@@ -275,8 +275,8 @@ class JSONTimeStampVizualizetjas:
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
         # Ensure all lines are processed
-        print(f"Total lines generated: {len(line_elements)}")  # Debugging the number of lines
-        print(line_elements)  # Print all generated lines for verification
+       # print(f"Total lines generated: {len(line_elements)}")  # Debugging the number of lines
+      #  print(line_elements)  # Print all generated lines for verification
         # Write the generated lines to a JSON file after the loop completes
         with open("line_elements_output.json", "w") as json_file:
             json.dump(line_elements, json_file, indent=4)
@@ -316,7 +316,7 @@ class JSONTimeStampVizualizetjas:
                 "secondary": secondary
             })
             # Display primary and secondary names (if available)
-            print(f"Entry '{entry}' - Primary: {primary}, Secondary: {secondary}")
+            #print(f"Entry '{entry}' - Primary: {primary}, Secondary: {secondary}")
         return result
     # Example: Reading and processing JSON
     with open("merged_results.json", "r") as file:
@@ -344,7 +344,7 @@ class JSONTimeStampVizualizetjas:
             remote_role = self.visualization_data[entry]['sections'].get('remote', {}).get("role_cfg", "N/A").lower()
             remote_alternate_role = self.visualization_data[entry]['sections'].get('remote_alternate', {}).get("role_cfg", "N/A").lower()
             # Debugging print statements
-            print(f"Entry '{entry}' - Remote Role: {remote_role}, Remote Alternate Role: {remote_alternate_role}")
+            #print(f"Entry '{entry}' - Remote Role: {remote_role}, Remote Alternate Role: {remote_alternate_role}")
             # Resolve primary and secondary roles for remote and remote_alternate
             remote_primary_box, remote_secondary_box = None, None
             if remote_role == 'primary' and remote_alternate_role == 'secondary':
@@ -362,7 +362,7 @@ class JSONTimeStampVizualizetjas:
             else:
                 raise ValueError(f"Entry '{entry}' must have one remote primary and one remote secondary. Got roles: remote={remote_role}, remote_alternate={remote_alternate_role}")
             # Display which box is primary and which is secondary
-            print(f"Entry '{entry}' - Remote Primary: {remote_primary_box['name']}, Remote Secondary: {remote_secondary_box['name']}")
+            #print(f"Entry '{entry}' - Remote Primary: {remote_primary_box['name']}, Remote Secondary: {remote_secondary_box['name']}")
             # At this point, all roles are resolved, and boxes are correctly set
             # Get traffic port positions
             if remote_primary_box and remote_secondary_box:

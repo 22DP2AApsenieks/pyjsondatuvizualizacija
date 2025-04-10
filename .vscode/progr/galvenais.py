@@ -1,20 +1,15 @@
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
 import os
 import json
 import glob
 import re
-import webbrowser
+import subprocess
 from datetime import datetime
 from vizualization import JSONTimeStampVizualizetjas
-import subprocess #lai atvertu vizualizac
-
+from ui import JSONTimeStampUI
 
 class JSONTimeStampSaglabatajs:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("JSON Datu Saglabātājs un vizualizācijas veidotājs")
-        self.directories = {1: None, 2: None, 3: None, 4: None}
+    def __init__(self):
+        self.ui = JSONTimeStampUI()
         self.reason_ids = {
             "2+0 Aggregation": {
                 0: "Configuration Commit (AGGR_FSM_RSN_CFG_COMMIT)",
@@ -63,122 +58,48 @@ class JSONTimeStampSaglabatajs:
                 18: "Local Alternative Link Down (PROT_FSM_RSN_LCL_ALTLINK_DOWN)"
             }
         }
-        self.box_indexes = []
-        self.create_widgets()
+        self.setup_ui_commands()
 
-    def create_widgets(self):
-        # Režīma izvēle
-        mode_frame = tk.LabelFrame(self.root, text="Parsing Mode", padx=10, pady=5)
-        mode_frame.pack(padx=10, pady=2, fill="x")
-        self.mode_var = tk.StringVar(value="2+0 Aggregation")
-        ttk.Radiobutton(mode_frame, text="2+0 Aggregation", variable=self.mode_var,
-                       value="2+0 Aggregation").pack(side=tk.LEFT, padx=5)
-        ttk.Radiobutton(mode_frame, text="1+1HSB Protection", variable=self.mode_var,
-                       value="1+1HSB Protection").pack(side=tk.LEFT, padx=5)
+    def setup_ui_commands(self):
+        self.ui.set_process_command(self.process_files)
+        self.ui.set_clear_command(self.clear_all)
+        self.ui.set_vizualize_command(self.open_vizualizacija)
 
-        # Mapes ievade
-        for i in range(1, 5):
-            frame = tk.LabelFrame(self.root, text=f"Ievadiet mapi un identifikatoru ({i})", padx=10, pady=5)
-            frame.pack(padx=10, pady=2, fill="x")
-            
-            dir_entry = tk.Entry(frame, width=40)
-            dir_entry.pack(side=tk.LEFT, padx=5)
-            tk.Button(frame, text="Pārlūkot...", command=lambda num=i: self.browse_directory(num)
-                      ).pack(side=tk.LEFT)
-            
-            tk.Label(frame, text="ID:").pack(side=tk.LEFT, padx=5)
-            id_entry = tk.Entry(frame, width=15)
-            id_entry.pack(side=tk.LEFT)
-            
-            setattr(self, f"dir_entry{i}", dir_entry)
-            setattr(self, f"id_entry{i}", id_entry)
-
-
-
-        def open_vizualizacija():
-            # Use the full path to the file
-            script_path = r"C:\Users\adams.apsenieks\OneDrive - SAF Tehnika AS\pyjsondatuvizualizacija\.vscode\progr\vizualization.py"
-            subprocess.Popen(["python", script_path])
-
-        # Galvenās pogas
-        control_frame = tk.Frame(self.root)
-        control_frame.pack(pady=10)
-        tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
-        tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
-        tk.Button(control_frame, text="Parādīt vizualizāciju", command=open_vizualizacija).pack(pady=2) #atvers vizualizacijas failu
-        """tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2)"""
-            #bez šita viss (sākuma stadija) smuki strada, šis visu boja
-        # Rezultāti
-        self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
-        self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
-        self.result_text = tk.Text(self.result_frame, height=15, width=100)
-        self.result_text.pack(side=tk.LEFT, fill="both", expand=True)
-        self.scrollbar = tk.Scrollbar(self.result_frame)
-        self.scrollbar.pack(side=tk.RIGHT, fill="y")
-        self.result_text.config(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.config(command=self.result_text.yview)
-
-    def browse_directory(self, dir_num):
-        directory = filedialog.askdirectory(title=f"Atlasiet mapi {dir_num}")
-        if directory:
-            getattr(self, f"dir_entry{dir_num}").delete(0, tk.END)
-            getattr(self, f"dir_entry{dir_num}").insert(0, directory)
-            self.directories[dir_num] = directory
+    def open_vizualizacija(self):
+        script_path = r"C:\Users\adams.apsenieks\OneDrive - SAF Tehnika AS\pyjsondatuvizualizacija\.vscode\progr\vizualization.py"
+        subprocess.Popen(["python", script_path])
 
     def clear_all(self):
         for i in range(1, 5):
-            getattr(self, f"dir_entry{i}").delete(0, tk.END)
-            getattr(self, f"id_entry{i}").delete(0, tk.END)
-            self.directories[i] = None
-        self.result_text.delete(1.0, tk.END)
-
-    def load_error_mapping(self, directory):
-        error_mapping = {}
-        error_files = glob.glob(os.path.join(directory, '*.txt'))
-        for error_file in error_files:
-            try:
-                with open(error_file, 'r', encoding='utf-8') as f:
-                    lines = f.readlines()
-                for line in lines:
-                    if not line.strip():
-                        continue
-                    parts = line.split(';')
-                    if len(parts) < 4:
-                        continue
-                    date_field, time_field, error_desc = parts[1].strip(), parts[2].strip(), parts[-1].strip()
-                    if "Aggregation FSM state changed" in error_desc:
-                        error_mapping[(date_field, time_field)] = error_desc
-            except Exception as e:
-                messagebox.showerror("Kļūda", f"Kļūda, lasot failu {error_file}: {str(e)}")
-        return error_mapping
+            self.ui.clear_directory(i)
+            self.ui.clear_identifier(i)
+        self.ui.clear_results()
 
     def process_files(self):
-        selected_dirs = [d for d in self.directories.values() if d]
-        if not selected_dirs:
-            messagebox.showerror("Error", "Please select at least one directory!")
+        directories = self.ui.get_directories()
+        identifiers = self.ui.get_identifiers()
+        mode = self.ui.get_mode()
+
+        if not any(directories.values()):
+            self.ui.show_error("Error", "Please select at least one directory!")
             return
 
-        identifiers = {}
-        for dir_num in self.directories:
-            if self.directories[dir_num]:
-                identifier = getattr(self, f"id_entry{dir_num}").get().strip()
-                if not identifier:
-                    messagebox.showerror("Error", f"Please enter an identifier for directory {dir_num}!")
-                    return
-                identifiers[dir_num] = identifier
+        for dir_num in directories:
+            if directories[dir_num] and not identifiers[dir_num]:
+                self.ui.show_error("Error", f"Please enter an identifier for directory {dir_num}!")
+                return
 
-        self.result_text.delete(1.0, tk.END)
+        self.ui.clear_results()
         total_files, success_count, skipped_count = 0, 0, 0
         merged_data = []
         existing_timestamps = set()
 
-        for dir_num, directory in self.directories.items():
+        for dir_num, directory in directories.items():
             if not directory:
                 continue
             
             error_mapping = self.load_error_mapping(directory)
             current_identifier = identifiers[dir_num]
-            mode = self.mode_var.get()
 
             for root, _, files in os.walk(directory):
                 for file in files:
@@ -189,7 +110,6 @@ class JSONTimeStampSaglabatajs:
                             with open(file_path, 'r', encoding='utf-8') as f:
                                 data = json.load(f)
                             
-
                             if 'time_stamp' not in data:
                                 raise KeyError("Missing 'time_stamp' field")
                             
@@ -245,13 +165,12 @@ class JSONTimeStampSaglabatajs:
                             existing_timestamps.add(time_stamp)
                             success_count += 1
                         except Exception as e:
-                            self.result_text.insert(tk.END, f"[Directory {dir_num}] {file} Error: {str(e)}\n")
+                            self.ui.append_results(f"[Directory {dir_num}] {file} Error: {str(e)}\n")
         
         merged_data.sort(key=lambda x: x["time_stamp"])
         merged_file_path = os.path.join(os.getcwd(), "merged_results.json")
         with open(merged_file_path, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=4, ensure_ascii=False)
-
 
         summary = (
             f"\n=== SUMMARY ===\n"
@@ -260,8 +179,28 @@ class JSONTimeStampSaglabatajs:
             f"Skipped: {skipped_count}\n"
             f"Merged file saved at: {merged_file_path}\n"
         )
-        self.result_text.insert(tk.END, summary)
-        messagebox.showinfo("Complete", f"Processed {total_files} files")
+        self.ui.append_results(summary)
+        self.ui.show_info("Complete", f"Processed {total_files} files")
+
+    def load_error_mapping(self, directory):
+        error_mapping = {}
+        error_files = glob.glob(os.path.join(directory, '*.txt'))
+        for error_file in error_files:
+            try:
+                with open(error_file, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+                for line in lines:
+                    if not line.strip():
+                        continue
+                    parts = line.split(';')
+                    if len(parts) < 4:
+                        continue
+                    date_field, time_field, error_desc = parts[1].strip(), parts[2].strip(), parts[-1].strip()
+                    if "Aggregation FSM state changed" in error_desc or "Protection FSM state changed" in error_desc:
+                        error_mapping[(date_field, time_field)] = error_desc
+            except Exception as e:
+                self.ui.show_error("Kļūda", f"Kļūda, lasot failu {error_file}: {str(e)}")
+        return error_mapping
 
     def get_eth_ip_name(self, eth_ip):
         if not eth_ip or eth_ip == "N/A":
@@ -292,9 +231,6 @@ class JSONTimeStampSaglabatajs:
             error_desc = re.sub(r'rsn_id:\(\d+\)', reason, error_desc)
         return error_desc
 
-    
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = JSONTimeStampSaglabatajs(root)
-    root.mainloop()
-
+    app = JSONTimeStampSaglabatajs()
+    app.ui.mainloop()
