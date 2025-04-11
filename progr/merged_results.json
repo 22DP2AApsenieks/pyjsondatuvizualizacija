@@ -478,8 +478,8 @@
                     "LAN2",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.10",
-                "eth_ip_name": "l primary"
+                "eth_ip": "192.168.205.99",
+                "eth_ip_name": "192.168.205.99"
             },
             "alternate": {
                 "fsm_state": "Secondary Mute",

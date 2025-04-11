@@ -19,8 +19,8 @@
 			"alt_port":"LAN2",
 			"master_prot":"disable",
 			"eth_mac":"00:04:a6:81:a7:ae",
-			"eth_ip":"192.168.205.10",
-			"eth_ip_mask":"255.255.255.0",
+			"eth_ip":"192.168.205.99",
+			"eth_ip_mask":"255.255.255.99",
 			"fsm.force.hold":"disable",
 			"product":"15",
 			"firmware":"3.25.0"

@@ -90,22 +90,26 @@ class JSONTimeStampSaglabatajs:
         total_files, success_count, skipped_count = 0, 0, 0
         merged_data = []
         existing_timestamps = set()
+        error_messages = []
 
         # First pass: collect all FSM state changes from event logs
         fsm_events = {}
         for dir_num, directory in directories.items():
             if not directory:
                 continue
-            error_mapping = self.load_error_mapping(directory)
-            for (date_part, time_part), error_desc in error_mapping.items():
-                if "Aggregation FSM state changed" in error_desc:
-                    timestamp = f"{date_part} {time_part}"
-                    decoded_desc = self.decode_error_description(error_desc, mode_var)
-                    fsm_events[timestamp] = {
-                        "timestamp": timestamp,
-                        "error_description": decoded_desc,
-                        "has_json": False  # Will be set to True if we find matching JSON
-                    }
+            try:
+                error_mapping = self.load_error_mapping(directory)
+                for (date_part, time_part), error_desc in error_mapping.items():
+                    if "Aggregation FSM state changed" in error_desc:
+                        timestamp = f"{date_part} {time_part}"
+                        decoded_desc = self.decode_error_description(error_desc, mode_var)
+                        fsm_events[timestamp] = {
+                            "timestamp": timestamp,
+                            "error_description": decoded_desc,
+                            "has_json": False  # Will be set to True if we find matching JSON
+                        }
+            except Exception as e:
+                error_messages.append(f"Error processing event logs in directory {dir_num}: {str(e)}")
 
         # Second pass: process JSON files and match with FSM events
         for dir_num, directory in directories.items():
@@ -179,7 +183,8 @@ class JSONTimeStampSaglabatajs:
                             existing_timestamps.add(time_stamp)
                             success_count += 1
                         except Exception as e:
-                            raise Exception(f"[Directory {dir_num}] {file} Error: {str(e)}")
+                            error_messages.append(f"[Directory {dir_num}] {file} Error: {str(e)}")
+                            continue
         
         # Third pass: add FSM events that didn't have matching JSON files
         for timestamp, event_data in fsm_events.items():
@@ -213,12 +218,69 @@ class JSONTimeStampSaglabatajs:
         with open(merged_file_path, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
+        # Store merged_data in the instance for later use
+        self.merged_data = merged_data
+
         return {
             "total_files": total_files,
             "success_count": success_count,
             "skipped_count": skipped_count,
-            "merged_file_path": merged_file_path
+            "merged_file_path": merged_file_path,
+            "error_msg": error_messages  # Return all collected error messages
         }
+
+    def nec(self):
+        """Check ETH IP mappings for animation errors."""
+        errors = []
+        if not hasattr(self, 'merged_data') or not self.merged_data:
+            return "No data to check. Please process files first."
+
+        for entry in self.merged_data:
+            timestamp = entry['time_stamp']
+            sections = entry.get('sections', {})
+            for section_name, section_data in sections.items():
+                eth_ip = section_data.get('eth_ip', 'N/A')
+                if eth_ip == 'N/A':
+                    continue
+
+                # Handle dictionary format (from JSON structure)
+                if isinstance(eth_ip, dict):
+                    eth_ip = eth_ip.get('ip', 'N/A')
+                    if eth_ip == 'N/A':
+                        continue
+
+                # Split and validate IP format
+                parts = eth_ip.split('.')
+                if len(parts) != 4:
+                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid IP format '{eth_ip}'")
+                    continue
+
+                last_octet_str = parts[-1]
+
+                # Check for allowed "00" ending
+                if last_octet_str.endswith('00'):
+                    continue  # Valid special case
+
+                # Validate numerical value
+                try:
+                    last_octet = int(last_octet_str)
+                except ValueError:
+                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid last octet '{last_octet_str}' in IP '{eth_ip}'")
+                    continue
+
+                if last_octet not in [10, 11, 12, 13]:
+                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid last octet {last_octet} in IP '{eth_ip}'")
+
+        if errors:
+            error_msg = "Animation ETH IP errors detected:\n" + "\n".join(errors)
+            
+            # Save error message to a log file
+            with open('error_log.txt', 'w') as file:
+                file.write(error_msg)
+            
+            return error_msg
+        else:
+            return "No ETH IP animation errors found"
 
     def get_eth_ip_name(self, eth_ip):
         if not eth_ip or eth_ip == "N/A":
