@@ -12,7 +12,7 @@ class Visualization:
         self.visualization_data = []
         self.visualization_window = None
 
-    def vizualize_all(self):
+    def visualize_all(self):
         merged_file = os.path.join(os.getcwd(), "merged_results.json")
         
         try:
@@ -27,18 +27,11 @@ class Visualization:
                 messagebox.showinfo("Info", "Nav datu vizualizācijai!")
                 return
 
-            self.visualization_window = tk.Toplevel()
-            self.visualization_window.title("Visualization")
-            
+            # Reset visualization state
             self.current_index = 0
             self.visualization_limit = 1
-
-            self.next_button = tk.Button(self.visualization_window, text="Next ", command=self.next_visualizations)
-            self.next_button.pack(pady=10)
-
-            self.iepriekseja_button = tk.Button(self.visualization_window, text="Back ", command=self.previous_visualizations)
-            self.iepriekseja_button.pack(pady=10)
-
+            
+            # Show initial visualization
             self.show_visualizations()
 
         except Exception as e:

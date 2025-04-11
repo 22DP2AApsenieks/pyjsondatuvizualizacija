@@ -1,0 +1,30 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .node { fill: #ffffff; stroke: #000000; stroke-width: 2; }
+  .label { font: 10px Arial; fill: #333333; }
+  .labela { font: 6px Arial; fill: #333333; font-weight: bold;}
+  .error { font: 9px Arial; fill: #cc0000; }
+  .timestamp { font: 20px Arial; font-weight: bold; fill: #0000cc; }
+  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }
+  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }
+  .connection-line { stroke: #888888; stroke-width: 2; }
+  .diagonal-line { stroke: #aa0000; stroke-width: 3; }
+  .sender-receiver-line { stroke: #aa00aa; stroke-width: 2; }
+  .secondary-primary-line { stroke: #aa0000; stroke-width: 2; }
+  .remote-secondary-primary-line { stroke: #aa0000; stroke-width: 2; }
+  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }
+  .traffic-flow { animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0% { stroke-opacity: 0.3; stroke-width: 1; }
+    50% { stroke-opacity: 1; stroke-width: 3; }
+    100% { stroke-opacity: 0.3; stroke-width: 1; }
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#888888"/>
+  </marker>
+</defs>
+<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:57</text>
+<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms</text>
+</svg>
