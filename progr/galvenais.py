@@ -91,6 +91,7 @@ class JSONTimeStampSaglabatajs:
         merged_data = []
         existing_timestamps = set()
         error_messages = []
+        eth_ip_errors = []  # New list to store ETH IP validation errors
 
         # First pass: collect all FSM state changes from event logs
         fsm_events = {}
@@ -166,6 +167,31 @@ class JSONTimeStampSaglabatajs:
                                 eth_ip = section_data.get("eth_ip", "N/A")
                                 eth_ip_name = self.get_eth_ip_name(eth_ip)
                                 
+                                # Validate ETH IP address
+                                if eth_ip != 'N/A':
+                                    # Handle dictionary format (from JSON structure)
+                                    if isinstance(eth_ip, dict):
+                                        eth_ip = eth_ip.get('ip', 'N/A')
+                                        if eth_ip == 'N/A':
+                                            continue
+                                    
+                                   # Split and validate IP format
+                                    parts = eth_ip.split('.')
+                                    if len(parts) != 4:
+                                        eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
+                                    else:
+                                        last_octet_str = parts[-1]
+                                        # Skip the IP if the last octet ends with "00"
+                                        
+                                        try:
+                                            last_octet = int(last_octet_str)
+                                            if last_octet not in [00, 10, 11, 12, 13]:
+                                                eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'")
+                                        except ValueError:
+                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last sybols '{last_octet_str}' in IP '{eth_ip}'")
+
+
+                                
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
@@ -221,66 +247,21 @@ class JSONTimeStampSaglabatajs:
         # Store merged_data in the instance for later use
         self.merged_data = merged_data
 
+        # Save ETH IP errors to a separate log file if any were found
+        if eth_ip_errors:
+            eth_ip_error_msg = "ETH IP validation errors detected:\n" + "\n".join(eth_ip_errors)
+        else:
+            eth_ip_error_msg = "No ETH IP validation errors found"
+
         return {
             "total_files": total_files,
             "success_count": success_count,
             "skipped_count": skipped_count,
             "merged_file_path": merged_file_path,
-            "error_msg": error_messages  # Return all collected error messages
+            "error_msg": error_messages,  # General processing errors
+            "eth_ip_errors": eth_ip_error_msg  # ETH IP specific validation errors
         }
 
-    def nec(self):
-        """Check ETH IP mappings for animation errors."""
-        errors = []
-        if not hasattr(self, 'merged_data') or not self.merged_data:
-            return "No data to check. Please process files first."
-
-        for entry in self.merged_data:
-            timestamp = entry['time_stamp']
-            sections = entry.get('sections', {})
-            for section_name, section_data in sections.items():
-                eth_ip = section_data.get('eth_ip', 'N/A')
-                if eth_ip == 'N/A':
-                    continue
-
-                # Handle dictionary format (from JSON structure)
-                if isinstance(eth_ip, dict):
-                    eth_ip = eth_ip.get('ip', 'N/A')
-                    if eth_ip == 'N/A':
-                        continue
-
-                # Split and validate IP format
-                parts = eth_ip.split('.')
-                if len(parts) != 4:
-                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid IP format '{eth_ip}'")
-                    continue
-
-                last_octet_str = parts[-1]
-
-                # Check for allowed "00" ending
-                if last_octet_str.endswith('00'):
-                    continue  # Valid special case
-
-                # Validate numerical value
-                try:
-                    last_octet = int(last_octet_str)
-                except ValueError:
-                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid last octet '{last_octet_str}' in IP '{eth_ip}'")
-                    continue
-
-                if last_octet not in [10, 11, 12, 13]:
-                    errors.append(f"Timestamp {timestamp}, section {section_name}: Invalid last octet {last_octet} in IP '{eth_ip}'")
-
-        if errors:
-            error_msg = "Animation ETH IP errors detected:\n" + "\n".join(errors)
-            
-            # Save error message to a log file
-            with open('error_log.txt', 'w') as file:
-                file.write(error_msg)
-            
-            return error_msg
-        else:
-            return "No ETH IP animation errors found"
 
     def get_eth_ip_name(self, eth_ip):
         if not eth_ip or eth_ip == "N/A":
