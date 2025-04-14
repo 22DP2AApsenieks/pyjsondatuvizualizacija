@@ -52,8 +52,9 @@ class JSONTimeStampSaglabatajsUI:
         # Navigācijas pogas
         nav_frame = tk.Frame(control_frame)
         nav_frame.pack(pady=5)
-        tk.Button(nav_frame, text="Back", command=self.visualization.previous_visualizations).pack(side=tk.LEFT, padx=5)
-        tk.Button(nav_frame, text="Next", command=self.visualization.next_visualizations).pack(side=tk.LEFT, padx=5)
+        tk.Button(nav_frame, text="Back", command=self.visualization.previous_visualizations, bg="lightcoral", fg="black").pack(side=tk.LEFT, padx=5)
+        tk.Button(nav_frame, text="Next", command=self.visualization.next_visualizations, bg="lightgreen", fg="black").pack(side=tk.LEFT, padx=5)
+
 
         # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
