@@ -53,8 +53,8 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "0.0.0.0",
-                "eth_ip_name": "0.0.0.0"
+                "eth_ip": "0.0.0.12",
+                "eth_ip_name": "l secondary"
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -85,8 +85,8 @@
                     "LAN2",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.11",
-                "eth_ip_name": "rem primary"
+                "eth_ip": "192.168.205.12",
+                "eth_ip_name": "l secondary"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",

@@ -158,10 +158,10 @@ class JSONTimeStampSaglabatajsUI:
             "• Nodrošina vienkāršu un skaidru vizualizāciju – ar krāsām un paskaidrojumiem.\n"
             "\n"
             "Kā lietot:\n"
-            "1. Izvēlies darbības režīmu augšpusē.\n"
-            "2. Zemāk ievadi mapes ceļu (vai izmanto 'Pārlūkot') un identificējošo ID (piemēram, agregācijas vārdu).\n"
+            "1. Palaižiet programmu\n"
+            "2. Zemāk ievadi mapes ceļu (vai izmanto 'Pārlūkot') un identificējošo ID (piemēram, ID: 11).\n"
             "3. Spied 'Apstrādāt failus' – programma analizēs JSON datus un parādīs rezultātu.\n"
-            "4. Izmanto 'Parādīt vizualizāciju', lai redzētu statusa krāsas un portu aktivitāti.\n"
+            "4. Izmanto 'Parādīt vizualizāciju', lai redzētu datu ceļu, aprakstu un statusa krāsas un portu aktivitāti.\n"
             "   – Zaļš: Ports aktīvs\n"
             "   – Dzeltens: Notiek datu satiksme\n"
             "   – Sarkans: Ports neaktīvs vai neeksistē\n"
@@ -188,3 +188,4 @@ class JSONTimeStampSaglabatajsUI:
     def vizualize_all(self):
         self.animacijaspaskaidrojums()
         self.visualization.vizualize_all()
+    
