@@ -55,6 +55,8 @@ class JSONTimeStampSaglabatajsUI:
         tk.Button(nav_frame, text="Back", command=self.visualization.previous_visualizations, bg="lightcoral", fg="black").pack(side=tk.LEFT, padx=5)
         tk.Button(nav_frame, text="Next", command=self.visualization.next_visualizations, bg="lightgreen", fg="black").pack(side=tk.LEFT, padx=5)
 
+        tk.Button(control_frame, text="Par programmu", command=self.about ).pack(pady=20)
+
 
         # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
@@ -130,8 +132,58 @@ class JSONTimeStampSaglabatajsUI:
                         bg="lightcoral", anchor="w", width=50, font=("Arial", 12))
         sarkans.pack(fill="x", pady=2)
 
+        ps = tk.Label(frame, text="Ja vizualizācija ir tukša(nav attēlota), tad šajam gadījumam neizdevās atrast sakarību starp eventlog un json failu", 
+                         anchor="w", width=50, font=("Arial", 12))
+        ps.pack(fill="x", pady=2)
+
         ok_btn = tk.Button(paskaidrojums_logs, text="Saprotu", command=paskaidrojums_logs.destroy)
         ok_btn.pack(pady=10)
+
+    def about(self):
+        about_logs = tk.Toplevel(self.root)
+        about_logs.title("Par programmu")
+
+        frame = tk.Frame(about_logs, padx=30, pady=40)
+        frame.pack()
+
+        apraksts = (
+            "Šī programma ir izstrādāta SAF Tehnikas ražoto iekārtu 'Integra' datu pārraides ceļa vizualizācijai. Tā apstrādā JSON žurnāla datus un eventlog ierakstus, apvienojot tos vienotā vizualizācijā."
+            "\n"
+            "Galvenās iespējas:\n"
+            "• Apstrāde līdz pat 4 dažādām mapēm ar JSON un uventlog failiem.\n"
+            "• Atbalsta divus darbības režīmus: '2+0 Aggregation' un '1+1 HSB Protection'.\n"
+            "• Spēj automātiski izvilkt, filtrēt un saglabāt laika zīmogus un citas būtiskas vērtības.\n"
+            "• Izveido apvienotu žurnālu failu ar visiem datiem.\n"
+            "• Sniedz datu apkopojumu (cik failu apstrādāti, izlaisti utt.).\n"
+            "• Nodrošina vienkāršu un skaidru vizualizāciju – ar krāsām un paskaidrojumiem.\n"
+            "\n"
+            "Kā lietot:\n"
+            "1. Izvēlies darbības režīmu augšpusē.\n"
+            "2. Zemāk ievadi mapes ceļu (vai izmanto 'Pārlūkot') un identificējošo ID (piemēram, agregācijas vārdu).\n"
+            "3. Spied 'Apstrādāt failus' – programma analizēs JSON datus un parādīs rezultātu.\n"
+            "4. Izmanto 'Parādīt vizualizāciju', lai redzētu statusa krāsas un portu aktivitāti.\n"
+            "   – Zaļš: Ports aktīvs\n"
+            "   – Dzeltens: Notiek datu satiksme\n"
+            "   – Sarkans: Ports neaktīvs vai neeksistē\n"
+            "5. Navigē starp vizualizācijām ar pogām 'Next' un 'Back'.\n"
+            "6. Spied 'Notīrīt visu', lai iztīrītu ievadlaukus un sāktu no jauna.\n"
+            "\n"
+            "Piezīme:\n"
+            "– Vizualizācijas tiek rādītas uz esošā loga bāzes, netiek atvērti lieki logi.\n"
+            "– Ja rodas kļūdas, tās tiks parādītas rezultātu sadaļā un paziņojumā.\n"
+            "\n"
+            "Izstrāde sākta: 2025gada marta beigās\n"
+            "Versija: 1.0\n"
+        )
+
+        text_widget = tk.Text(frame, wrap="word", height=30, width=80, font=("Arial", 11))
+        text_widget.insert(tk.END, apraksts)
+        text_widget.config(state=tk.DISABLED)
+        text_widget.pack()
+
+        tk.Button(about_logs, text="Aizvērt", command=about_logs.destroy).pack(pady=10)
+
+
 
     def vizualize_all(self):
         self.animacijaspaskaidrojums()
