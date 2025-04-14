@@ -90,15 +90,35 @@ class JSONTimeStampSaglabatajs:
         total_files, success_count, skipped_count = 0, 0, 0
         merged_data = []
         existing_timestamps = set()
+        error_messages = []
+        eth_ip_errors = []  # New list to store ETH IP validation errors
 
+        # First pass: collect all FSM state changes from event logs
+        fsm_events = {}
+        for dir_num, directory in directories.items():
+            if not directory:
+                continue
+            try:
+                error_mapping = self.load_error_mapping(directory)
+                for (date_part, time_part), error_desc in error_mapping.items():
+                    if "Aggregation FSM state changed" in error_desc:
+                        timestamp = f"{date_part} {time_part}"
+                        decoded_desc = self.decode_error_description(error_desc, mode_var)
+                        fsm_events[timestamp] = {
+                            "timestamp": timestamp,
+                            "error_description": decoded_desc,
+                            "has_json": False  # Will be set to True if we find matching JSON
+                        }
+            except Exception as e:
+                error_messages.append(f"Error processing event logs in directory {dir_num}: {str(e)}")
+
+        # Second pass: process JSON files and match with FSM events
         for dir_num, directory in directories.items():
             if not directory:
                 continue
             
-            error_mapping = self.load_error_mapping(directory)
             current_identifier = identifiers[dir_num]
-            mode = mode_var
-
+            
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -112,10 +132,20 @@ class JSONTimeStampSaglabatajs:
                                 raise KeyError("Missing 'time_stamp' field")
                             
                             time_stamp = data["time_stamp"]
+                            
+                            # Skip if we've already processed this timestamp
                             if time_stamp in existing_timestamps:
                                 skipped_count += 1
                                 continue
                             
+                            # Mark this timestamp as having JSON data
+                            if time_stamp in fsm_events:
+                                fsm_events[time_stamp]["has_json"] = True
+                            else:
+                                # If JSON exists but no eventlog entry, skip it
+                                skipped_count += 1
+                                continue
+                                
                             sections = {
                                 'local': data.get('local', {}).get('info', {}),
                                 'alternate': data.get('alternate', {}).get('info', {}),
@@ -123,19 +153,10 @@ class JSONTimeStampSaglabatajs:
                                 'remote_alternate': data.get('remote.alternate', {}).get('info', {})
                             }
                             
-                            date_part, time_part = time_stamp.split(' ')
-                            error_desc = error_mapping.get((date_part, time_part), "N/A")
-                            
-                            if error_desc == "N/A":
-                                skipped_count += 1
-                                continue
-                            
-                            error_desc = self.decode_error_description(error_desc, mode)
-                            
                             entry = {
                                 "time_stamp": time_stamp,
                                 "device_identifier": current_identifier,
-                                "error_description": error_desc,
+                                "error_description": fsm_events[time_stamp]["error_description"],
                                 "sections": {}
                             }
                             
@@ -145,6 +166,31 @@ class JSONTimeStampSaglabatajs:
                                     
                                 eth_ip = section_data.get("eth_ip", "N/A")
                                 eth_ip_name = self.get_eth_ip_name(eth_ip)
+                                
+                                # Validate ETH IP address
+                                if eth_ip != 'N/A':
+                                    # Handle dictionary format (from JSON structure)
+                                    if isinstance(eth_ip, dict):
+                                        eth_ip = eth_ip.get('ip', 'N/A')
+                                        if eth_ip == 'N/A':
+                                            continue
+                                    
+                                   # Split and validate IP format
+                                    parts = eth_ip.split('.')
+                                    if len(parts) != 4:
+                                        eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
+                                    else:
+                                        last_octet_str = parts[-1]
+                                        # Skip the IP if the last octet ends with "00"
+                                        
+                                        try:
+                                            last_octet = int(last_octet_str)
+                                            if last_octet not in [00, 10, 11, 12, 13]:
+                                                eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'")
+                                        except ValueError:
+                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last sybols '{last_octet_str}' in IP '{eth_ip}'")
+
+
                                 
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
@@ -163,19 +209,59 @@ class JSONTimeStampSaglabatajs:
                             existing_timestamps.add(time_stamp)
                             success_count += 1
                         except Exception as e:
-                            raise Exception(f"[Directory {dir_num}] {file} Error: {str(e)}")
+                            error_messages.append(f"[Directory {dir_num}] {file} Error: {str(e)}")
+                            continue
+        
+        # Third pass: add FSM events that didn't have matching JSON files
+        for timestamp, event_data in fsm_events.items():
+            if not event_data["has_json"] and timestamp not in existing_timestamps:
+                entry = {
+                    "time_stamp": timestamp,
+                    "device_identifier": "",  # Will be filled in next step
+                    "error_description": event_data["error_description"],
+                    "sections": {}  # Empty sections
+                }
+                merged_data.append(entry)
+        
+        # Assign device identifiers to entries without JSON
+        for entry in merged_data:
+            if not entry.get("device_identifier"):
+                # Find the first directory that has this timestamp in its eventlog
+                for dir_num, directory in directories.items():
+                    if not directory:
+                        continue
+                    try:
+                        error_mapping = self.load_error_mapping(directory)
+                        date_part, time_part = entry["time_stamp"].split(' ')
+                        if (date_part, time_part) in error_mapping:
+                            entry["device_identifier"] = identifiers[dir_num]
+                            break
+                    except:
+                        continue
         
         merged_data.sort(key=lambda x: x["time_stamp"])
         merged_file_path = os.path.join(os.getcwd(), "merged_results.json")
         with open(merged_file_path, 'w', encoding='utf-8') as f:
             json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
+        # Store merged_data in the instance for later use
+        self.merged_data = merged_data
+
+        # Save ETH IP errors to a separate log file if any were found
+        if eth_ip_errors:
+            eth_ip_error_msg = "ETH IP validation errors detected:\n" + "\n".join(eth_ip_errors)
+        else:
+            eth_ip_error_msg = "No ETH IP validation errors found"
+
         return {
             "total_files": total_files,
             "success_count": success_count,
             "skipped_count": skipped_count,
-            "merged_file_path": merged_file_path
+            "merged_file_path": merged_file_path,
+            "error_msg": error_messages,  # General processing errors
+            "eth_ip_errors": eth_ip_error_msg  # ETH IP specific validation errors
         }
+
 
     def get_eth_ip_name(self, eth_ip):
         if not eth_ip or eth_ip == "N/A":
@@ -493,4 +579,3 @@ class JSONTimeStampSaglabatajs:
         tx_state = section_data.get("tx_state", "unknown")
         rx_state = section_data.get("rx_state", "unknown")
         return ui_translations.get(tx_state, "None"), ui_translations.get(rx_state, "None")
-    #parbaude

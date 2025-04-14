@@ -1,73 +1,39 @@
 [
     {
         "time_stamp": "2025-03-27 12:00:52",
-        "device_identifier": "11",
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 13 ms",
-        "sections": {
-            "local": {
-                "fsm_state": "Prim.Tx-WAN Rx-ALT",
-                "role_state": "primary_wanalt",
-                "role_cfg": "primary",
-                "tx_state": "primary",
-                "rx_state": "secondary",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2"
-                ],
-                "eth_ip": "192.168.205.11",
-                "eth_ip_name": "rem primary"
-            },
-            "alternate": {
-                "fsm_state": "Secondary Mute",
-                "role_state": "secondary_mute",
-                "role_cfg": "secondary",
-                "tx_state": "none",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.13",
-                "eth_ip_name": "rem secondary"
-            },
-            "remote": {
-                "fsm_state": "Primary Standby",
-                "role_state": "primary_altalt",
-                "role_cfg": "primary",
-                "tx_state": "secondary",
-                "rx_state": "secondary",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.10",
-                "eth_ip_name": "l primary"
-            },
-            "remote_alternate": {
-                "fsm_state": "Secondary Active",
-                "role_state": "secondary",
-                "role_cfg": "secondary",
-                "tx_state": "alt_port",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.12",
-                "eth_ip_name": "l secondary"
-            }
-        }
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 59 ms",
+        "sections": {}
+    },
+    {
+        "time_stamp": "2025-03-27 12:00:57",
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms",
+        "sections": {}
+    },
+    {
+        "time_stamp": "2025-03-27 16:29:09",
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Primary Muted due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 8 ms",
+        "sections": {}
+    },
+    {
+        "time_stamp": "2025-03-27 16:33:15",
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Primary Muted to Prim.Tx-WAN Rx-WAN due to Local Traffic Port Down (AGGR_FSM_RSN_LCL_TP_DOWN) in 8 ms",
+        "sections": {}
+    },
+    {
+        "time_stamp": "2025-03-27 16:46:34",
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 5 ms",
+        "sections": {}
+    },
+    {
+        "time_stamp": "2025-03-27 16:48:02",
+        "device_identifier": "10",
+        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 7 ms",
+        "sections": {}
     },
     {
         "time_stamp": "2025-03-27 16:51:05",
@@ -135,8 +101,8 @@
                     "LAN2",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.13",
-                "eth_ip_name": "rem secondary"
+                "eth_ip": "192.168.205.99",
+                "eth_ip_name": "192.168.205.99"
             }
         }
     },
@@ -208,76 +174,6 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_ip_name": "rem secondary"
-            }
-        }
-    },
-    {
-        "time_stamp": "2025-03-27 16:59:36",
-        "device_identifier": "11",
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 9 ms",
-        "sections": {
-            "local": {
-                "fsm_state": "Prim.Tx-WAN Rx-WAN",
-                "role_state": "primary_wanwan",
-                "role_cfg": "primary",
-                "tx_state": "primary",
-                "rx_state": "primary",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.11",
-                "eth_ip_name": "rem primary"
-            },
-            "alternate": {
-                "fsm_state": "Secondary Mute",
-                "role_state": "secondary_mute",
-                "role_cfg": "secondary",
-                "tx_state": "none",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2"
-                ],
-                "eth_ip": "192.168.205.13",
-                "eth_ip_name": "rem secondary"
-            },
-            "remote": {
-                "fsm_state": "Primary Muted",
-                "role_state": "primary_mute",
-                "role_cfg": "primary",
-                "tx_state": "none",
-                "rx_state": "disable",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.10",
-                "eth_ip_name": "l primary"
-            },
-            "remote_alternate": {
-                "fsm_state": "Secondary Protect",
-                "role_state": "secondary_protect",
-                "role_cfg": "secondary",
-                "tx_state": "traffic_port",
-                "rx_state": "radio_port-traffic_port",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.12",
-                "eth_ip_name": "l secondary"
             }
         }
     },
@@ -495,77 +391,6 @@
         }
     },
     {
-        "time_stamp": "2025-03-27 17:00:18",
-        "device_identifier": "11",
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Prim.Tx-WAN Rx-ALT due to Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN) in 6 ms",
-        "sections": {
-            "local": {
-                "fsm_state": "Prim.Tx-WAN Rx-ALT",
-                "role_state": "primary_wanalt",
-                "role_cfg": "primary",
-                "tx_state": "primary",
-                "rx_state": "secondary",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2"
-                ],
-                "eth_ip": "192.168.205.11",
-                "eth_ip_name": "rem primary"
-            },
-            "alternate": {
-                "fsm_state": "Secondary Mute",
-                "role_state": "secondary_mute",
-                "role_cfg": "secondary",
-                "tx_state": "none",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.13",
-                "eth_ip_name": "rem secondary"
-            },
-            "remote": {
-                "fsm_state": "Prim.Tx-ALT Rx-ALT",
-                "role_state": "primary_altalt",
-                "role_cfg": "primary",
-                "tx_state": "secondary",
-                "rx_state": "secondary",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.10",
-                "eth_ip_name": "l primary"
-            },
-            "remote_alternate": {
-                "fsm_state": "Secondary Active",
-                "role_state": "secondary",
-                "role_cfg": "secondary",
-                "tx_state": "alt_port",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.12",
-                "eth_ip_name": "l secondary"
-            }
-        }
-    },
-    {
         "time_stamp": "2025-03-27 17:00:22",
         "device_identifier": "10",
         "error_description": "Aggregation FSM state changed from Prim.Tx-ALT Rx-ALT to Prim.Tx-WAN Rx-WAN due to Remote Down Alternative OK (AGGR_FSM_RSN_REM_DOWN_ALT_OK) in 9 ms",
@@ -632,76 +457,6 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_ip_name": "rem secondary"
-            }
-        }
-    },
-    {
-        "time_stamp": "2025-03-27 17:00:52",
-        "device_identifier": "11",
-        "error_description": "Aggregation FSM state changed from Prim.Tx-WAN Rx-ALT to Prim.Tx-WAN Rx-WAN due to Alternative Down (AGGR_FSM_RSN_ALT_DOWN) in 6 ms",
-        "sections": {
-            "local": {
-                "fsm_state": "Prim.Tx-WAN Rx-WAN",
-                "role_state": "primary_wanwan",
-                "role_cfg": "primary",
-                "tx_state": "primary",
-                "rx_state": "primary",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.11",
-                "eth_ip_name": "rem primary"
-            },
-            "alternate": {
-                "fsm_state": "Secondary Mute",
-                "role_state": "secondary_mute",
-                "role_cfg": "secondary",
-                "tx_state": "none",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN1",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2"
-                ],
-                "eth_ip": "192.168.205.13",
-                "eth_ip_name": "rem secondary"
-            },
-            "remote": {
-                "fsm_state": "Prim.Tx-WAN Rx-WAN",
-                "role_state": "primary_wanwan",
-                "role_cfg": "primary",
-                "tx_state": "primary",
-                "rx_state": "primary",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN1",
-                    "LAN2",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.10",
-                "eth_ip_name": "l primary"
-            },
-            "remote_alternate": {
-                "fsm_state": "Secondary Mute",
-                "role_state": "secondary_mute",
-                "role_cfg": "secondary",
-                "tx_state": "none",
-                "rx_state": "radio_port-alt_port",
-                "traffic_port": "LAN3",
-                "alt_port": "LAN2",
-                "ports_up": [
-                    "LAN2",
-                    "LAN3",
-                    "WAN"
-                ],
-                "eth_ip": "192.168.205.12",
-                "eth_ip_name": "l secondary"
             }
         }
     },

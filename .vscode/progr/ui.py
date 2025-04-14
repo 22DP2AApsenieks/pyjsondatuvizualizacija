@@ -20,6 +20,9 @@ class JSONTimeStampSaglabatajsUI:
                        value="2+0 Aggregation").pack(side=tk.LEFT, padx=5)
         ttk.Radiobutton(mode_frame, text="1+1HSB Protection", variable=self.mode_var,
                        value="1+1HSB Protection").pack(side=tk.LEFT, padx=5)
+        control_frame = tk.Frame(self.root)
+        control_frame.pack(pady=10)
+        
 
         # Mapes ievade
         for i in range(1, 5):
@@ -38,12 +41,19 @@ class JSONTimeStampSaglabatajsUI:
             setattr(self, f"dir_entry{i}", dir_entry)
             setattr(self, f"id_entry{i}", id_entry)
 
-        # Galvenas pogas
         control_frame = tk.Frame(self.root)
         control_frame.pack(pady=10)
+
+        # Process, Clear, Visualize buttons
         tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
         tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
         tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2)
+
+        # Navigācijas pogas
+        nav_frame = tk.Frame(control_frame)
+        nav_frame.pack(pady=5)
+        tk.Button(nav_frame, text="Back", command=self.visualization.previous_visualizations).pack(side=tk.LEFT, padx=5)
+        tk.Button(nav_frame, text="Next", command=self.visualization.next_visualizations).pack(side=tk.LEFT, padx=5)
 
         # Rezultati
         self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
@@ -76,6 +86,8 @@ class JSONTimeStampSaglabatajsUI:
                 identifier = getattr(self, f"id_entry{dir_num}").get().strip()
                 identifiers[dir_num] = identifier
 
+                
+
         try:
             result = self.logic.process_files(self.logic.directories, identifiers, self.mode_var.get())
             
@@ -85,12 +97,15 @@ class JSONTimeStampSaglabatajsUI:
                 f"Successfully saved: {result['success_count']}\n"
                 f"Skipped: {result['skipped_count']}\n"
                 f"Merged file saved at: {result['merged_file_path']}\n"
+                f"errors: {result.get('error_msg',)}\n"
+                f"ip.errors: {result.get('eth_ip_errors',)}\n"
             )
             self.result_text.insert(tk.END, summary)
             messagebox.showinfo("Complete", f"Processed {result['total_files']} files")
         except Exception as e:
             messagebox.showerror("Error", str(e))
             self.result_text.insert(tk.END, f"Error: {str(e)}\n")
+            
 
     def vizualize_all(self):
-        self.visualization.vizualize_all()
+        self.visualization.visualize_all()
