@@ -108,5 +108,31 @@ class JSONTimeStampSaglabatajsUI:
             self.result_text.insert(tk.END, f"Error: {str(e)}\n")
             
 
+    def animacijaspaskaidrojums(self):
+        paskaidrojums_logs = tk.Toplevel(self.root)
+        paskaidrojums_logs.title("Vizualizācijas paskaidrojums")
+
+        frame = tk.Frame(paskaidrojums_logs, padx=10, pady=10)
+        frame.pack()
+
+        # Zaļš
+        zalais = tk.Label(frame, text="[ports] Zaļš: Ports ir aktīvs (UP status)",
+                        bg="lightgreen", anchor="w", width=50, font=("Arial", 12))
+        zalais.pack(fill="x", pady=2)
+
+        # Dzeltens
+        dzeltens = tk.Label(frame, text="[ports] Dzeltens: Transporta ports (datu traffic_port)",
+                            bg="lightyellow", anchor="w", width=50, font=("Arial", 12))
+        dzeltens.pack(fill="x", pady=2)
+
+        # Sarkans
+        sarkans = tk.Label(frame, text="[ports] Sarkans: Ports nav aktīvs",
+                        bg="lightcoral", anchor="w", width=50, font=("Arial", 12))
+        sarkans.pack(fill="x", pady=2)
+
+        ok_btn = tk.Button(paskaidrojums_logs, text="Saprotu", command=paskaidrojums_logs.destroy)
+        ok_btn.pack(pady=10)
+
     def vizualize_all(self):
-        self.visualization.visualize_all()
+        self.animacijaspaskaidrojums()
+        self.visualization.vizualize_all()
