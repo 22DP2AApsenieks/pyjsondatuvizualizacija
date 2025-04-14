@@ -27,17 +27,7 @@ class Visualization:
                 messagebox.showinfo("Info", "Nav datu vizualizācijai!")
                 return
 
-            self.visualization_window = tk.Toplevel()
-            self.visualization_window.title("Visualization")
             
-            self.current_index = 0
-            self.visualization_limit = 1
-
-            self.next_button = tk.Button(self.visualization_window, text="Next ", command=self.next_visualizations)
-            self.next_button.pack(pady=10)
-
-            self.iepriekseja_button = tk.Button(self.visualization_window, text="Back ", command=self.previous_visualizations)
-            self.iepriekseja_button.pack(pady=10)
 
             self.show_visualizations()
 
