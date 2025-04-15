@@ -194,6 +194,8 @@ class JSONTimeStampSaglabatajs:
                                         except ValueError:
                                             eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'")
 
+                            
+
 
 
                                 
@@ -207,6 +209,7 @@ class JSONTimeStampSaglabatajs:
                                     "alt_port": section_data.get("alt_port", "N/A"),
                                     "ports_up": section_data.get("ports_up", []),
                                     "eth_ip": eth_ip,
+                                    "eth_mac": section_data.get("eth_mac", "N/A"), #tagad save eth_mac(mac adresi)
                                     "eth_ip_name": eth_ip_name,
                                 }
                             
