@@ -25,6 +25,6 @@
     <polygon points="0 0, 10 3.5, 0 7" fill="#888888"/>
   </marker>
 </defs>
-<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:52</text>
-<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Prim.Tx-WAN Rx-WAN to Primary Standby due to Remote Alternative AirLOS (AGGR_FSM_RSN_REM_ALT_AIRLOS) in 59 ms</text>
+<text class="timestamp" x="50" y="40">Timestamp: 2025-03-27 12:00:57</text>
+<text class="error" x="50" y="50">Description: Aggregation FSM state changed from Primary Standby to Prim.Tx-ALT Rx-ALT due to Local AirLOS (AGGR_FSM_RSN_LCL_AIRLOS) in 3 ms</text>
 </svg>

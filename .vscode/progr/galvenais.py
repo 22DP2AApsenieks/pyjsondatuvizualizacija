@@ -234,7 +234,7 @@ class JSONTimeStampSaglabatajs:
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
                                             )
 
-                                        print(eth_mac_errors)
+                                        #vair nevajag - bija parbaudei: print(eth_mac_errors)
 
                                                               
                                 entry["sections"][section_name] = {

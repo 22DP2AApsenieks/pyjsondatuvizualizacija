@@ -148,7 +148,7 @@ class JSONTimeStampSaglabatajsUI:
         frame = tk.Frame(about_logs, padx=30, pady=40)
         frame.pack()
 
-        apraksts = (
+        apraksts = ( #sll this vill be dispalyed for user
             "Šī programma ir izstrādāta SAF Tehnikas ražoto iekārtu 'Integra' datu pārraides ceļa vizualizācijai. Tā apstrādā JSON žurnāla datus un eventlog ierakstus, apvienojot tos vienotā vizualizācijā."
             "\n"
             "Galvenās iespējas:\n"
@@ -176,6 +176,7 @@ class JSONTimeStampSaglabatajsUI:
             "\n"
             "Izstrāde sākta: 2025gada marta beigās\n"
             "Versija: 1.0\n"
+            
         )
 
         text_widget = tk.Text(frame, wrap="word", height=30, width=80, font=("Arial", 11))
