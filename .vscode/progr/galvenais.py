@@ -185,10 +185,11 @@ class JSONTimeStampSaglabatajs:
                                     if len(parts) != 4:
                                         eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
                                     else:
+                                        last_octet_str = parts[-1]
+                                        last_octet_str = str(last_octet_str)
                                         # Check for repeated octets
-                                        octet_set = set(parts)  # Convert to a set to automatically remove duplicates
-                                        if len(octet_set) != len(parts):  # octets are repeated
-                                            repeated_octets = [octet for octet in parts if parts.count(octet) > 1]
+                                        if len(last_octet_str) != len(last_octet_str):  # octets are repeated
+                                            repeated_octets = [octet for octet in last_octet_str if parts.count(octet) > 1]
                                             eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in IP '{eth_ip}' ({', '.join(set(repeated_octets))})")
                                         
                                         last_octet_str = parts[-1]
@@ -217,8 +218,10 @@ class JSONTimeStampSaglabatajs:
                                         eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
                                     else:
                                         # Check for repeated octets
-                                        if len(set(parts1)) != len(parts1):
-                                            repeated_octets1 = [octet for octet in parts1 if parts1.count(octet) > 1]
+                                        last_octet_str1 = parts1[-1]
+                                        last_octet_str1 = str(last_octet_str1)
+                                        if len(set(last_octet_str1)) != len(last_octet_str1):
+                                            repeated_octets1 = [octet for octet in last_octet_str1 if last_octet_str1.count(octet) > 1]
                                             eth_mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
                                             )
