@@ -79,7 +79,9 @@ class JSONTimeStampSaglabatajs:
         return error_mapping
 
     def process_files(self, directories, identifiers, mode_var):
+        eth_mac_errors = []
         selected_dirs = [d for d in directories.values() if d]
+
         if not selected_dirs:
             raise Exception("Please select at least one directory!")
 
@@ -205,7 +207,7 @@ class JSONTimeStampSaglabatajs:
                                     continue
 
                                 eth_mac = section_data.get("eth_mac", "N/A")    
-                                eth_mac_errors = []
+
 
                                 # Split and validate eth_mac
                                 if eth_mac != 'N/A':
