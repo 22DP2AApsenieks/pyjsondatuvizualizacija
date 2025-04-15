@@ -194,7 +194,38 @@ class JSONTimeStampSaglabatajs:
                                         except ValueError:
                                             eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'")
 
-                            
+                            #lai dabutu mac adresi
+                            for section_name, section_data in sections.items():
+                                if not section_data:
+                                    continue
+
+                                eth_mac = section_data.get("eth_mac", "N/A")    
+                                eth_mac_errors = []
+
+                                #split eth _mac
+                                if eth_mac != 'N/A':
+                                    parts = eth_mac.split(':')
+                                    if len(parts) != 6:
+                                        eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
+                                    else:
+                                        # Check for repeated octets
+                                        if len(octet_set) != len(parts):  # octets are repeated
+                                            repeated_octets = [octet for octet in parts if parts.count(octet) > 1]
+                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in mac '{eth_mac}' ({', '.join(set(repeated_octets))})")
+
+                                        last_octet_str1 = parts[-1]
+                                        try:
+                                            last_octet1 = int(last_octet_str1)
+                                            if last_octet1 not in ["00", "ac", "f7", "ad", "ae"]:
+                                                continue
+                                        except ValueError:
+                                            eth_ip_errors .append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet1}")
+
+
+                                                              
+
+    
+
 
 
 
@@ -209,7 +240,7 @@ class JSONTimeStampSaglabatajs:
                                     "alt_port": section_data.get("alt_port", "N/A"),
                                     "ports_up": section_data.get("ports_up", []),
                                     "eth_ip": eth_ip,
-                                    "eth_mac": section_data.get("eth_mac", "N/A"), #tagad save eth_mac(mac adresi)
+                                    "eth_mac": eth_mac, #tagad save eth_mac(mac)
                                     "eth_ip_name": eth_ip_name,
                                 }
                             
