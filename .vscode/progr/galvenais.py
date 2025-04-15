@@ -113,12 +113,15 @@ class JSONTimeStampSaglabatajs:
                 error_messages.append(f"Error processing event logs in directory {dir_num}: {str(e)}")
 
         # Second pass: process JSON files and match with FSM events
+
+
         for dir_num, directory in directories.items():
             if not directory:
                 continue
             
             current_identifier = identifiers[dir_num]
             b=0
+
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -220,23 +223,15 @@ class JSONTimeStampSaglabatajs:
 
                                         # Validate last octet
                                         last_octet_str1 = parts1[-1]
-                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]:
+                                        last_octet_str1 = str(last_octet_str1)
+                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]: #check string value(atelast should)
                                             eth_mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
                                             )
-                                        i=i+1
-                                        print("ierksts:", i)
-                                        b=b+1
-                                        print("kopa:", b)
+
+                                        print(eth_mac_errors)
 
                                                               
-
-    
-
-
-
-
-                                
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),

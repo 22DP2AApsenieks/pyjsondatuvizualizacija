@@ -53,9 +53,9 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.13",
-                "eth_mac": "00:00:00:00:00:00",
-                "eth_ip_name": "rem secondary"
+                "eth_ip": "192.168.205.99",
+                "eth_mac": "00:00:00:00:00:y0",
+                "eth_ip_name": "192.168.205.99"
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -70,9 +70,9 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "rem secondary"
+                "eth_ip": "192.168.205.99",
+                "eth_mac": "00:04:a6:81:a7:a9c",
+                "eth_ip_name": "192.168.205.99"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -87,9 +87,9 @@
                     "LAN2",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.13",
+                "eth_ip": "192.168.205.99",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "192.168.205.99"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -104,9 +104,9 @@
                     "LAN2",
                     "WAN"
                 ],
-                "eth_ip": "192.168.205.13",
+                "eth_ip": "192.168.205.99",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "192.168.205.99"
             }
         }
     },
@@ -238,7 +238,7 @@
                     "WAN"
                 ],
                 "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:f7",
+                "eth_mac": "00:04:a6:81:a7:f67",
                 "eth_ip_name": "rem secondary"
             },
             "remote_alternate": {
@@ -255,7 +255,7 @@
                     "WAN"
                 ],
                 "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:ad",
+                "eth_mac": "00:04:a6:81:a7:ai",
                 "eth_ip_name": "rem secondary"
             }
         }
@@ -447,7 +447,7 @@
                     "WAN"
                 ],
                 "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:ac",
+                "eth_mac": "00:04:a6:81:a7:c",
                 "eth_ip_name": "rem secondary"
             },
             "remote": {
@@ -463,7 +463,7 @@
                     "LAN2"
                 ],
                 "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:f7",
+                "eth_mac": "00:04:a6:81:a7:f17",
                 "eth_ip_name": "rem secondary"
             },
             "remote_alternate": {
@@ -479,7 +479,7 @@
                     "LAN2"
                 ],
                 "eth_ip": "192.168.205.13",
-                "eth_mac": "00:04:a6:81:a7:ad",
+                "eth_mac": "00:04:a6:81:a7:a5d",
                 "eth_ip_name": "rem secondary"
             }
         }
