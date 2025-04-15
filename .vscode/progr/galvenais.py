@@ -211,7 +211,7 @@ class JSONTimeStampSaglabatajs:
                                         # Check for repeated octets
                                         if len(octet_set) != len(parts):  # octets are repeated
                                             repeated_octets = [octet for octet in parts if parts.count(octet) > 1]
-                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in mac '{eth_mac}' ({', '.join(set(repeated_octets))})")
+                                            eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in mac '{eth_mac}' ({', '.join(set(repeated_octets))})")
 
                                         last_octet_str1 = parts[-1]
                                         try:
@@ -219,7 +219,7 @@ class JSONTimeStampSaglabatajs:
                                             if last_octet1 not in ["00", "ac", "f7", "ad", "ae"]:
                                                 continue
                                         except ValueError:
-                                            eth_ip_errors .append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet1}")
+                                            eth_mac_errors .append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet1}")
 
 
                                                               
