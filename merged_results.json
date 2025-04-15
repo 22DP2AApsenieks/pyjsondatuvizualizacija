@@ -40,6 +40,23 @@
         "device_identifier": "10",
         "error_description": "Aggregation FSM state changed from Disabled to Start due to Enable (AGGR_FSM_RSN_ENABLE) in 0 ms",
         "sections": {
+            "local": {
+                "fsm_state": "Start",
+                "role_state": "disabled",
+                "role_cfg": "primary",
+                "tx_state": "none",
+                "rx_state": "disable",
+                "traffic_port": "LAN3",
+                "alt_port": "LAN2",
+                "ports_up": [
+                    "LAN2",
+                    "LAN3",
+                    "WAN"
+                ],
+                "eth_ip": "192.168.205.13",
+                "eth_mac": "00:00:00:00:00:00",
+                "eth_ip_name": "rem secondary"
+            },
             "alternate": {
                 "fsm_state": "Secondary Protect",
                 "role_state": "secondary_protect",

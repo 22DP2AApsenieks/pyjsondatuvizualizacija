@@ -101,7 +101,9 @@ class JSONTimeStampSaglabatajsUI:
                 f"Skipped: {result['skipped_count']}\n"
                 f"Merged file saved at: {result['merged_file_path']}\n"
                 f"errors: {result.get('error_msg',)}\n"
-                f"ip.errors: {result.get('eth_ip_errors',)}\n"
+                f"{result.get('eth_ip_errors',)}\n"
+                f"{result.get('eth_mac_errors',)}\n"
+
             )
             self.result_text.insert(tk.END, summary)
             messagebox.showinfo("Complete", f"Processed {result['total_files']} files")

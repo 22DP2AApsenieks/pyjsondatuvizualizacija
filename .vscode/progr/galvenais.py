@@ -118,7 +118,7 @@ class JSONTimeStampSaglabatajs:
                 continue
             
             current_identifier = identifiers[dir_num]
-            
+            b=0
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -195,32 +195,39 @@ class JSONTimeStampSaglabatajs:
                                             eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'")
 
                             #lai dabutu mac adresi
+                            i=0
                             for section_name, section_data in sections.items():
+                                
                                 if not section_data:
                                     continue
 
                                 eth_mac = section_data.get("eth_mac", "N/A")    
                                 eth_mac_errors = []
 
-                                #split eth _mac
+                                # Split and validate eth_mac
                                 if eth_mac != 'N/A':
-                                    parts = eth_mac.split(':')
-                                    if len(parts) != 6:
+                                    parts1 = [p.lower() for p in eth_mac.split(':')]
+                                    
+                                    if len(parts1) != 6:
                                         eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
                                     else:
                                         # Check for repeated octets
-                                        if len(octet_set) != len(parts):  # octets are repeated
-                                            repeated_octets = [octet for octet in parts if parts.count(octet) > 1]
-                                            eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in mac '{eth_mac}' ({', '.join(set(repeated_octets))})")
+                                        if len(set(parts1)) != len(parts1):
+                                            repeated_octets1 = [octet for octet in parts1 if parts1.count(octet) > 1]
+                                            eth_mac_errors.append(
+                                                f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
+                                            )
 
-                                        last_octet_str1 = parts[-1]
-                                        try:
-                                            last_octet1 = int(last_octet_str1)
-                                            if last_octet1 not in ["00", "ac", "f7", "ad", "ae"]:
-                                                continue
-                                        except ValueError:
-                                            eth_mac_errors .append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet1}")
-
+                                        # Validate last octet
+                                        last_octet_str1 = parts1[-1]
+                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]:
+                                            eth_mac_errors.append(
+                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
+                                            )
+                                        i=i+1
+                                        print("ierksts:", i)
+                                        b=b+1
+                                        print("kopa:", b)
 
                                                               
 
@@ -292,13 +299,20 @@ class JSONTimeStampSaglabatajs:
         else:
             eth_ip_error_msg = "No ETH IP validation errors found"
 
+        if eth_mac_errors:
+            eth_mac_error_msg= "ETH Mac errors:\n" + "\n".join(eth_mac_errors)
+        else:
+            eth_mac_error_msg = "No ETH Mac errors found"
+
+
         return {
             "total_files": total_files,
             "success_count": success_count,
             "skipped_count": skipped_count,
             "merged_file_path": merged_file_path,
             "error_msg": error_messages,  # General processing errors
-            "eth_ip_errors": eth_ip_error_msg  # ETH IP specific validation errors
+            "eth_ip_errors": eth_ip_error_msg,  # ETH IP specific validation errors
+            "eth_mac_errors": eth_mac_error_msg  # ETH MAC specific validation errors
         }
 
 
