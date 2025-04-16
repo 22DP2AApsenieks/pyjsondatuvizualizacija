@@ -139,7 +139,7 @@ class JSONTimeStampSaglabatajsUI:
                          anchor="w", width=50, font=("Arial", 12))
         ps.pack(fill="x", pady=2)
 
-        ok_btn = tk.Button(paskaidrojums_logs, text="Okey boss", command=paskaidrojums_logs.destroy)
+        ok_btn = tk.Button(paskaidrojums_logs, text="Okey", command=paskaidrojums_logs.destroy)
         ok_btn.pack(pady=10)
 
     def about(self):

@@ -205,16 +205,19 @@ class Visualization:
                     12: "Visuvar?2",
                 }
 
-                state_value = state_descriptions.get(state_index, text_statement)
-                svg_content.append(f'<text class="labela" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Role: {section_data.get("role_state", "N/A")}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">Config: {section_data.get("role_cfg", "N/A")}</text>')
+                #state_value = state_descriptions.get(state_index, text_statement)
+                #svg_content.append(f'<text class="labela" x="{current_x + 10}" y="{current_y + 90}">{state_value}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 90}">Role: {section_data.get("role_state", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 120}">Config: {section_data.get("role_cfg", "N/A")}</text>')
 
                 tx_ui, rx_ui = self.logic.TXunRXmainitajs(section_data)
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">TX: {tx_ui}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">RX: {rx_ui}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 150}">TX: {tx_ui}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 180}">RX: {rx_ui}</text>')
 
-                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 210}">Eth IP: {section_data.get("eth_ip", "N/A")}</text>')
+
+                svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth Mac: {section_data.get("eth_mac", "N/A")}</text>')#pievienojam mac adreses izvadi
+
 
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 port_order = ports.copy()
