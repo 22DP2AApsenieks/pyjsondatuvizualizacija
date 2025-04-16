@@ -176,21 +176,26 @@ class JSONTimeStampSaglabatajs:
                                 if not section_data:
                                     continue
 
+                                # Izveido kļūdu sarakstus tikai šim ierakstam
+                                ip_errors = []
+                                mac_errors = []
+                                macandip = []
+
                                 # ---- ETH MAC Validation ----
                                 eth_mac = section_data.get("eth_mac", "N/A")
                                 if eth_mac != 'N/A':
                                     parts1 = [p.lower() for p in eth_mac.split(':')]
                                     if len(parts1) != 6:
-                                        eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
+                                        mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
                                     else:
                                         last_octet_str1 = str(parts1[-1])
                                         if len(set(last_octet_str1)) != len(last_octet_str1):
                                             repeated_octets1 = [octet for octet in last_octet_str1 if last_octet_str1.count(octet) > 1]
-                                            eth_mac_errors.append(
+                                            mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
                                             )
                                         if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]:
-                                            eth_mac_errors.append(
+                                            mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
                                             )
 
@@ -202,43 +207,28 @@ class JSONTimeStampSaglabatajs:
                                         eth_ip = eth_ip.get('ip', 'N/A')
                                         if eth_ip == 'N/A':
                                             continue
-                                    
-                                    
+
                                     parts = eth_ip.split('.')
-                                    #eth_ip_error = []
                                     if len(parts) != 4:
-                                        #eth_ip_error = ("Timestamp {time_stamp}, section {section_name}: Invalid IP format")
-                                        eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
+                                        ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
                                     else:
                                         last_octet_str = str(parts[-1])
-                                        if len(last_octet_str) != len(last_octet_str):  # No actual effect; may be intended to compare sets?
-                                            repeated_octets = [octet for octet in last_octet_str if parts.count(octet) > 1]
-                                            eth_ip_errors.append(
-                                                f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in IP '{eth_ip}' ({', '.join(set(repeated_octets))})"
-                                            )
                                         try:
                                             last_octet = int(last_octet_str)
-                                            if last_octet not in [00, 10, 11, 12, 13]:
-                                                eth_ip_errors.append(
+                                            if last_octet not in [0, 10, 11, 12, 13]:  # 00 nav derīgs Python skaitlis
+                                                ip_errors.append(
                                                     f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'"
                                                 )
                                         except ValueError:
-                                            eth_ip_errors.append(
+                                            ip_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'"
                                             )
 
-                                #---ethandIp valid---
-                                #print(self.get_eth_mac_name(eth_mac))
-                                #print(eth_ip_name)
-
+                                # --- MAC and IP mismatch check ---
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:
-                                    macandip.append(f"Timestamp" +  time_stamp + "ETH MAC state: " + self.get_eth_mac_name(eth_mac) + " Isn't the same as Ip state:" + eth_ip_name )
+                                    macandip.append(f"Timestamp {time_stamp} ETH MAC state: {self.get_eth_mac_name(eth_mac)} isn't the same as IP state: {eth_ip_name}")
 
-
-
-
-                                           
-                                                                
+                                # Save results for this section
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
@@ -249,13 +239,14 @@ class JSONTimeStampSaglabatajs:
                                     "alt_port": section_data.get("alt_port", "N/A"),
                                     "ports_up": section_data.get("ports_up", []),
                                     "eth_ip": eth_ip,
-                                    "eth_mac": eth_mac, #tagad save eth_mac(mac)
-                                    "eth_ip_name": eth_ip_name, #statusa noteiksana
-                                    "eth_mac_name":self.get_eth_mac_name(eth_mac),  # Add MAC role name
-                                    "errorsip": eth_ip_errors,
-                                    "errorsmac": eth_mac_errors,
+                                    "eth_mac": eth_mac,
+                                    "eth_ip_name": eth_ip_name,
+                                    "eth_mac_name": self.get_eth_mac_name(eth_mac),
+                                    "errorsip": ip_errors,
+                                    "errorsmac": mac_errors,
                                     "manandip": macandip
                                 }
+
                                 """ print(eth_ip)
                                 print(eth_mac)"""
                                 
