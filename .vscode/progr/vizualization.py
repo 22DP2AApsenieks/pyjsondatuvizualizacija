@@ -218,6 +218,8 @@ class Visualization:
 
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth Mac: {section_data.get("eth_mac", "N/A")}</text>')#pievienojam mac adreses izvadi
 
+                #if time_stamp
+
 
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
                 port_order = ports.copy()
