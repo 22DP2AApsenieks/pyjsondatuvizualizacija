@@ -237,6 +237,7 @@ class JSONTimeStampSaglabatajs:
                                     "eth_ip": eth_ip,
                                     "eth_mac": eth_mac, #tagad save eth_mac(mac)
                                     "eth_ip_name": eth_ip_name, #statusa noteiksana
+                                    "eth_mac_name":self.get_eth_mac_name(eth_mac),  # Add MAC role name
                                 }
                                 print(eth_ip)
                                 print(eth_mac)
@@ -295,6 +296,8 @@ class JSONTimeStampSaglabatajs:
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
+        #if eth_mac_name != eth_ip_name
+
 
         return {
             "total_files": total_files,
@@ -327,6 +330,27 @@ class JSONTimeStampSaglabatajs:
         }
         
         return role_mapping.get(last_octet, eth_ip)
+    
+    def get_eth_mac_name(self, eth_mac):
+        """Determine the role based on MAC address last octet"""
+        if not eth_mac or eth_mac == "N/A":
+            return "N/A"
+        
+        try:
+            # Extract last octet from MAC address (after last colon)
+            last_octet = eth_mac.split(':')[-1].lower()
+        except (ValueError, AttributeError):
+            return eth_mac
+        
+        # Mapping of MAC last octets to their roles
+        role_mapping1 = {    
+            "ac": "l primary",   # Prim
+            "f7": "rem primary", 
+            "ad": "l secondary",  
+            "ae": "rem secondary"   
+        }
+        
+        return role_mapping1.get(last_octet, eth_mac)
 
     def decode_error_description(self, error_desc, mode):
         match = re.search(r'rsn_id:\((\d+)\)', error_desc)

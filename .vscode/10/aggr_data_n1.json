@@ -19,7 +19,7 @@
 			"alt_port":"LAN2",
 			"master_prot":"disable",
 			"eth_mac":"00:00:00:00:00:y0",
-			"eth_ip":"0.0.0.12",
+			"eth_ip":"0.0.0.19",
 			"eth_ip_mask":"0.0.0.0",
 			"fsm.force.hold":"disable",
 			"product":"0",

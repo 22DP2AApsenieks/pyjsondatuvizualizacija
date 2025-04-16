@@ -53,9 +53,10 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "0.0.0.12",
+                "eth_ip": "0.0.0.19",
                 "eth_mac": "00:00:00:00:00:y0",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "0.0.0.19",
+                "eth_mac_name": "00:00:00:00:00:y0"
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -72,7 +73,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:a9c",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "00:04:a6:81:a7:a9c"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -89,7 +91,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -106,7 +109,8 @@
                 ],
                 "eth_ip": "192.168.205.99",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "192.168.205.99"
+                "eth_ip_name": "192.168.205.99",
+                "eth_mac_name": "d-secalt"
             }
         }
     },
@@ -130,7 +134,8 @@
                 ],
                 "eth_ip": "0.0.0.0",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "0.0.0.0"
+                "eth_ip_name": "0.0.0.0",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -147,7 +152,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -164,7 +170,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -181,7 +188,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "d-secalt"
             }
         }
     },
@@ -206,7 +214,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Standby",
@@ -222,7 +231,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -239,7 +249,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f67",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "00:04:a6:81:a7:f67"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -256,7 +267,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ai",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "00:04:a6:81:a7:ai"
             }
         }
     },
@@ -281,7 +293,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Mute",
@@ -298,7 +311,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -314,7 +328,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -330,7 +345,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "d-secalt"
             }
         }
     },
@@ -355,7 +371,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Active",
@@ -372,7 +389,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -389,7 +407,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -406,7 +425,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "d-secalt"
             }
         }
     },
@@ -431,7 +451,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Standby",
@@ -448,7 +469,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:c",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "00:04:a6:81:a7:c"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -464,7 +486,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f17",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "00:04:a6:81:a7:f17"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -480,7 +503,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:a5d",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "00:04:a6:81:a7:a5d"
             }
         }
     },
@@ -504,7 +528,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Mute",
@@ -521,7 +546,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -538,7 +564,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -555,7 +582,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "d-secalt"
             }
         }
     },
@@ -579,7 +607,8 @@
                 ],
                 "eth_ip": "192.168.205.10",
                 "eth_mac": "00:04:a6:81:a7:ae",
-                "eth_ip_name": "l primary"
+                "eth_ip_name": "l primary",
+                "eth_mac_name": "d-secalt"
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -596,7 +625,8 @@
                 ],
                 "eth_ip": "192.168.205.12",
                 "eth_mac": "00:04:a6:81:a7:ac",
-                "eth_ip_name": "l secondary"
+                "eth_ip_name": "l secondary",
+                "eth_mac_name": "b-sec"
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -613,7 +643,8 @@
                 ],
                 "eth_ip": "192.168.205.11",
                 "eth_mac": "00:04:a6:81:a7:f7",
-                "eth_ip_name": "rem primary"
+                "eth_ip_name": "rem primary",
+                "eth_mac_name": "c-primalt"
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -630,7 +661,8 @@
                 ],
                 "eth_ip": "192.168.205.13",
                 "eth_mac": "00:04:a6:81:a7:ad",
-                "eth_ip_name": "rem secondary"
+                "eth_ip_name": "rem secondary",
+                "eth_mac_name": "d-secalt"
             }
         }
     }
