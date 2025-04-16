@@ -4,6 +4,8 @@ import glob
 import re
 from datetime import datetime
 import tkinter as tk
+import os
+os.system("")
 
 class JSONTimeStampSaglabatajs:
     def __init__(self):
@@ -170,7 +172,7 @@ class JSONTimeStampSaglabatajs:
                                     continue
 
                                 eth_ip = section_data.get("eth_ip", "N/A")
-                                eth_ip_name = self.get_eth_mac_name(eth_mac)
+                                eth_ip_name = self.get_eth_ip_name(eth_ip)
 
                                 # Validate ETH IP address
                                 if eth_ip != 'N/A':
@@ -218,20 +220,20 @@ class JSONTimeStampSaglabatajs:
                                         eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
                                     else:
                                         # Check for repeated octets
-                                        last_octet1_str = parts1[-1]
-                                        last_octet1_str = str(last_octet1_str)
-                                        if len(set(last_octet1_str)) != len(last_octet1_str):
-                                            repeated_octets1 = [octet for octet in last_octet1_str if last_octet1_str.count(octet) > 1]
+                                        last_octet_str1 = parts1[-1]
+                                        last_octet_str1 = str(last_octet_str1)
+                                        if len(set(last_octet_str1)) != len(last_octet_str1):
+                                            repeated_octets1 = [octet for octet in last_octet_str1 if last_octet_str1.count(octet) > 1]
                                             eth_mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
                                             )
 
                                         # Validate last octet
-                                        last_octet1_str = parts1[-1]
-                                        last_octet1_str = str(last_octet1_str)
-                                        if last_octet1_str not in ["00", "ac", "f7", "ad", "ae"]: #check string value(atelast should)
+                                        last_octet_str1 = parts1[-1]
+                                        last_octet_str1 = str(last_octet_str1)
+                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]: #check string value(atelast should)
                                             eth_mac_errors.append(
-                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet1_str}' in MAC '{eth_mac}'"
+                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
                                             )
 
                                         #vair nevajag - bija parbaudei: print(eth_mac_errors)
@@ -295,12 +297,12 @@ class JSONTimeStampSaglabatajs:
 
         # Save ETH IP errors to a separate log file if any were found
         if eth_ip_errors:
-            eth_ip_error_msg = "ETH IP validation errors detected:\n" + "\n".join(eth_ip_errors)
+            eth_ip_error_msg = "ETH IP validation errors detected:\n" + "\n".join(eth_ip_errors) #viz
         else:
             eth_ip_error_msg = "No ETH IP validation errors found"
 
         if eth_mac_errors:
-            eth_mac_error_msg= "ETH Mac errors:\n" + "\n".join(eth_mac_errors)
+            eth_mac_error_msg = "\033[41m" + "ETH Mac errors:\n" + "\n".join(eth_mac_errors) + "\033[0m" #vajag vizualizet kkā
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
@@ -316,28 +318,26 @@ class JSONTimeStampSaglabatajs:
         }
 
 
-    def get_eth_mac_name(self, eth_ip):
-        if not eth_mac or eth_mac == "N/A":
+    def get_eth_ip_name(self, eth_ip):
+        if not eth_ip or eth_ip == "N/A":
             return "N/A"
         
-        if isinstance(eth_mac, dict):
-            eth_mac = eth_mac.get("ip", "N/A")
+        if isinstance(eth_ip, dict):
+            eth_ip = eth_ip.get("ip", "N/A")
         
         try:
-            last_octet1 = int(eth_mac.split(':')[-1])
+            last_octet = int(eth_ip.split('.')[-1])
         except (ValueError, AttributeError):
-            return eth_mac
+            return eth_ip
         
-        role_mapping = {
-            #'ae': "l primary",
-            #'f7': "rem primary",
-            'f7': "l primary",
-            'ae': "rem primary",
-            'ac': "l secondary",
-            'ad': "rem secondary"
+        role_mapping = { #nosaka statususus
+            10: "l primary",
+            11: "rem primary",
+            12: "l secondary",
+            13: "rem secondary"
         }
         
-        return role_mapping.get(last_octet1, eth_mac)
+        return role_mapping.get(last_octet, eth_ip)
 
     def decode_error_description(self, error_desc, mode):
         match = re.search(r'rsn_id:\((\d+)\)', error_desc)
@@ -568,8 +568,9 @@ class JSONTimeStampSaglabatajs:
                     f'<line x1="{secondary_pos[0]}" y1="{secondary_pos[1]}" x2="{primary_pos[0]}" y2="{primary_pos[1]}" '
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
-
+        #print(line_elements)
         return line_elements
+
 
     def remote_to_remote_alternate(self):
         """Draw lines from remote to remote_alternate, connecting Traffic ports"""
