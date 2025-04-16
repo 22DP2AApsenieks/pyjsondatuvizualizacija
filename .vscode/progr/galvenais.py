@@ -167,78 +167,64 @@ class JSONTimeStampSaglabatajs:
                                 "sections": {}
                             }
                             
-                            for section_name, section_data in sections.items():
-                                if not section_data:
-                                    continue
-
-                                eth_ip = section_data.get("eth_ip", "N/A")
-                                eth_ip_name = self.get_eth_ip_name(eth_ip)
-
-                                # Validate ETH IP address
-                                if eth_ip != 'N/A':
-                                    # Handle dictionary format (from JSON structure)
-                                    if isinstance(eth_ip, dict):
-                                        eth_ip = eth_ip.get('ip', 'N/A')
-                                        if eth_ip == 'N/A':
-                                            continue
-
-                                    # Split and validate IP format
-                                    parts = eth_ip.split('.')
-                                    if len(parts) != 4:
-                                        eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
-                                    else:
-                                        last_octet_str = parts[-1]
-                                        last_octet_str = str(last_octet_str)
-                                        # Check for repeated octets
-                                        if len(last_octet_str) != len(last_octet_str):  # octets are repeated
-                                            repeated_octets = [octet for octet in last_octet_str if parts.count(octet) > 1]
-                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in IP '{eth_ip}' ({', '.join(set(repeated_octets))})")
-                                        
-                                        last_octet_str = parts[-1]
-                                        try:
-                                            last_octet = int(last_octet_str)
-                                            if last_octet not in [00, 10, 11, 12, 13]:
-                                                eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'")
-                                        except ValueError:
-                                            eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'")
+                            
 
                             #lai dabutu mac adresi
                             i=0
                             for section_name, section_data in sections.items():
-                                
                                 if not section_data:
                                     continue
 
-                                eth_mac = section_data.get("eth_mac", "N/A")    
-
-
-                                # Split and validate eth_mac
+                                # ---- ETH MAC Validation ----
+                                eth_mac = section_data.get("eth_mac", "N/A")
                                 if eth_mac != 'N/A':
                                     parts1 = [p.lower() for p in eth_mac.split(':')]
-                                    
                                     if len(parts1) != 6:
                                         eth_mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
                                     else:
-                                        # Check for repeated octets
-                                        last_octet_str1 = parts1[-1]
-                                        last_octet_str1 = str(last_octet_str1)
+                                        last_octet_str1 = str(parts1[-1])
                                         if len(set(last_octet_str1)) != len(last_octet_str1):
                                             repeated_octets1 = [octet for octet in last_octet_str1 if last_octet_str1.count(octet) > 1]
                                             eth_mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
                                             )
-
-                                        # Validate last octet
-                                        last_octet_str1 = parts1[-1]
-                                        last_octet_str1 = str(last_octet_str1)
-                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]: #check string value(atelast should)
+                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]:
                                             eth_mac_errors.append(
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
                                             )
 
-                                        #vair nevajag - bija parbaudei: print(eth_mac_errors)
+                                # ---- ETH IP Validation ----
+                                eth_ip = section_data.get("eth_ip", "N/A")
+                                eth_ip_name = self.get_eth_ip_name(eth_ip)
+                                if eth_ip != 'N/A':
+                                    if isinstance(eth_ip, dict):
+                                        eth_ip = eth_ip.get('ip', 'N/A')
+                                        if eth_ip == 'N/A':
+                                            continue
 
-                                                              
+                                    parts = eth_ip.split('.')
+                                    if len(parts) != 4:
+                                        eth_ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
+                                    else:
+                                        last_octet_str = str(parts[-1])
+                                        if len(last_octet_str) != len(last_octet_str):  # No actual effect; may be intended to compare sets?
+                                            repeated_octets = [octet for octet in last_octet_str if parts.count(octet) > 1]
+                                            eth_ip_errors.append(
+                                                f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in IP '{eth_ip}' ({', '.join(set(repeated_octets))})"
+                                            )
+                                        try:
+                                            last_octet = int(last_octet_str)
+                                            if last_octet not in [00, 10, 11, 12, 13]:
+                                                eth_ip_errors.append(
+                                                    f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'"
+                                                )
+                                        except ValueError:
+                                            eth_ip_errors.append(
+                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'"
+                                            )
+
+                                           
+                                                                
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
@@ -250,8 +236,11 @@ class JSONTimeStampSaglabatajs:
                                     "ports_up": section_data.get("ports_up", []),
                                     "eth_ip": eth_ip,
                                     "eth_mac": eth_mac, #tagad save eth_mac(mac)
-                                    "eth_ip_name": eth_ip_name,
+                                    "eth_ip_name": eth_ip_name, #statusa noteiksana
                                 }
+                                print(eth_ip)
+                                print(eth_mac)
+                                
                             
                             merged_data.append(entry)
                             existing_timestamps.add(time_stamp)
@@ -302,7 +291,7 @@ class JSONTimeStampSaglabatajs:
             eth_ip_error_msg = "No ETH IP validation errors found"
 
         if eth_mac_errors:
-            eth_mac_error_msg = "\033[41m" + "ETH Mac errors:\n" + "\n".join(eth_mac_errors) + "\033[0m" #vajag vizualizet kkā
+            eth_mac_error_msg = "ETH Mac errors:\n" + "\n".join(eth_mac_errors) #vajag vizualizet kkā
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
