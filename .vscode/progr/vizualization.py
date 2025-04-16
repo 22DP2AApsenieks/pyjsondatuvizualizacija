@@ -83,7 +83,7 @@ class Visualization:
     def generate_state_diagram(self, data, output_path):
         """Generate SVG image with state transitions and detailed information."""
         svg_width = 1200
-        svg_height = 800
+        svg_height = 900
         start_x = 50
         start_y = 50
         box_width = 500
@@ -218,8 +218,10 @@ class Visualization:
 
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth Mac: {section_data.get("eth_mac", "N/A")}</text>')#pievienojam mac adreses izvadi
 
-                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 350}">Ip error: {section_data.get("errorsip", "N/A")}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 375}">Mac error: {section_data.get("errorsmac", "N/A")}</text>')
+                #for errros
+                #need to make show if previos was diferent
+                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 350}">Ip changed: {section_data.get("errorsip", "N/A")}</text>') 
+                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 375}">Mac changed: {section_data.get("errorsmac", "N/A")}</text>')
                 svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 400}">Mac to IP error: {section_data.get("manandip", "N/A")}</text>')
 
 
