@@ -26,12 +26,12 @@ class JSONTimeStampSaglabatajsUI:
 
         # Mapes ievade
         for i in range(1, 5):
-            frame = tk.LabelFrame(self.root, text=f"Ievadiet mapi un identifikatoru ({i})", padx=10, pady=5)
+            frame = tk.LabelFrame(self.root, text=f"Insert map and ID ({i})", padx=10, pady=5)
             frame.pack(padx=10, pady=2, fill="x")
             
             dir_entry = tk.Entry(frame, width=40)
             dir_entry.pack(side=tk.LEFT, padx=5)
-            tk.Button(frame, text="Pārlūkot...", command=lambda num=i: self.browse_directory(num)
+            tk.Button(frame, text="Search...", command=lambda num=i: self.browse_directory(num)
                       ).pack(side=tk.LEFT)
             
             tk.Label(frame, text="ID:").pack(side=tk.LEFT, padx=5)
@@ -45,9 +45,9 @@ class JSONTimeStampSaglabatajsUI:
         control_frame.pack(pady=10)
 
         # Process, Clear, Visualize buttons
-        tk.Button(control_frame, text="Apstrādāt failus", command=self.process_files).pack(pady=2)
-        tk.Button(control_frame, text="Notīrīt visu", command=self.clear_all).pack(pady=2)
-        tk.Button(control_frame, text="Parādīt vizualizāciju", command=self.vizualize_all).pack(pady=2)
+        tk.Button(control_frame, text="Merge failes", command=self.process_files).pack(pady=2)
+        tk.Button(control_frame, text="Clean all", command=self.clear_all).pack(pady=2)
+        tk.Button(control_frame, text="Show animation", command=self.vizualize_all).pack(pady=2)
 
         # Navigācijas pogas
         nav_frame = tk.Frame(control_frame)
@@ -55,11 +55,11 @@ class JSONTimeStampSaglabatajsUI:
         tk.Button(nav_frame, text="Back", command=self.visualization.previous_visualizations, bg="lightcoral", fg="black").pack(side=tk.LEFT, padx=5)
         tk.Button(nav_frame, text="Next", command=self.visualization.next_visualizations, bg="lightgreen", fg="black").pack(side=tk.LEFT, padx=5)
 
-        tk.Button(control_frame, text="Par programmu", command=self.about ).pack(pady=20)
+        tk.Button(control_frame, text="About(LV/ENG)", command=self.about ).pack(pady=20)
 
 
         # Rezultati
-        self.result_frame = tk.LabelFrame(self.root, text="Rezultāti", padx=10, pady=10)
+        self.result_frame = tk.LabelFrame(self.root, text="Results", padx=10, pady=10)
         self.result_frame.pack(padx=10, pady=5, fill="both", expand=True)
         self.result_text = tk.Text(self.result_frame, height=15, width=100)
         self.result_text.pack(side=tk.LEFT, fill="both", expand=True)
@@ -69,7 +69,7 @@ class JSONTimeStampSaglabatajsUI:
         self.scrollbar.config(command=self.result_text.yview)
 
     def browse_directory(self, dir_num):
-        directory = filedialog.askdirectory(title=f"Atlasiet mapi {dir_num}")
+        directory = filedialog.askdirectory(title=f"Chose map {dir_num}")
         if directory:
             getattr(self, f"dir_entry{dir_num}").delete(0, tk.END)
             getattr(self, f"dir_entry{dir_num}").insert(0, directory)
@@ -115,41 +115,44 @@ class JSONTimeStampSaglabatajsUI:
 
     def animacijaspaskaidrojums(self):
         paskaidrojums_logs = tk.Toplevel(self.root)
-        paskaidrojums_logs.title("Vizualizācijas paskaidrojums")
+        paskaidrojums_logs.title("Vizualization explanation")
 
         frame = tk.Frame(paskaidrojums_logs, padx=10, pady=10)
         frame.pack()
 
         # Zaļš
-        zalais = tk.Label(frame, text="[ports] Zaļš: Ports ir aktīvs (UP status)",
+        zalais = tk.Label(frame, text="[port] Green: Port is active (UP status)",
                         bg="lightgreen", anchor="w", width=50, font=("Arial", 12))
         zalais.pack(fill="x", pady=2)
 
         # Dzeltens
-        dzeltens = tk.Label(frame, text="[ports] Dzeltens: Transporta ports (datu traffic_port)",
+        dzeltens = tk.Label(frame, text="[port] Yellow: Trafic port(datu traffic_port)",
                             bg="lightyellow", anchor="w", width=50, font=("Arial", 12))
         dzeltens.pack(fill="x", pady=2)
 
         # Sarkans
-        sarkans = tk.Label(frame, text="[ports] Sarkans: Ports nav aktīvs",
+        sarkans = tk.Label(frame, text="[port] Red: Not active",
                         bg="lightcoral", anchor="w", width=50, font=("Arial", 12))
         sarkans.pack(fill="x", pady=2)
 
-        ps = tk.Label(frame, text="Ja vizualizācija ir tukša(nav attēlota), tad šajam gadījumam neizdevās atrast sakarību starp eventlog un json failu", 
+        ps = tk.Label(frame, text="If the visualization is empty (not displayed), then in this case the relationship between the eventlog and the json file could not be found.", 
                          anchor="w", width=50, font=("Arial", 12))
         ps.pack(fill="x", pady=2)
 
-        ok_btn = tk.Button(paskaidrojums_logs, text="Saprotu", command=paskaidrojums_logs.destroy)
+        ok_btn = tk.Button(paskaidrojums_logs, text="Okey boss", command=paskaidrojums_logs.destroy)
         ok_btn.pack(pady=10)
 
     def about(self):
         about_logs = tk.Toplevel(self.root)
-        about_logs.title("Par programmu")
+        about_logs.title("About")
 
         frame = tk.Frame(about_logs, padx=30, pady=40)
         frame.pack()
 
         apraksts = ( #sll this vill be dispalyed for user
+            "LV(below is ENG)"
+            "\n"
+            "\n"
             "Šī programma ir izstrādāta SAF Tehnikas ražoto iekārtu 'Integra' datu pārraides ceļa vizualizācijai. Tā apstrādā JSON žurnāla datus un eventlog ierakstus, apvienojot tos vienotā vizualizācijā."
             "\n"
             "Galvenās iespējas:\n"
@@ -177,6 +180,41 @@ class JSONTimeStampSaglabatajsUI:
             "\n"
             "Izstrāde sākta: 2025gada marta beigās\n"
             "Versija: 1.0\n"
+            "\n"
+            "\n"
+            "\n"
+            "\n"
+            "ENG"
+            "\n"
+            "This program is designed to visualize the data transmission path of SAF Tehnika’s ‘Integra’ devices.\n"
+            "It processes JSON log data and eventlog entries, combining them into a unified visualization.\n\n"
+
+            "Main features:\n"
+            "• Processes up to 4 different folders with JSON and eventlog files.\n"
+            "• Supports two operating modes: '2+0 Aggregation' and '1+1 HSB Protection'.\n"
+            "• Can automatically extract, filter, and save timestamps and other key values.\n"
+            "• Generates a combined log file with all relevant data.\n"
+            "• Provides data summary (e.g., how many files were processed, skipped, etc.).\n"
+            "• Delivers a simple and clear visualization – with colors and explanations.\n\n"
+
+            "How to use:\n"
+            "1. Launch the program\n"
+            "2. Enter the folder path below (or use ‘Browse’) and provide an identifying ID (e.g., ID: 11).\n"
+            "3. Click ‘Process Files’ – the program will analyze the JSON data and display the result.\n"
+            "4. Use ‘Show Visualization’ to see the data path, descriptions, status colors, and port activity.\n"
+            "   – Green: Port is active\n"
+            "   – Yellow: Data traffic is ongoing\n"
+            "   – Red: Port is inactive or does not exist\n"
+            "5. Navigate between visualizations using the ‘Next’ and ‘Back’ buttons.\n"
+            "6. Click ‘Clear All’ to reset the input fields and start fresh.\n\n"
+
+            "Note:\n"
+            "– Visualizations are shown in the existing window; no unnecessary windows are opened.\n"
+            "– If any errors occur, they will appear in the result section and via popup notifications.\n\n"
+            "Development started: End of March 2025\n"
+            "Version: 1.0"
+
+
             
         )
 
@@ -185,7 +223,7 @@ class JSONTimeStampSaglabatajsUI:
         text_widget.config(state=tk.DISABLED)
         text_widget.pack()
 
-        tk.Button(about_logs, text="Aizvērt", command=about_logs.destroy).pack(pady=10)
+        tk.Button(about_logs, text="Close", command=about_logs.destroy).pack(pady=10)
 
 
 
