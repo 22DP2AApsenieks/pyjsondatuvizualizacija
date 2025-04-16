@@ -218,7 +218,9 @@ class Visualization:
 
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth Mac: {section_data.get("eth_mac", "N/A")}</text>')#pievienojam mac adreses izvadi
 
-                #if time_stamp
+                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 350}">Ip error: {section_data.get("errorsip", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 375}">Mac error: {section_data.get("errorsmac", "N/A")}</text>')
+                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 400}">Mac to IP error: {section_data.get("manandip", "N/A")}</text>')
 
 
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
