@@ -103,6 +103,7 @@ class JSONTimeStampSaglabatajsUI:
                 f"errors: {result.get('error_msg',)}\n"
                 f"{result.get('eth_ip_errors',)}\n"
                 f"{result.get('eth_mac_errors',)}\n"
+                f"{result.get('M')}"
 
             )
             self.result_text.insert(tk.END, summary)

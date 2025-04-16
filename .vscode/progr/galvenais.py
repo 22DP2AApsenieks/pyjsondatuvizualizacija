@@ -82,6 +82,7 @@ class JSONTimeStampSaglabatajs:
 
     def process_files(self, directories, identifiers, mode_var):
         eth_mac_errors = []
+        macandip = []
         selected_dirs = [d for d in directories.values() if d]
 
         if not selected_dirs:
@@ -223,6 +224,16 @@ class JSONTimeStampSaglabatajs:
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'"
                                             )
 
+                                #---ethandIp valid---
+                                #print(self.get_eth_mac_name(eth_mac))
+                                #print(eth_ip_name)
+
+                                if self.get_eth_mac_name(eth_mac) != eth_ip_name:
+                                    macandip.append(f"ETH MAC state: " + self.get_eth_mac_name(eth_mac) + " Isn't the same as Ip state:" + eth_ip_name )
+
+
+
+
                                            
                                                                 
                                 entry["sections"][section_name] = {
@@ -239,8 +250,8 @@ class JSONTimeStampSaglabatajs:
                                     "eth_ip_name": eth_ip_name, #statusa noteiksana
                                     "eth_mac_name":self.get_eth_mac_name(eth_mac),  # Add MAC role name
                                 }
-                                print(eth_ip)
-                                print(eth_mac)
+                                """ print(eth_ip)
+                                print(eth_mac)"""
                                 
                             
                             merged_data.append(entry)
@@ -296,7 +307,9 @@ class JSONTimeStampSaglabatajs:
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
-        #if eth_mac_name != eth_ip_name
+        if macandip:
+            macandip_msg = "ETH Isn't the same as Ip state:\n" + "\n".join(macandip)
+            print(macandip_msg)
 
 
         return {
@@ -306,7 +319,8 @@ class JSONTimeStampSaglabatajs:
             "merged_file_path": merged_file_path,
             "error_msg": error_messages,  # General processing errors
             "eth_ip_errors": eth_ip_error_msg,  # ETH IP specific validation errors
-            "eth_mac_errors": eth_mac_error_msg  # ETH MAC specific validation errors
+            "eth_mac_errors": eth_mac_error_msg,  # ETH MAC specific validation errors
+            "M": macandip_msg
         }
 
 
@@ -344,10 +358,10 @@ class JSONTimeStampSaglabatajs:
         
         # Mapping of MAC last octets to their roles
         role_mapping1 = {    
-            "ac": "l primary",   # Prim
+            "ae": "l primary",   # Prim
             "f7": "rem primary", 
-            "ad": "l secondary",  
-            "ae": "rem secondary"   
+            "ac": "l secondary",  
+            "ad": "rem secondary"   
         }
         
         return role_mapping1.get(last_octet, eth_mac)
