@@ -127,7 +127,7 @@ class JSONTimeStampSaglabatajs:
             
             current_identifier = identifiers[dir_num]
             b=0
-
+            recent_ips = []  # List to store recent IPs
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -173,7 +173,7 @@ class JSONTimeStampSaglabatajs:
 
                             #lai dabutu mac adresi
                             i=0
-                            recent_ips = []  # List to store recent IPs
+                            
 
                             for section_name, section_data in sections.items():
                                 if not section_data:
@@ -218,6 +218,7 @@ class JSONTimeStampSaglabatajs:
                                 if eth_ip != "N/A":
                                     recent_ips.append(eth_ip)
 
+                                
                                 # Now check if we have at least 5 total (so 4 before current)
                                 if len(recent_ips) >= 4:
                                     fourth_prev_ip = recent_ips[-4]  # 4 steps before current
