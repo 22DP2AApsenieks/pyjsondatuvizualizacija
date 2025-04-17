@@ -197,36 +197,28 @@ class JSONTimeStampSaglabatajs:
                                         if eth_ip == 'N/A':
                                             continue
 
-                                    parts = eth_ip.split('.')
-                                    if len(parts) != 4:
-                                        ip_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid IP format '{eth_ip}'")
-                                    else:
-                                        last_octet_str = str(parts[-1])
-                                        try:
-                                            last_octet = int(last_octet_str)
-                                            if last_octet not in [0, 10, 11, 12, 13]:
-                                                ip_errors.append(
-                                                    f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'"
-                                                )
-                                        except ValueError:
-                                            ip_errors.append(
-                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'"
-                                            )
+                                            
+                                        
 
-                                # ---- Print only the 4th previous IP (if available) ----
+                                
                                 # Save current IP only if valid
                                 if eth_ip != "N/A":
                                     recent_ips.append(eth_ip)
 
                                 
-                                # Now check if we have at least 5 total (so 4 before current)
+                                # checks if we have 4 before
                                 if len(recent_ips) >= 8:
                                     fourth_prev_ip = recent_ips[-8]  # 4 steps before current
-                                    print(f"\n4th previous eth_ip before current one: {fourth_prev_ip}")
+                                    ipbefore = (f"{fourth_prev_ip}") #4th previous eth_ip before current one
+                                    if ipbefore != eth_ip:
+                                        print(f"Ip changed from {ipbefore} to {eth_ip}")
+                                        ip_errors.append(f"Ip changed from {ipbefore} to {eth_ip}")
                                 else:
-                                    print(f"\n4th previous eth_ip: Not available")
+                                    ipbefore = (f"")
+                                    print(f"\n")
 
                                 print(f"Current eth_ip: {eth_ip}\n")
+
 
                                # Save current IP only if valid
                                 if eth_ip != "N/A":
@@ -250,6 +242,7 @@ class JSONTimeStampSaglabatajs:
                                     "eth_mac": eth_mac,
                                     "eth_ip_name": eth_ip_name,
                                     "eth_mac_name": self.get_eth_mac_name(eth_mac),
+                                    "ipbefore(4)":ipbefore,
                                     "errorsip": ip_errors,
                                     "errorsmac": mac_errors,
                                     "macandip": macandip
