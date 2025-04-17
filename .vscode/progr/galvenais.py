@@ -220,8 +220,8 @@ class JSONTimeStampSaglabatajs:
 
                                 
                                 # Now check if we have at least 5 total (so 4 before current)
-                                if len(recent_ips) >= 4:
-                                    fourth_prev_ip = recent_ips[-4]  # 4 steps before current
+                                if len(recent_ips) >= 8:
+                                    fourth_prev_ip = recent_ips[-8]  # 4 steps before current
                                     print(f"\n4th previous eth_ip before current one: {fourth_prev_ip}")
                                 else:
                                     print(f"\n4th previous eth_ip: Not available")
