@@ -173,34 +173,22 @@ class JSONTimeStampSaglabatajs:
 
                             #lai dabutu mac adresi
                             i=0
+                            recent_ips = []  # List to store recent IPs
+
                             for section_name, section_data in sections.items():
                                 if not section_data:
                                     continue
 
-                                # Izveido kļūdu sarakstus tikai šim ierakstam
+                                # Initialize error lists
                                 ip_errors = []
                                 mac_errors = []
                                 macandip = []
 
-                                # ---- ETH MAC Validation ----
+                                
                                 eth_mac = section_data.get("eth_mac", "N/A")
-                                if eth_mac != 'N/A':
-                                    parts1 = [p.lower() for p in eth_mac.split(':')]
-                                    if len(parts1) != 6:
-                                        mac_errors.append(f"Timestamp {time_stamp}, section {section_name}: Invalid MAC format {eth_mac}")
-                                    else:
-                                        last_octet_str1 = str(parts1[-1])
-                                        if len(set(last_octet_str1)) != len(last_octet_str1):
-                                            repeated_octets1 = [octet for octet in last_octet_str1 if last_octet_str1.count(octet) > 1]
-                                            mac_errors.append(
-                                                f"Timestamp {time_stamp}, section {section_name}: Repeated octets found in MAC '{eth_mac}' ({', '.join(set(repeated_octets1))})"
-                                            )
-                                        if last_octet_str1 not in ["00", "ac", "f7", "ad", "ae"]:
-                                            mac_errors.append(
-                                                f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str1}' in MAC '{eth_mac}'"
-                                            )
+                             
 
-                                # ---- ETH IP Validation ----
+                                # ---- IP validation ----
                                 eth_ip = section_data.get("eth_ip", "N/A")
                                 eth_ip_name = self.get_eth_ip_name(eth_ip)
                                 if eth_ip != 'N/A':
@@ -216,7 +204,7 @@ class JSONTimeStampSaglabatajs:
                                         last_octet_str = str(parts[-1])
                                         try:
                                             last_octet = int(last_octet_str)
-                                            if last_octet not in [0, 10, 11, 12, 13]:  # 00 nav derīgs Python skaitlis
+                                            if last_octet not in [0, 10, 11, 12, 13]:
                                                 ip_errors.append(
                                                     f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols {last_octet} in IP '{eth_ip}'"
                                                 )
@@ -225,20 +213,29 @@ class JSONTimeStampSaglabatajs:
                                                 f"Timestamp {time_stamp}, section {section_name}: Invalid last symbols '{last_octet_str}' in IP '{eth_ip}'"
                                             )
 
-                                # --- MAC and IP mismatch check ---
+                                # ---- Print only the 4th previous IP (if available) ----
+                                # Save current IP only if valid
+                                if eth_ip != "N/A":
+                                    recent_ips.append(eth_ip)
+
+                                # Now check if we have at least 5 total (so 4 before current)
+                                if len(recent_ips) >= 4:
+                                    fourth_prev_ip = recent_ips[-4]  # 4 steps before current
+                                    print(f"\n4th previous eth_ip before current one: {fourth_prev_ip}")
+                                else:
+                                    print(f"\n4th previous eth_ip: Not available")
+
+                                print(f"Current eth_ip: {eth_ip}\n")
+
+                               # Save current IP only if valid
+                                if eth_ip != "N/A":
+                                    recent_ips.append(eth_ip)
+
+                                # MAC/IP check
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:
                                     macandip.append(f"Timestamp {time_stamp} ETH MAC state: {self.get_eth_mac_name(eth_mac)} isn't the same as IP state: {eth_ip_name}")
 
-                                eth_ip = section_data.get("eth_ip")  # Or however you're assigning it
-
-                                
-                                print("Previous eth_ip:", previous_eth_ip)
-
-                                print("Current eth_ip:", eth_ip)
-                                print("\n")
-                                previous_eth_ip = eth_ip
-
-                                # Save results for this section
+                                # Save section data
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
@@ -257,7 +254,8 @@ class JSONTimeStampSaglabatajs:
                                     "macandip": macandip
                                 }
 
-                                
+
+                                                            
 
                             merged_data.append(entry)
                             existing_timestamps.add(time_stamp)
