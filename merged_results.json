@@ -160,10 +160,8 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "0.0.0.0",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "0.0.0.19",
-                "errorsip": [
-                    "Ip changed from 0.0.0.19 to 0.0.0.0"
-                ],
+                "ipbefore(4)": "",
+                "errorsip": [],
                 "errorsmac": [],
                 "macandip": [
                     "Timestamp 2025-03-27 16:51:09 ETH MAC state: l primary isn't the same as IP state: 0.0.0.0"
@@ -186,7 +184,7 @@
                 "eth_mac": "00:04:a6:81:a7:ac",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "l secondary",
-                "ipbefore(4)": "192.168.205.12",
+                "ipbefore(4)": "",
                 "errorsip": [],
                 "errorsmac": [],
                 "macandip": []
@@ -208,10 +206,8 @@
                 "eth_mac": "00:04:a6:81:a7:f7",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "rem primary",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [
-                    "Ip changed from 192.168.205.12 to 192.168.205.11"
-                ],
+                "ipbefore(4)": "",
+                "errorsip": [],
                 "errorsmac": [],
                 "macandip": []
             },
@@ -232,11 +228,13 @@
                 "eth_mac": "00:04:a6:81:a7:ad",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "rem secondary",
-                "ipbefore(4)": "192.168.205.99",
+                "ipbefore(4)": "0.0.0.19",
                 "errorsip": [
-                    "Ip changed from 192.168.205.99 to 192.168.205.13"
+                    "Ip changed from 0.0.0.19 to 192.168.205.13"
                 ],
-                "errorsmac": [],
+                "errorsmac": [
+                    "MAC changed from 00:00:00:00:00:y0 to 00:04:a6:81:a7:ad"
+                ],
                 "macandip": []
             }
         }
@@ -264,11 +262,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "0.0.0.0",
+                "ipbefore(4)": "192.168.205.12",
                 "errorsip": [
-                    "Ip changed from 0.0.0.0 to 192.168.205.10"
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
                 ],
-                "errorsmac": [],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:a9c to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -289,7 +289,9 @@
                 "eth_mac_name": "l secondary",
                 "ipbefore(4)": "192.168.205.12",
                 "errorsip": [],
-                "errorsmac": [],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f7 to 00:04:a6:81:a7:ac"
+                ],
                 "macandip": []
             },
             "remote": {
@@ -309,9 +311,13 @@
                 "eth_mac": "00:04:a6:81:a7:f67",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "00:04:a6:81:a7:f67",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.99",
+                "errorsip": [
+                    "Ip changed from 192.168.205.99 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ad to 00:04:a6:81:a7:f67"
+                ],
                 "macandip": [
                     "Timestamp 2025-03-27 16:59:39 ETH MAC state: 00:04:a6:81:a7:f67 isn't the same as IP state: rem primary"
                 ]
@@ -333,9 +339,13 @@
                 "eth_mac": "00:04:a6:81:a7:ai",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "00:04:a6:81:a7:ai",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "0.0.0.0",
+                "errorsip": [
+                    "Ip changed from 0.0.0.0 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:ai"
+                ],
                 "macandip": [
                     "Timestamp 2025-03-27 16:59:39 ETH MAC state: 00:04:a6:81:a7:ai isn't the same as IP state: rem secondary"
                 ]
@@ -365,9 +375,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "192.168.205.10",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.12",
+                "errorsip": [
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ac to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -387,9 +401,13 @@
                 "eth_mac": "00:04:a6:81:a7:ac",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "l secondary",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.11",
+                "errorsip": [
+                    "Ip changed from 192.168.205.11 to 192.168.205.12"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f7 to 00:04:a6:81:a7:ac"
+                ],
                 "macandip": []
             },
             "remote": {
@@ -408,9 +426,13 @@
                 "eth_mac": "00:04:a6:81:a7:f7",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "rem primary",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.13",
+                "errorsip": [
+                    "Ip changed from 192.168.205.13 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ad to 00:04:a6:81:a7:f7"
+                ],
                 "macandip": []
             },
             "remote_alternate": {
@@ -429,9 +451,13 @@
                 "eth_mac": "00:04:a6:81:a7:ad",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "rem secondary",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.10",
+                "errorsip": [
+                    "Ip changed from 192.168.205.10 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:ad"
+                ],
                 "macandip": []
             }
         }
@@ -459,9 +485,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "192.168.205.10",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.12",
+                "errorsip": [
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ac to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -481,9 +511,13 @@
                 "eth_mac": "00:04:a6:81:a7:ac",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "l secondary",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.11",
+                "errorsip": [
+                    "Ip changed from 192.168.205.11 to 192.168.205.12"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f67 to 00:04:a6:81:a7:ac"
+                ],
                 "macandip": []
             },
             "remote": {
@@ -503,9 +537,13 @@
                 "eth_mac": "00:04:a6:81:a7:f7",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "rem primary",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.13",
+                "errorsip": [
+                    "Ip changed from 192.168.205.13 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ai to 00:04:a6:81:a7:f7"
+                ],
                 "macandip": []
             },
             "remote_alternate": {
@@ -525,9 +563,13 @@
                 "eth_mac": "00:04:a6:81:a7:ad",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "rem secondary",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.10",
+                "errorsip": [
+                    "Ip changed from 192.168.205.10 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:ad"
+                ],
                 "macandip": []
             }
         }
@@ -555,9 +597,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "192.168.205.10",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.12",
+                "errorsip": [
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ac to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -577,9 +623,13 @@
                 "eth_mac": "00:04:a6:81:a7:c",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "00:04:a6:81:a7:c",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.11",
+                "errorsip": [
+                    "Ip changed from 192.168.205.11 to 192.168.205.12"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f7 to 00:04:a6:81:a7:c"
+                ],
                 "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:c isn't the same as IP state: l secondary"
                 ]
@@ -600,9 +650,13 @@
                 "eth_mac": "00:04:a6:81:a7:f17",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "00:04:a6:81:a7:f17",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.13",
+                "errorsip": [
+                    "Ip changed from 192.168.205.13 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ad to 00:04:a6:81:a7:f17"
+                ],
                 "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:f17 isn't the same as IP state: rem primary"
                 ]
@@ -623,9 +677,13 @@
                 "eth_mac": "00:04:a6:81:a7:a5d",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "00:04:a6:81:a7:a5d",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.10",
+                "errorsip": [
+                    "Ip changed from 192.168.205.10 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:a5d"
+                ],
                 "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:a5d isn't the same as IP state: rem secondary"
                 ]
@@ -654,9 +712,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "192.168.205.10",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.12",
+                "errorsip": [
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ac to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -676,9 +738,13 @@
                 "eth_mac": "00:04:a6:81:a7:ac",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "l secondary",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.11",
+                "errorsip": [
+                    "Ip changed from 192.168.205.11 to 192.168.205.12"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f7 to 00:04:a6:81:a7:ac"
+                ],
                 "macandip": []
             },
             "remote": {
@@ -698,9 +764,13 @@
                 "eth_mac": "00:04:a6:81:a7:f7",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "rem primary",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.13",
+                "errorsip": [
+                    "Ip changed from 192.168.205.13 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ad to 00:04:a6:81:a7:f7"
+                ],
                 "macandip": []
             },
             "remote_alternate": {
@@ -720,9 +790,13 @@
                 "eth_mac": "00:04:a6:81:a7:ad",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "rem secondary",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.10",
+                "errorsip": [
+                    "Ip changed from 192.168.205.10 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:ad"
+                ],
                 "macandip": []
             }
         }
@@ -749,9 +823,13 @@
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "l primary",
                 "eth_mac_name": "l primary",
-                "ipbefore(4)": "192.168.205.10",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.12",
+                "errorsip": [
+                    "Ip changed from 192.168.205.12 to 192.168.205.10"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:c to 00:04:a6:81:a7:ae"
+                ],
                 "macandip": []
             },
             "alternate": {
@@ -771,9 +849,13 @@
                 "eth_mac": "00:04:a6:81:a7:ac",
                 "eth_ip_name": "l secondary",
                 "eth_mac_name": "l secondary",
-                "ipbefore(4)": "192.168.205.12",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.11",
+                "errorsip": [
+                    "Ip changed from 192.168.205.11 to 192.168.205.12"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:f17 to 00:04:a6:81:a7:ac"
+                ],
                 "macandip": []
             },
             "remote": {
@@ -793,9 +875,13 @@
                 "eth_mac": "00:04:a6:81:a7:f7",
                 "eth_ip_name": "rem primary",
                 "eth_mac_name": "rem primary",
-                "ipbefore(4)": "192.168.205.11",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.13",
+                "errorsip": [
+                    "Ip changed from 192.168.205.13 to 192.168.205.11"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:a5d to 00:04:a6:81:a7:f7"
+                ],
                 "macandip": []
             },
             "remote_alternate": {
@@ -815,9 +901,13 @@
                 "eth_mac": "00:04:a6:81:a7:ad",
                 "eth_ip_name": "rem secondary",
                 "eth_mac_name": "rem secondary",
-                "ipbefore(4)": "192.168.205.13",
-                "errorsip": [],
-                "errorsmac": [],
+                "ipbefore(4)": "192.168.205.10",
+                "errorsip": [
+                    "Ip changed from 192.168.205.10 to 192.168.205.13"
+                ],
+                "errorsmac": [
+                    "MAC changed from 00:04:a6:81:a7:ae to 00:04:a6:81:a7:ad"
+                ],
                 "macandip": []
             }
         }

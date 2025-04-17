@@ -100,10 +100,10 @@ class JSONTimeStampSaglabatajsUI:
                 f"Successfully saved: {result['success_count']}\n"
                 f"Skipped: {result['skipped_count']}\n"
                 f"Merged file saved at: {result['merged_file_path']}\n"
-                f"errors: {result.get('error_msg',)}\n"
-                f"{result.get('eth_ip_errors',)}\n"
-                f"{result.get('eth_mac_errors',)}\n"
-                f"{result.get('M')}"
+                #f"errors: {result.get('error_msg',)}\n"
+                #f"{result.get('eth_ip_errors',)}\n"
+                #f"{result.get('eth_mac_errors',)}\n"
+                #f"{result.get('M')}"
 
             )
             self.result_text.insert(tk.END, summary)
