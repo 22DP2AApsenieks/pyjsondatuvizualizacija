@@ -63,7 +63,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 16:51:05, section local: Invalid last symbols 'y0' in MAC '00:00:00:00:00:y0'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:51:05 ETH MAC state: 00:00:00:00:00:y0 isn't the same as IP state: 0.0.0.19"
                 ]
             },
@@ -88,7 +88,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 16:51:05, section alternate: Invalid last symbols 'a9c' in MAC '00:04:a6:81:a7:a9c'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:51:05 ETH MAC state: 00:04:a6:81:a7:a9c isn't the same as IP state: l secondary"
                 ]
             },
@@ -111,7 +111,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:51:05 ETH MAC state: rem primary isn't the same as IP state: l secondary"
                 ]
             },
@@ -136,7 +136,7 @@
                     "Timestamp 2025-03-27 16:51:05, section remote_alternate: Invalid last symbols 99 in IP '192.168.205.99'"
                 ],
                 "errorsmac": [],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:51:05 ETH MAC state: rem secondary isn't the same as IP state: 192.168.205.99"
                 ]
             }
@@ -166,7 +166,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:51:09 ETH MAC state: l primary isn't the same as IP state: 0.0.0.0"
                 ]
             },
@@ -189,7 +189,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -210,7 +210,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -231,7 +231,7 @@
                 "eth_mac_name": "rem secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             }
         }
     },
@@ -260,7 +260,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Standby",
@@ -280,7 +280,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -303,7 +303,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 16:59:39, section remote: Invalid last symbols 'f67' in MAC '00:04:a6:81:a7:f67'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:59:39 ETH MAC state: 00:04:a6:81:a7:f67 isn't the same as IP state: rem primary"
                 ]
             },
@@ -328,7 +328,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 16:59:39, section remote_alternate: Invalid last symbols 'ai' in MAC '00:04:a6:81:a7:ai'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 16:59:39 ETH MAC state: 00:04:a6:81:a7:ai isn't the same as IP state: rem secondary"
                 ]
             }
@@ -359,7 +359,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Mute",
@@ -380,7 +380,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -400,7 +400,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -420,7 +420,7 @@
                 "eth_mac_name": "rem secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             }
         }
     },
@@ -449,7 +449,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Active",
@@ -470,7 +470,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -491,7 +491,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -512,7 +512,7 @@
                 "eth_mac_name": "rem secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             }
         }
     },
@@ -541,7 +541,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Standby",
@@ -564,7 +564,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 17:00:22, section alternate: Invalid last symbols 'c' in MAC '00:04:a6:81:a7:c'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:c isn't the same as IP state: l secondary"
                 ]
             },
@@ -588,7 +588,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 17:00:22, section remote: Invalid last symbols 'f17' in MAC '00:04:a6:81:a7:f17'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:f17 isn't the same as IP state: rem primary"
                 ]
             },
@@ -612,7 +612,7 @@
                 "errorsmac": [
                     "Timestamp 2025-03-27 17:00:22, section remote_alternate: Invalid last symbols 'a5d' in MAC '00:04:a6:81:a7:a5d'"
                 ],
-                "manandip": [
+                "macandip": [
                     "Timestamp 2025-03-27 17:00:22 ETH MAC state: 00:04:a6:81:a7:a5d isn't the same as IP state: rem secondary"
                 ]
             }
@@ -642,7 +642,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Mute",
@@ -663,7 +663,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
@@ -684,7 +684,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -705,7 +705,7 @@
                 "eth_mac_name": "rem secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             }
         }
     },
@@ -733,7 +733,7 @@
                 "eth_mac_name": "l primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
@@ -754,7 +754,7 @@
                 "eth_mac_name": "l secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-WAN",
@@ -775,7 +775,7 @@
                 "eth_mac_name": "rem primary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             },
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
@@ -796,7 +796,7 @@
                 "eth_mac_name": "rem secondary",
                 "errorsip": [],
                 "errorsmac": [],
-                "manandip": []
+                "macandip": []
             }
         }
     }

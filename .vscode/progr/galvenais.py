@@ -244,7 +244,7 @@ class JSONTimeStampSaglabatajs:
                                     "eth_mac_name": self.get_eth_mac_name(eth_mac),
                                     "errorsip": ip_errors,
                                     "errorsmac": mac_errors,
-                                    "manandip": macandip
+                                    "macandip": macandip
                                 }
 
                                 """ print(eth_ip)
@@ -304,6 +304,7 @@ class JSONTimeStampSaglabatajs:
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
+        macandip_msg=[]
         if macandip:
             macandip_msg = "ETH Isn't the same as Ip state:\n" + "\n".join(macandip)
 
