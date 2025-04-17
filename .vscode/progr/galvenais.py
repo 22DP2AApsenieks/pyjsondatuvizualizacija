@@ -97,6 +97,7 @@ class JSONTimeStampSaglabatajs:
         existing_timestamps = set()
         error_messages = []
         eth_ip_errors = []  # New list to store ETH IP validation errors
+        previous_eth_ip=[]
 
         # First pass: collect all FSM state changes from event logs
         fsm_events = {}
@@ -228,6 +229,15 @@ class JSONTimeStampSaglabatajs:
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:
                                     macandip.append(f"Timestamp {time_stamp} ETH MAC state: {self.get_eth_mac_name(eth_mac)} isn't the same as IP state: {eth_ip_name}")
 
+                                eth_ip = section_data.get("eth_ip")  # Or however you're assigning it
+
+                                
+                                print("Previous eth_ip:", previous_eth_ip)
+
+                                print("Current eth_ip:", eth_ip)
+                                print("\n")
+                                previous_eth_ip = eth_ip
+
                                 # Save results for this section
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
@@ -247,10 +257,8 @@ class JSONTimeStampSaglabatajs:
                                     "macandip": macandip
                                 }
 
-                                """ print(eth_ip)
-                                print(eth_mac)"""
                                 
-                            
+
                             merged_data.append(entry)
                             existing_timestamps.add(time_stamp)
                             success_count += 1
