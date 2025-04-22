@@ -95,10 +95,10 @@ class JSONTimeStampSaglabatajs:
         merged_data = []
         existing_timestamps = set()
         error_messages = []
-        eth_ip_errors = []  # New list to store ETH IP validation errors
+        eth_ip_errors = []  # store ETH IP validation errors
         previous_eth_ip=[]
 
-        # First pass: collect all FSM state changes from event logs
+        #saves all FSM state changes from event logs
         fsm_events = {}
         for dir_num, directory in directories.items():
             if not directory:
@@ -112,12 +112,12 @@ class JSONTimeStampSaglabatajs:
                         fsm_events[timestamp] = {
                             "timestamp": timestamp,
                             "error_description": decoded_desc,
-                            "has_json": False  # Will be set to True if we find matching JSON
+                            "has_json": False  # Will be set to True if we JSON
                         }
             except Exception as e:
                 error_messages.append(f"Error processing event logs in directory {dir_num}: {str(e)}")
 
-        # Second pass: process JSON files and match with FSM events
+        # Process JSON files and match with FSM events
 
 
         for dir_num, directory in directories.items():
@@ -616,6 +616,7 @@ class JSONTimeStampSaglabatajs:
 
     def remote_to_remote_alternate(self):
         """Draw lines from remote to remote_alternate, connecting Traffic ports"""
+        print("i")
         line_elements = []
         # Find all remote and remote_alternate sections
         for entry in set(box['entry'] for box in self.box_indexes):
@@ -629,9 +630,7 @@ class JSONTimeStampSaglabatajs:
                         remote_alternate_box = box
             # Get role configurations for remote and remote_alternate
             remote_role = self.visualization_data[entry]['sections'].get('remote', {}).get("role_cfg", "N/A").lower()
-            print(role_cfg)
             remote_alternate_role = self.visualization_data[entry]['sections'].get('remote_alternate', {}).get("role_cfg", "N/A").lower()
-            print(role_cfg)
             
             # Resolve primary and secondary roles for remote and remote_alternate
 
@@ -661,6 +660,7 @@ class JSONTimeStampSaglabatajs:
                         f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
                         'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' 
                     )
+            print(remote_role)
         return line_elements
 
     def TXunRXmainitajs(self, section_data):
