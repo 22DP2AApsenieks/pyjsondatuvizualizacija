@@ -207,8 +207,8 @@ class JSONTimeStampSaglabatajs:
 
                                 
                                 # checks if we have 4 before
-                                if len(recent_ips) >= 8:
-                                    fourth_prev_ip = recent_ips[-8]  # 4 steps before current
+                                if len(recent_ips) >= 5:
+                                    fourth_prev_ip = recent_ips[-5]  # 4 steps before current
                                     ipbefore = (f"{fourth_prev_ip}") #4th previous eth_ip before current one
                                     if ipbefore != eth_ip:
                                         print(f"Ip changed from {ipbefore} to {eth_ip}")
@@ -224,8 +224,8 @@ class JSONTimeStampSaglabatajs:
                                     recent_macs.append(eth_mac)
 
                                 # Check MAC changes similar to IP
-                                if len(recent_macs) >= 8:
-                                    fourth_prev_mac = recent_macs[-8]
+                                if len(recent_macs) >= 5:
+                                    fourth_prev_mac = recent_macs[-5]
                                     if fourth_prev_mac != eth_mac:
                                         print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
                                         mac_errors.append(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
