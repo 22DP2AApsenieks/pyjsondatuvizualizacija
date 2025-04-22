@@ -211,13 +211,19 @@ class JSONTimeStampSaglabatajs:
                                     fourth_prev_ip = recent_ips[-5]  # 4 steps before current
                                     ipbefore = (f"{fourth_prev_ip}") #4th previous eth_ip before current one
                                     if ipbefore != eth_ip:
-                                        print(f"Ip changed from {ipbefore} to {eth_ip}")
-                                        ip_errors.append(f"Ip changed from {ipbefore} to {eth_ip}")
+                                        if eth_ip == "0.0.0.0":
+                                            #print(f"Ip changed from {ipbefore} to {eth_ip}")
+                                            print('l')
+                                            print(eth_ip)
+                                            print("0.0.0.0")
+                                            eth_ip = ipbefore
+                                        else:
+                                            ip_errors.append(f"Ip changed from {ipbefore} to {eth_ip}")
                                 else:
                                     ipbefore = (f"")
                                     print(f"\n")
 
-                                print(f"Current eth_ip: {eth_ip}\n")
+                                #print(f"Current eth_ip: {eth_ip}\n")
 
                                 # ---- MAC validation ----
                                 if eth_mac != "N/A":
@@ -227,12 +233,12 @@ class JSONTimeStampSaglabatajs:
                                 if len(recent_macs) >= 5:
                                     fourth_prev_mac = recent_macs[-5]
                                     if fourth_prev_mac != eth_mac:
-                                        print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
+                                        #print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
                                         mac_errors.append(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
                                 else:
                                     print(f"\n")
 
-                                print(f"Current eth_mac: {eth_mac}\n")
+                                #print(f"Current eth_mac: {eth_mac}\n")
 
                                 # MAC/IP check
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:

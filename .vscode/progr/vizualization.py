@@ -235,7 +235,7 @@ class Visualization:
 
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 350, "Ip changed", ip_error))
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 375, "Mac changed", mac_error))
-                svg_content.extend(draw_error_box(current_x + 1, current_y + 400, "Mac to IP error", mac_ip_error))
+                #šis laikam nav isiti vajadzigssvg_content.extend(draw_error_box(current_x + 1, current_y + 400, "Mac to IP error", mac_ip_error))
 
 
 

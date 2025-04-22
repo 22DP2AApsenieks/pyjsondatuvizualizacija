@@ -156,14 +156,12 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "0.0.0.0",
+                "eth_ip": "0.0.0.19",
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "0.0.0.0",
                 "eth_mac_name": "l primary",
                 "ipbefore(4)": "0.0.0.19",
-                "errorsip": [
-                    "Ip changed from 0.0.0.19 to 0.0.0.0"
-                ],
+                "errorsip": [],
                 "errorsmac": [
                     "MAC changed from 00:00:00:00:00:y0 to 00:04:a6:81:a7:ae"
                 ],
