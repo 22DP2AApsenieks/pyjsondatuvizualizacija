@@ -156,7 +156,7 @@
                     "LAN3",
                     "WAN"
                 ],
-                "eth_ip": "0.0.0.19",
+                "eth_ip": "0.0.0.0",
                 "eth_mac": "00:04:a6:81:a7:ae",
                 "eth_ip_name": "0.0.0.0",
                 "eth_mac_name": "l primary",

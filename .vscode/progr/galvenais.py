@@ -215,7 +215,6 @@ class JSONTimeStampSaglabatajs:
                                             print('l')
                                             print(eth_ip)
                                             print("0.0.0.0")
-                                            eth_ip = ipbefore
                                         else:
                                             if ipbefore == "0.0.0.0":
                                                 eigth_prev_ip = recent_ips[-9]
