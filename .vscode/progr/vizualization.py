@@ -219,7 +219,7 @@ class Visualization:
                 svg_content.append(f'<text class="label" x="{current_x + 10}" y="{current_y + 240}">Eth Mac: {section_data.get("eth_mac", "N/A")}</text>')#pievienojam mac adreses izvadi
 
                 #for errros
-                #need to make show if previos was diferent
+                #make show if previos was diferent == if red - changes- white = nothing change
                 def draw_error_box(x, y, text, value):
                     # Determine box color
                     box_color = "red" if value else "white"

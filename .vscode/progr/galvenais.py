@@ -211,10 +211,8 @@ class JSONTimeStampSaglabatajs:
                                     ipbefore = (f"{fourth_prev_ip}") #4th previous eth_ip before current one
                                     if ipbefore != eth_ip:
                                         if eth_ip == "0.0.0.0":
-                                            #print(f"Ip changed from {ipbefore} to {eth_ip}")
-                                            print('l')
-                                            print(eth_ip)
-                                            print("0.0.0.0")
+                                            print("l" + eth_ip)
+
                                         else:
                                             if ipbefore == "0.0.0.0":
                                                 eigth_prev_ip = recent_ips[-9]
@@ -235,12 +233,12 @@ class JSONTimeStampSaglabatajs:
                                 if len(recent_macs) >= 5:
                                     fourth_prev_mac = recent_macs[-5]
                                     if fourth_prev_mac != eth_mac:
-                                        print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
+                                        #print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
                                         mac_errors.append(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
                                 else:
                                     print(f"\n")
 
-                                print(f"Current eth_mac: {eth_mac}\n")
+                                #print(f"Current eth_mac: {eth_mac}\n")
 
                                 # MAC/IP check
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:
@@ -631,9 +629,12 @@ class JSONTimeStampSaglabatajs:
                         remote_alternate_box = box
             # Get role configurations for remote and remote_alternate
             remote_role = self.visualization_data[entry]['sections'].get('remote', {}).get("role_cfg", "N/A").lower()
+            print(role_cfg)
             remote_alternate_role = self.visualization_data[entry]['sections'].get('remote_alternate', {}).get("role_cfg", "N/A").lower()
+            print(role_cfg)
             
             # Resolve primary and secondary roles for remote and remote_alternate
+
             remote_primary_box, remote_secondary_box = None, None
             if remote_role == 'primary' and remote_alternate_role == 'secondary':
                 remote_primary_box = remote_box
@@ -649,6 +650,7 @@ class JSONTimeStampSaglabatajs:
                 raise ValueError(f"Entry '{entry}' has a secondary remote_alternate box but no valid primary.")
             else:
                 raise ValueError(f"Entry '{entry}' must have one remote primary and one remote secondary. Got roles: remote={remote_role}, remote_alternate={remote_alternate_role}")
+            print
             
             # Get traffic port positions
             if remote_primary_box and remote_secondary_box:
