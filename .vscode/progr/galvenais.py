@@ -31,11 +31,10 @@ class JSONTimeStampSaglabatajs:
                 15: "Remote Alternative Broken (AGGR_FSM_RSN_REM_ALT_BROKEN)",
                 16: "Remote Alternative Down (AGGR_FSM_RSN_REM_ALT_DOWN)",
                 17: "Remote Alternative Active Secondary (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC)",
-                18: "Remote Alternative Active Secondary with Alternative Broken (AGGR_FSM_RSN_REM_ALT_ACTIVE_SEC_ALT_BROKEN)",
-                19: "Secondary Path Fail (AGGR_FSM_RSN_SECONDARY_PATH_FAIL)",
-                20: "Alternative OK (AGGR_FSM_RSN_ALT_OK)",
-                21: "Remote Up Sync OK (AGGR_FSM_RSN_REM_UP_SYNC_OK)",
-                22: "Secondary Path OK (AGGR_FSM_RSN_SECONDARY_PATH_OK)"
+                18: "Secondary Path Fail (AGGR_FSM_RSN_SECONDARY_PATH_FAIL)",
+                19: "Alternative OK (AGGR_FSM_RSN_ALT_OK)",
+                20: "Remote Up Sync OK (AGGR_FSM_RSN_REM_UP_SYNC_OK)",
+                21: "Secondary Path OK (AGGR_FSM_RSN_SECONDARY_PATH_OK)"
             },
             "1+1HSB Protection": {
                 0: "Configuration Commit (PROT_FSM_RSN_CFG_COMMIT)",
@@ -81,7 +80,7 @@ class JSONTimeStampSaglabatajs:
         return error_mapping
 
     def process_files(self, directories, identifiers, mode_var):
-        eth_mac_errors = [] 
+        eth_mac_errors = []
         macandip = []
         selected_dirs = [d for d in directories.values() if d]
 
@@ -126,8 +125,9 @@ class JSONTimeStampSaglabatajs:
                 continue
             
             current_identifier = identifiers[dir_num]
-            recent_ips = []      # List to store recent IPs
-            recent_macs = [] 
+            b=0
+            recent_ips = []  # List to store recent IPs
+            recent_macs = []  # New list to store recent MACs
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -142,14 +142,16 @@ class JSONTimeStampSaglabatajs:
                             
                             time_stamp = data["time_stamp"]
                             
-                            # Skip if already processed
+                            # Skip if we've already processed this timestamp
                             if time_stamp in existing_timestamps:
                                 skipped_count += 1
                                 continue
                             
+                            # Mark this timestamp as having JSON data
                             if time_stamp in fsm_events:
                                 fsm_events[time_stamp]["has_json"] = True
                             else:
+                                # If JSON exists but no eventlog entry, skip it
                                 skipped_count += 1
                                 continue
                                 
@@ -166,57 +168,77 @@ class JSONTimeStampSaglabatajs:
                                 "error_description": fsm_events[time_stamp]["error_description"],
                                 "sections": {}
                             }
+                            
+                            
+
+                            #lai dabutu mac adresi
+                            i=0
+                            
 
                             for section_name, section_data in sections.items():
                                 if not section_data:
                                     continue
 
+                                # Initialize error lists
                                 ip_errors = []
                                 mac_errors = []
                                 macandip = []
 
+                                
                                 eth_mac = section_data.get("eth_mac", "N/A")
+                             
+
+                                # ---- IP validation ----
                                 eth_ip = section_data.get("eth_ip", "N/A")
                                 eth_ip_name = self.get_eth_ip_name(eth_ip)
+                                if eth_ip != 'N/A':
+                                    if isinstance(eth_ip, dict):
+                                        eth_ip = eth_ip.get('ip', 'N/A')
+                                        if eth_ip == 'N/A':
+                                            continue
 
-                                # Normalize eth_ip if it's a dict
-                                if eth_ip != 'N/A' and isinstance(eth_ip, dict):
-                                    eth_ip = eth_ip.get('ip', 'N/A')
-                                    if eth_ip == 'N/A':
-                                        continue
+                                            
+                                        
 
-                                # --- IP checks ---
+                                
+                                # Save current IP only if valid
                                 if eth_ip != "N/A":
                                     recent_ips.append(eth_ip)
 
-                                    if len(recent_ips) >= 8:
-                                        fourth_prev_ip = recent_ips[-8]
-                                        ipbefore = fourth_prev_ip
-                                        if ipbefore != eth_ip:
-                                            print(f"Ip changed from {ipbefore} to {eth_ip}")
-                                            ip_errors.append(f"Ip changed from {ipbefore} to {eth_ip}")
-                                    else:
-                                        ipbefore = ""
+                                
+                                # checks if we have 4 before
+                                if len(recent_ips) >= 8:
+                                    fourth_prev_ip = recent_ips[-8]  # 4 steps before current
+                                    ipbefore = (f"{fourth_prev_ip}") #4th previous eth_ip before current one
+                                    if ipbefore != eth_ip:
+                                        print(f"Ip changed from {ipbefore} to {eth_ip}")
+                                        ip_errors.append(f"Ip changed from {ipbefore} to {eth_ip}")
+                                else:
+                                    ipbefore = (f"")
+                                    print(f"\n")
 
-                                    print(f"Current eth_ip: {eth_ip}\n")
+                                print(f"Current eth_ip: {eth_ip}\n")
 
-                                # --- MAC checks ---
+                                # ---- MAC validation ----
                                 if eth_mac != "N/A":
                                     recent_macs.append(eth_mac)
 
-                                    if len(recent_macs) >= 8:
-                                        fourth_prev_mac = recent_macs[-8]
-                                        if fourth_prev_mac != eth_mac:
-                                            print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
-                                            mac_errors.append(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
+                                # Check MAC changes similar to IP
+                                if len(recent_macs) >= 8:
+                                    fourth_prev_mac = recent_macs[-8]
+                                    if fourth_prev_mac != eth_mac:
+                                        print(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
+                                        mac_errors.append(f"MAC changed from {fourth_prev_mac} to {eth_mac}")
+                                else:
+                                    print(f"\n")
 
-                                # --- MAC/IP mapping check ---
+                                print(f"Current eth_mac: {eth_mac}\n")
+
+                                # MAC/IP check
                                 if self.get_eth_mac_name(eth_mac) != eth_ip_name:
-                                    macandip.append(
-                                        f"Timestamp {time_stamp} ETH MAC state: {self.get_eth_mac_name(eth_mac)} "
-                                        f"isn't the same as IP state: {eth_ip_name}"
-                                    )
+                                    macandip.append(f"Timestamp {time_stamp} ETH MAC state: {self.get_eth_mac_name(eth_mac)} isn't the same as IP state: {eth_ip_name}")
 
+                                # Save section data
                                 entry["sections"][section_name] = {
                                     "fsm_state": section_data.get("fsm_state", "N/A"),
                                     "role_state": section_data.get("role_state", "N/A"),
@@ -230,16 +252,18 @@ class JSONTimeStampSaglabatajs:
                                     "eth_mac": eth_mac,
                                     "eth_ip_name": eth_ip_name,
                                     "eth_mac_name": self.get_eth_mac_name(eth_mac),
-                                    "ipbefore(4)": ipbefore,
+                                    "ipbefore(4)":ipbefore,
                                     "errorsip": ip_errors,
                                     "errorsmac": mac_errors,
                                     "macandip": macandip
                                 }
 
+
+                                                            
+
                             merged_data.append(entry)
                             existing_timestamps.add(time_stamp)
                             success_count += 1
-
                         except Exception as e:
                             error_messages.append(f"[Directory {dir_num}] {file} Error: {str(e)}")
                             continue
@@ -251,7 +275,7 @@ class JSONTimeStampSaglabatajs:
                     "time_stamp": timestamp,
                     "device_identifier": "",  # Will be filled in next step
                     "error_description": event_data["error_description"],
-                    "sections": {}  # Empty sections
+                    "sections": {}  # Empty secti
                 }
                 merged_data.append(entry)
         
@@ -286,13 +310,14 @@ class JSONTimeStampSaglabatajs:
             eth_ip_error_msg = "No ETH IP validation errors found"
 
         if eth_mac_errors:
-            eth_mac_error_msg = "ETH Mac errors:\n" + "\n".join(eth_mac_errors) #vajag vizualizet kkā
+            eth_mac_error_msg = "ETH Mac errors:\n" + "\n".join(eth_mac_errors)
         else:
             eth_mac_error_msg = "No ETH Mac errors found"
 
         macandip_msg=[]
         if macandip:
             macandip_msg = "ETH Isn't the same as Ip state:\n" + "\n".join(macandip)
+
 
 
 
