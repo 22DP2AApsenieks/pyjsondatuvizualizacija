@@ -220,9 +220,23 @@ class Visualization:
 
                 #for errros
                 #need to make show if previos was diferent
-                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 350}">Ip changed: {section_data.get("errorsip", "N/A")}</text>') 
-                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 375}">Mac changed: {section_data.get("errorsmac", "N/A")}</text>')
-                svg_content.append(f'<text class="label" x="{current_x + 1}" y="{current_y + 400}">Mac to IP error: {section_data.get("manandip", "N/A")}</text>')
+                def draw_error_box(x, y, text, value):
+                    # Determine box color
+                    box_color = "red" if value else "white"
+                    svg = [
+                        f'<rect x="{x}" y="{y - 15}" width="400" height="25" fill="{box_color}" stroke="black" />',
+                        f'<text class="label" x="{x + 5}" y="{y}">{text}: {value if value else "N/A"}</text>'
+                    ]
+                    return svg
+
+                ip_error = section_data.get("errorsip", "")
+                mac_error = section_data.get("errorsmac", "")
+                mac_ip_error = section_data.get("manandip", "")
+
+                svg_content.extend(draw_error_box(current_x + 1, current_y + 350, "Ip changed", ip_error))
+                svg_content.extend(draw_error_box(current_x + 1, current_y + 375, "Mac changed", mac_error))
+                svg_content.extend(draw_error_box(current_x + 1, current_y + 400, "Mac to IP error", mac_ip_error))
+
 
 
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
