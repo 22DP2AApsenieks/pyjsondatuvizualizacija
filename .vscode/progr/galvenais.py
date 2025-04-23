@@ -196,10 +196,6 @@ class JSONTimeStampSaglabatajs:
                                         eth_ip = eth_ip.get('ip', 'N/A')
                                         if eth_ip == 'N/A':
                                             continue
-
-                                            
-                                        
-
                                 
                                 # Save current IP only if valid
                                 if eth_ip != "N/A":
@@ -556,7 +552,7 @@ class JSONTimeStampSaglabatajs:
             return None
 
         # Calculate port center coordinates
-        x = box['x'] + 160 + (port_index * 35) + 45
+        x = box['x'] + 400 + (port_index * -120) + 45 #local būs pēc remote(index) tapēc rakstu ar -120(noformejot pareizi)
         y = box['y'] + 240 + 10  # 240 from box top, 10 from port top
 
         return (x, y)
