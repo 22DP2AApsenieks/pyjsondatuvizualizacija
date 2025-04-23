@@ -146,7 +146,7 @@
             "local": {
                 "fsm_state": "Primary Muted",
                 "role_state": "primary_mute",
-                "role_cfg": "primary",
+                "role_cfg": "secondary",
                 "tx_state": "none",
                 "rx_state": "disable",
                 "traffic_port": "LAN3",
@@ -172,7 +172,7 @@
             "alternate": {
                 "fsm_state": "Secondary Protect",
                 "role_state": "secondary_protect",
-                "role_cfg": "secondary",
+                "role_cfg": "primary",
                 "tx_state": "traffic_port",
                 "rx_state": "radio_port-traffic_port",
                 "traffic_port": "LAN3",
@@ -293,7 +293,7 @@
             "remote": {
                 "fsm_state": "Prim.Tx-WAN Rx-ALT",
                 "role_state": "primary_wanalt",
-                "role_cfg": "primary",
+                "role_cfg": "secondary",
                 "tx_state": "primary",
                 "rx_state": "secondary",
                 "traffic_port": "LAN1",
@@ -319,7 +319,7 @@
             "remote_alternate": {
                 "fsm_state": "Secondary Mute",
                 "role_state": "secondary_mute",
-                "role_cfg": "secondary",
+                "role_cfg": "primary",
                 "tx_state": "none",
                 "rx_state": "radio_port-alt_port",
                 "traffic_port": "LAN1",

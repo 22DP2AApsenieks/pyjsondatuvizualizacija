@@ -263,6 +263,7 @@ class JSONTimeStampSaglabatajs:
                                     "errorsmac": mac_errors,
                                     "macandip": macandip
                                 }
+                                print(entry)
 
 
                                                             
