@@ -192,17 +192,17 @@ class Visualization:
                 })
 
                 state_descriptions = {
-                    1: "device active. Var sūtīt, bet uzņem tikai caur sekundāro.",
+                    1: "device active. Var nosūtīt, bet uzņem tikai caur sekundāro.",
                     2: "device active. Var visu.",
                     3: "device active. Var saņemt no remote. nevars sanemt no alternative, bet var sutit altern.",
                     4: "device not active and muted. Traffic is neither transmitted over any paths, nor received. Secondary device should be active.",
                     5: "device active. Nevar uzņemt no remote ",
                     6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
                     7: "device not active. dati tiek nosūtīti un saņemti caur outru",
-                    8: "device active. Dati tike saņemt un parsutiti tikai caur sekundaro",
-                    9: "lkm sāk(nebija minets dokomenta)",
-                    10: "Visuvar?1",
-                    12: "Visuvar?2",
+                    8: "device active. Dati tike saņemt un pārsūtīti tikai caur sekundaro",
+                    9: "lkm sāk/start(nebija minets dokomenta)",
+                    10: "Visuvar?1.",
+                    12: "Visuvar?22."
                 }
 
                 #state_value = state_descriptions.get(state_index, text_statement)
@@ -231,7 +231,7 @@ class Visualization:
 
                 ip_error = section_data.get("errorsip", "")
                 mac_error = section_data.get("errorsmac", "")
-                mac_ip_error = section_data.get("manandip", "")
+                #mac_ip_error = section_data.get("manandip", "")
 
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 350, "Ip changed", ip_error))
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 375, "Mac changed", mac_error))

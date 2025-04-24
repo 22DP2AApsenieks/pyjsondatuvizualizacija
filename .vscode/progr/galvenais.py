@@ -12,7 +12,7 @@ class JSONTimeStampSaglabatajs:
         self.directories = {1: None, 2: None, 3: None, 4: None}
         self.box_indexes = []
         self.reason_ids = {
-            "2+0 Aggregation": {
+            "2+0 Aggregation": { #these all will be tooverwrite/translate (samaina uz šo paskaidrojumu fr fr)
                 0: "Configuration Commit (AGGR_FSM_RSN_CFG_COMMIT)",
                 1: "Enable (AGGR_FSM_RSN_ENABLE)",
                 2: "Configured as Primary (AGGR_FSM_RSN_CFG_IS_PRIMARY)",
@@ -259,9 +259,6 @@ class JSONTimeStampSaglabatajs:
                                     "errorsmac": mac_errors,
                                     "macandip": macandip
                                 }
-                                print(entry)
-
-
                                                             
 
                             merged_data.append(entry)

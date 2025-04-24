@@ -135,7 +135,7 @@ class JSONTimeStampSaglabatajsUI:
                         bg="lightcoral", anchor="w", width=50, font=("Arial", 12))
         sarkans.pack(fill="x", pady=2)
 
-        ps = tk.Label(frame, text="If the visualization is empty (not displayed), then in this case the relationship between the eventlog and the json file could not be found.", 
+        ps = tk.Label(frame, text="If the visualization is empty (not displayed), then relationship between the eventlog and the json file could not be found.", 
                          anchor="w", width=50, font=("Arial", 12))
         ps.pack(fill="x", pady=2)
 
@@ -149,7 +149,7 @@ class JSONTimeStampSaglabatajsUI:
         frame = tk.Frame(about_logs, padx=30, pady=40)
         frame.pack()
 
-        apraksts = ( #sll this vill be dispalyed for user
+        apraksts = ( #sall this vill be dispalyed for user
             "LV(below is ENG)"
             "\n"
             "\n"
