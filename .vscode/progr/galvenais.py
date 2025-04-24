@@ -403,16 +403,16 @@ class JSONTimeStampSaglabatajs:
         
         return wan_positions
 
-    def determine_senders_and_receivers(self):
+    def determine_senders_and_receivers(self): #from local to remote
         """Determine which boxes can send data and which 'r' sections can receive."""
         senders = []
         receivers = []
 
         # Define valid states for each category
-        local_send_states = {1, 2, 3, 5, 10, 12}
-        local_alt_send_states = {1, 2, 3, 7, 8, 10, 11, 12}
-        remote_recv_states = {2, 3, 10, 5, 12}
-        remote_alt_recv_states = {1, 2, 6, 8, 10, 11, 12}  
+        local_send_states = {1, 2, 3, 5, 10, 12} #fot local
+        local_alt_send_states = {1, 2, 3, 7, 8, 10, 11, 12} #for local alt
+        remote_recv_states = {2, 3, 10, 5, 12} #for remote
+        remote_alt_recv_states = {1, 2, 6, 8, 10, 11, 12}  #for rem alt
 
         for box in self.box_indexes:
             state = box['state']
@@ -441,12 +441,12 @@ class JSONTimeStampSaglabatajs:
 
         return senders, receivers
 
-    def determine_recivers_and_senders(self):
+    def determine_recivers_and_senders(self): #from remot lo locals
         """Determine which boxes can receive data (local sections) and which 'r' sections can send."""
         local_receivers = []
         remote_senders = []
 
-        # Define valid states for each category
+        # Make valid states for each category 
         local_receive_states = {1, 2, 3, 6, 10, 12}
         local_alt_receive_states = {1, 2, 3, 6, 7, 8, 10, 11, 12}
         remote_send_states = {1, 2, 3, 7, 8, 10, 12}
@@ -524,7 +524,7 @@ class JSONTimeStampSaglabatajs:
                             receiver_x, receiver_y = sections[receiver_idx]
                             line_elements.append(
                                 f'<line x1="{sender_x}" y1="{sender_y}" x2="{receiver_x}" y2="{receiver_y}" '
-                                f'class="recive-sender-line" marker-end="url(#arrowhead)">'
+                                f'class="recive-sender-line" marker-end="url(#arrowhead)">'#change this color
                                 '</line>'
                             )
 
@@ -652,7 +652,7 @@ class JSONTimeStampSaglabatajs:
                 if remote_secondary_pos and remote_primary_pos:
                     line_elements.append(
                         f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
-                        'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' 
+                        'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' #this to redd
                     )
             print(remote_role)
         return line_elements

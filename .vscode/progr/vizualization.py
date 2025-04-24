@@ -27,8 +27,6 @@ class Visualization:
                 messagebox.showinfo("Info", "Nav datu vizualizācijai!")
                 return
 
-            
-
             self.show_visualizations()
 
         except Exception as e:
@@ -107,11 +105,11 @@ class Visualization:
             '  .section-label { font: 15px Arial; font-weight: bold; fill: #0000cc; }',
             '  .box-index { font: 12px Arial; font-weight: bold; fill: #000000; }',
             '  .connection-line { stroke: #888888; stroke-width: 2; }',
-            '  .diagonal-line { stroke: #aa0000; stroke-width: 3; }',
-            '  .sender-receiver-line { stroke: #aa00aa; stroke-width: 2; }',
+            '  .diagonal-line { stroke: #aa0000; stroke-width: 2; }',
+            '  .sender-receiver-line { stroke: red; stroke-width: 3; }',
             '  .secondary-primary-line { stroke: #aa0000; stroke-width: 2; }',
             '  .remote-secondary-primary-line { stroke: #aa0000; stroke-width: 2; }',
-            '  .recive-sender-line { stroke: #aa00aa; stroke-width: 2; }',
+            '  .recive-sender-line { stroke: blue; stroke-width: 2; }',
             '  .traffic-flow { animation: pulse 2s infinite; }',
             '  @keyframes pulse {',
             '    0% { stroke-opacity: 0.3; stroke-width: 1; }',
@@ -200,9 +198,9 @@ class Visualization:
                     6: "device not active and muted. Saņemtais trafiks var tikt nodots primārajam. Primārā izvēlas vai pieņemt vai nē",
                     7: "device not active. dati tiek nosūtīti un saņemti caur outru",
                     8: "device active. Dati tike saņemt un pārsūtīti tikai caur sekundaro",
-                    9: "lkm sāk/start(nebija minets dokomenta)",
+                    9: "lkm sāk/start(nebija minets dokomenta)", #nekonevar
                     10: "Visuvar?1.",
-                    12: "Visuvar?22."
+                    12: "Visuvar?2."
                 }
 
                 #state_value = state_descriptions.get(state_index, text_statement)
@@ -236,7 +234,6 @@ class Visualization:
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 350, "Ip changed", ip_error))
                 svg_content.extend(draw_error_box(current_x + 1, current_y + 375, "Mac changed", mac_error))
                 #šis laikam nav isiti vajadzigssvg_content.extend(draw_error_box(current_x + 1, current_y + 400, "Mac to IP error", mac_ip_error))
-
 
 
                 ports = ["LAN1", "LAN2", "LAN3", "WAN"]
