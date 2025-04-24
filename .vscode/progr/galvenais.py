@@ -623,6 +623,7 @@ class JSONTimeStampSaglabatajs:
                     elif box['name'] == 'remote_alternate':
                         remote_alternate_box = box
             # Get role configurations for remote and remote_alternate
+            #ifneed to check sta
             remote_role = self.visualization_data[entry]['sections'].get('remote', {}).get("role_cfg", "N/A").lower()
             remote_alternate_role = self.visualization_data[entry]['sections'].get('remote_alternate', {}).get("role_cfg", "N/A").lower()
             
@@ -650,9 +651,10 @@ class JSONTimeStampSaglabatajs:
                 remote_secondary_pos = self.get_traffic_port_position(remote_secondary_box)
                 remote_primary_pos = self.get_traffic_port_position(remote_primary_box)
                 if remote_secondary_pos and remote_primary_pos:
-                    line_elements.append(
-                        f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
-                        'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' #this to redd
+                    #if entry in remote_primary_box ["role_state"] != "disabled": #check if disabled if is then wont save and draw
+                        line_elements.append(
+                            f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
+                            'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' #this to redd
                     )
             print(remote_role)
         return line_elements

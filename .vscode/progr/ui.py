@@ -135,8 +135,10 @@ class JSONTimeStampSaglabatajsUI:
                         bg="lightcoral", anchor="w", width=50, font=("Arial", 12))
         sarkans.pack(fill="x", pady=2)
 
-        ps = tk.Label(frame, text="If the visualization is empty (not displayed), then relationship between the eventlog and the json file could not be found.", 
-                         anchor="w", width=50, font=("Arial", 12))
+        ps = tk.Label(frame, text="If the visualization is empty (not displayed), then relationship between the eventlog and the json file could not be found. \n"
+                        "red line shows animation from locals to remotes. \n"
+                        "blue from remotes to loacals",
+                         anchor="w", width=100, font=("Arial", 12))
         ps.pack(fill="x", pady=2)
 
         ok_btn = tk.Button(paskaidrojums_logs, text="Okey", command=paskaidrojums_logs.destroy)
