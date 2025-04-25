@@ -98,7 +98,7 @@ class JSONTimeStampSaglabatajs:
         eth_ip_errors = []  # store ETH IP validation errors
         previous_eth_ip=[]
 
-        #saves all FSM state changes from event logs
+        #saves ALL FSM state changes from ev log
         fsm_events = {}
         for dir_num, directory in directories.items():
             if not directory:
@@ -112,7 +112,7 @@ class JSONTimeStampSaglabatajs:
                         fsm_events[timestamp] = {
                             "timestamp": timestamp,
                             "error_description": decoded_desc,
-                            "has_json": False  # Will be set to True if we JSON
+                            "has_json": False  # If found than true
                         }
             except Exception as e:
                 error_messages.append(f"Error processing event logs in directory {dir_num}: {str(e)}")
@@ -126,8 +126,8 @@ class JSONTimeStampSaglabatajs:
             
             current_identifier = identifiers[dir_num]
             b=0
-            recent_ips = []  # List to store recent IPs
-            recent_macs = []  # New list to store recent MACs
+            recent_ips = []  
+            recent_macs = []  
             for root, _, files in os.walk(directory):
                 for file in files:
                     if file.lower().endswith('.json'):
@@ -142,7 +142,7 @@ class JSONTimeStampSaglabatajs:
                             
                             time_stamp = data["time_stamp"]
                             
-                            # Skip if we've already processed this timestamp
+                            # if we've already processed this timestamp than will skipp
                             if time_stamp in existing_timestamps:
                                 skipped_count += 1
                                 continue
@@ -583,7 +583,7 @@ class JSONTimeStampSaglabatajs:
                         'local', {}).get("role_cfg", "N/A").lower()
                     alternate_role = self.visualization_data[entry]['sections'].get(
                         'alternate', {}).get("role_cfg", "N/A").lower()
-                except KeyError as e:
+                except KeyError as e: 
                     error_messages.append(f"Entry {entry}: Missing section data - {str(e)}")
                     continue
 
@@ -634,7 +634,7 @@ class JSONTimeStampSaglabatajs:
                     continue
 
                 # Create line element
-                line_elements.append(
+                line_elements.append( 
                     f'<line x1="{secondary_pos[0]}" y1="{secondary_pos[1]}" x2="{primary_pos[0]}" y2="{primary_pos[1]}" '
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
