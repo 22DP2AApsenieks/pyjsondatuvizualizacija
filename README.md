@@ -1,6 +1,6 @@
 # pyjsondatuvizualizacija
 
-## programma, kas lietotājam ļauj ievadīt failusun pēctam tos vizualizēs. Izmantojot python bibl. tkinter
+## programma, kas lietotājam ļauj ievadīt failus(json + eventlog) un pēctam tos vizualizēs. Izmantojot python(tkint) un svg
 
 ### kas izdarīts
 Pēdējā mēneša laikā esmu izveidojis šo programmu no nulles. Sākumā fokusējos uz darbu ar JSON failiem – apguvu to struktūru, apstrādes iespējas un kā tos efektīvi izmantot programmā.
