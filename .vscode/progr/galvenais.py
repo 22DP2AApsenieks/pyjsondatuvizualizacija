@@ -34,7 +34,7 @@ class JSONTimeStampSaglabatajs:
                 18: "Secondary Path Fail (AGGR_FSM_RSN_SECONDARY_PATH_FAIL)",
                 19: "Alternative OK (AGGR_FSM_RSN_ALT_OK)",
                 20: "Remote Up Sync OK (AGGR_FSM_RSN_REM_UP_SYNC_OK)",
-                21: "Secondary Path OK (AGGR_FSM_RSN_SECONDARY_PATH_OK)"
+                21: "Secondary Path OK (AGGR_FSM_RSN_SECONDARY_PATH_OK)" 
             },
             "1+1HSB Protection": {
                 0: "Configuration Commit (PROT_FSM_RSN_CFG_COMMIT)",
@@ -557,54 +557,99 @@ class JSONTimeStampSaglabatajs:
     def socondarytoprimarry(self):
         """Draw lines from secondary to primary, connecting Traffic ports."""
         line_elements = []  # Initialize the list to collect all line elements
+        error_messages = []  # Store error messages to print later
 
-        # Loop through each unique 'entry' in self.box_indexes (set to eliminate duplicates)
+        # Loop through each unique 'entry' in self.box_indexes
         for entry in set(box['entry'] for box in self.box_indexes):
-            local_box = None
-            alternate_box = None
+            try:
+                local_box = None
+                alternate_box = None
 
-            # Find 'local' and 'alternate' boxes for the current entry
-            for box in self.box_indexes:
-                if box['entry'] == entry:
-                    if box['name'] == 'local':
-                        local_box = box
-                    elif box['name'] == 'alternate':
-                        alternate_box = box
+                # Find 'local' and 'alternate' boxes for the current entry
+                for box in self.box_indexes:
+                    if box['entry'] == entry:
+                        if box['name'] == 'local':
+                            local_box = box
+                        elif box['name'] == 'alternate':
+                            alternate_box = box
 
-            # Get the role configs for 'local' and 'alternate'
-            local_role = self.visualization_data[entry]['sections'].get('local', {}).get("role_cfg", "N/A").lower()
-            alternate_role = self.visualization_data[entry]['sections'].get('alternate', {}).get("role_cfg", "N/A").lower()
+                if not local_box or not alternate_box:
+                    error_messages.append(f"Entry {entry}: Missing local or alternate box")
+                    continue
 
-            # Role resolution to determine primary and secondary boxes
-            primary_box = None
-            secondary_box = None
+                # Get role configurations with error handling
+                try:
+                    local_role = self.visualization_data[entry]['sections'].get(
+                        'local', {}).get("role_cfg", "N/A").lower()
+                    alternate_role = self.visualization_data[entry]['sections'].get(
+                        'alternate', {}).get("role_cfg", "N/A").lower()
+                except KeyError as e:
+                    error_messages.append(f"Entry {entry}: Missing section data - {str(e)}")
+                    continue
 
-            if local_role == 'primary' and alternate_role == 'secondary':
-                primary_box = local_box
-                secondary_box = alternate_box
-            elif local_role == 'secondary' and alternate_role == 'primary':
-                primary_box = alternate_box
-                secondary_box = local_box
-            elif local_role == 'secondary' and alternate_role != 'primary':
-                secondary_box = local_box
-                raise ValueError(f"Entry '{entry}' has a secondary box but no valid primary.")
-            elif alternate_role == 'secondary' and local_role != 'primary':
-                secondary_box = alternate_box
-                raise ValueError(f"Entry '{entry}' has a secondary box but no valid primary.")
-            else:
-                raise ValueError(f"Entry '{entry}' must have one primary and one secondary. Got roles: local={local_role}, alternate={alternate_role}")
+                # Determine primary and secondary with error checking
+                primary_box, secondary_box = None, None
+                if local_role == 'primary' and alternate_role == 'secondary':
+                    primary_box = local_box
+                    secondary_box = alternate_box
+                elif local_role == 'secondary' and alternate_role == 'primary':
+                    primary_box = alternate_box
+                    secondary_box = local_box
+                elif local_role == 'secondary' and alternate_role != 'primary':
+                    error_messages.append(
+                        f"Entry {entry}: Local is secondary but alternate ({alternate_role}) isn't primary")
+                    continue
+                elif alternate_role == 'secondary' and local_role != 'primary':
+                    error_messages.append(
+                        f"Entry {entry}: Alternate is secondary but local ({local_role}) isn't primary")
+                    continue
+                else:
+                    error_messages.append(
+                        f"Entry {entry}: Invalid role combination (local: {local_role}, alternate: {alternate_role})")
+                    continue
 
-            # Get positions for the primary and secondary boxes
-            secondary_pos = self.get_traffic_port_position(secondary_box)
-            primary_pos = self.get_traffic_port_position(primary_box)
+                # Get role_state for secondary box
+                try:
+                    secondary_section = 'local' if secondary_box == local_box else 'alternate'
+                    role_state = self.visualization_data[entry]['sections'][secondary_section].get(
+                        'role_state', 'N/A').lower()
+                except KeyError as e:
+                    error_messages.append(f"Entry {entry}: Missing role_state data - {str(e)}")
+                    continue
 
-            # Ensure both positions are valid and then create the line element as a string
-            if secondary_pos and primary_pos:
+                #skip line from sec to primary
+                if role_state == 'disabled':
+                    error_messages.append(f"Entry {entry}: Skipping line - secondary role_state is disabled")
+                    print(role_state)
+                    continue
+
+                # Get port positions with error checking
+                secondary_pos = self.get_traffic_port_position(secondary_box)
+                primary_pos = self.get_traffic_port_position(primary_box)
+                print(role_state)
+                print(secondary_pos)
+                print(primary_pos)
+                
+                if not secondary_pos or not primary_pos:
+                    error_messages.append(f"Entry {entry}: Could not determine port positions")
+                    continue
+
+                # Create line element
                 line_elements.append(
                     f'<line x1="{secondary_pos[0]}" y1="{secondary_pos[1]}" x2="{primary_pos[0]}" y2="{primary_pos[1]}" '
                     'class="secondary-primary-line" marker-end="url(#arrowhead)"/>'
                 )
-        #print(line_elements)
+
+            except Exception as e:
+                error_messages.append(f"Entry {entry}: Unexpected error - {str(e)}")
+                continue
+
+        # Print all collected errors to terminal
+        if error_messages:
+            print("\n".join([f"SecondaryToPrimary Error: {msg}" for msg in error_messages]))
+            print("-" * 50)
+
+        
         return line_elements
 
 
@@ -656,7 +701,7 @@ class JSONTimeStampSaglabatajs:
                             f'<line x1="{remote_secondary_pos[0]}" y1="{remote_secondary_pos[1]}" x2="{remote_primary_pos[0]}" y2="{remote_primary_pos[1]}" '
                             'class="remote-secondary-primary-line" marker-end="url(#arrowhead)"/>' #this to redd
                     )
-            print(remote_role)
+        
         return line_elements
 
     def TXunRXmainitajs(self, section_data):

@@ -35,7 +35,7 @@
 		},
 		"info":{
 			"index":"28595",
-			"role_state":"secondary_protect",
+			"role_state":"disabled",
 			"tx_state":"traffic_port",
 			"rx_state":"radio_port-traffic_port",
 			"role_cfg":"secondary",

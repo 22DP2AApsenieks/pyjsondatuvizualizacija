@@ -126,7 +126,7 @@ class JSONTimeStampSaglabatajsUI:
         zalais.pack(fill="x", pady=2)
 
         # Dzeltens
-        dzeltens = tk.Label(frame, text="[port] Yellow: Trafic port(datu traffic_port)",
+        dzeltens = tk.Label(frame, text="[port] Yellow: Trafic port(datu traffic_port kurš savienojas ar hub)",
                             bg="lightyellow", anchor="w", width=50, font=("Arial", 12))
         dzeltens.pack(fill="x", pady=2)
 
