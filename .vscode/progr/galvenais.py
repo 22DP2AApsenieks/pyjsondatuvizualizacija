@@ -577,7 +577,7 @@ class JSONTimeStampSaglabatajs:
                     error_messages.append(f"Entry {entry}: Missing local or alternate box")
                     continue
 
-                # Get role configurations with error handling
+                # Get role config
                 try:
                     local_role = self.visualization_data[entry]['sections'].get(
                         'local', {}).get("role_cfg", "N/A").lower()
@@ -587,7 +587,7 @@ class JSONTimeStampSaglabatajs:
                     error_messages.append(f"Entry {entry}: Missing section data - {str(e)}")
                     continue
 
-                # Determine primary and secondary with error checking
+                # Determine prim and sec
                 primary_box, secondary_box = None, None
                 if local_role == 'primary' and alternate_role == 'secondary':
                     primary_box = local_box
@@ -608,10 +608,10 @@ class JSONTimeStampSaglabatajs:
                         f"Entry {entry}: Invalid role combination (local: {local_role}, alternate: {alternate_role})")
                     continue
 
-                # Get role_state for secondary box
+                # Get role_state for prim box
                 try:
-                    secondary_section = 'local' if secondary_box == local_box else 'alternate'
-                    role_state = self.visualization_data[entry]['sections'][secondary_section].get(
+                    primary_section = 'local' if primary_box == local_box else 'alternate'
+                    role_state = self.visualization_data[entry]['sections'][primary_section].get(
                         'role_state', 'N/A').lower()
                 except KeyError as e:
                     error_messages.append(f"Entry {entry}: Missing role_state data - {str(e)}")
@@ -627,8 +627,7 @@ class JSONTimeStampSaglabatajs:
                 secondary_pos = self.get_traffic_port_position(secondary_box)
                 primary_pos = self.get_traffic_port_position(primary_box)
                 print(role_state)
-                print(secondary_pos)
-                print(primary_pos)
+
                 
                 if not secondary_pos or not primary_pos:
                     error_messages.append(f"Entry {entry}: Could not determine port positions")
@@ -644,7 +643,7 @@ class JSONTimeStampSaglabatajs:
                 error_messages.append(f"Entry {entry}: Unexpected error - {str(e)}")
                 continue
 
-        # Print all collected errors to terminal
+        #šis printe visus errors terminali
         if error_messages:
             print("\n".join([f"SecondaryToPrimary Error: {msg}" for msg in error_messages]))
             print("-" * 50)
@@ -655,7 +654,6 @@ class JSONTimeStampSaglabatajs:
 
     def remote_to_remote_alternate(self):
         """Draw lines from remote to remote_alternate, connecting Traffic ports"""
-        print("i")
         line_elements = []
         # Find all remote and remote_alternate sections
         for entry in set(box['entry'] for box in self.box_indexes):
@@ -689,7 +687,7 @@ class JSONTimeStampSaglabatajs:
                 raise ValueError(f"Entry '{entry}' has a secondary remote_alternate box but no valid primary.")
             else:
                 raise ValueError(f"Entry '{entry}' must have one remote primary and one remote secondary. Got roles: remote={remote_role}, remote_alternate={remote_alternate_role}")
-            print
+
             
             # Get traffic port positions
             if remote_primary_box and remote_secondary_box:

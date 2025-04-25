@@ -66,7 +66,7 @@
             },
             "alternate": {
                 "fsm_state": "Secondary Protect",
-                "role_state": "disabled",
+                "role_state": "secondary_protect",
                 "role_cfg": "secondary",
                 "tx_state": "traffic_port",
                 "rx_state": "radio_port-traffic_port",
